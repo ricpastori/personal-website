@@ -1,6 +1,6 @@
 {
   // Project name (used by wrangler, not public-facing)
-  "name": "ricpastori-website",
+  "name": "ricpastori-site",
 
   // Pages project (not Workers)
   "pages_build_output_dir": "public",
