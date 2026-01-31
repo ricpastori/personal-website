@@ -1,0 +1,175 @@
+/* ==========================================================================
+   Reveal animations (engine)
+   Progressive enhancement via a single state attribute.
+
+   States (on <html>):
+   - data-reveal="pending" → JS active, content hidden, waiting to enter
+   - data-reveal="ready"   → play reveal animations
+   - data-reveal="off"     → animations disabled (fallback / reduced motion)
+
+   No JS:
+   - data-reveal is not present
+   - content is visible by default
+
+   All timing and sequencing is handled via animation-delay.
+   ========================================================================== */
+
+:root {
+  /* Timeline */
+  --reveal-step: 240ms;   /* Your standard delay unit */
+  --reveal-dur:  620ms;   /* Animation duration */
+  --reveal-ease: ease-out;
+
+  /* Motion */
+  --reveal-y: 10px;
+}
+
+/* 1) Baseline: visible */
+.reveal {
+  opacity: 1;
+  filter: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+/* 2) Pre-enter: hidden (JS only) */
+html[data-reveal="pending"] .reveal {
+  opacity: 0;
+  filter: alpha(opacity=0); /* IE10 fallback */
+  -ms-transform: translateY(var(--reveal-y));
+  transform: translateY(var(--reveal-y));
+}
+
+/* 3) Enter: apply animation to all reveal elements
+   IMPORTANT: fill-mode: both prevents flicker during animation-delay */
+html[data-reveal="ready"] .reveal {
+  -webkit-animation-name: fadeUp;
+  animation-name: fadeUp;
+
+  -webkit-animation-duration: var(--reveal-dur);
+  animation-duration: var(--reveal-dur);
+
+  -webkit-animation-timing-function: var(--reveal-ease);
+  animation-timing-function: var(--reveal-ease);
+
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/* Keyframes */
+@-webkit-keyframes fadeUp {
+  from { opacity: 0; -webkit-transform: translateY(var(--reveal-y)); transform: translateY(var(--reveal-y)); }
+  to   { opacity: 1; -webkit-transform: translateY(0);            transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; -ms-transform: translateY(var(--reveal-y)); transform: translateY(var(--reveal-y)); }
+  to   { opacity: 1; -ms-transform: translateY(0);              transform: translateY(0); }
+}
+
+/* 4) Optional: reduce flicker on some browsers */
+html[data-reveal="ready"] .reveal {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* 5) Safety: never keep content hidden */
+html[data-reveal="off"] .reveal {
+  opacity: 1 !important;
+  filter: none !important;
+  -ms-transform: none !important;
+  transform: none !important;
+  -webkit-animation: none !important;
+  animation: none !important;
+}
+
+/* 6) Reduced motion: disable animations */
+@media (prefers-reduced-motion: reduce) {
+  html[data-reveal] .reveal {
+    opacity: 1 !important;
+    filter: none !important;
+    -ms-transform: none !important;
+    transform: none !important;
+    -webkit-animation: none !important;
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   Reveal timeline — HOME
+   Scope to [data-page="/"] to avoid leaking timings into other pages.
+   Assumes classes:
+   - .reveal--intro, .reveal--avatar, .reveal--cta
+   - .reveal--works, .reveal--card (cards use style="--i:N")
+   - .reveal--header, .reveal--footer
+   ========================================================================== */
+
+html[data-reveal="ready"][data-page="/"] .reveal--intro  { animation-delay: calc(var(--reveal-step) * 1); }
+html[data-reveal="ready"][data-page="/"] .reveal--avatar { animation-delay: calc(var(--reveal-step) * 2); }
+html[data-reveal="ready"][data-page="/"] .reveal--cta    { animation-delay: calc(var(--reveal-step) * 3); }
+
+/* Header after intro/avatar/cta */
+html[data-reveal="ready"][data-page="/"] .reveal--header { animation-delay: calc(var(--reveal-step) * 4); }
+
+/* Works section title/container */
+html[data-reveal="ready"][data-page="/"] .reveal--works  { animation-delay: calc(var(--reveal-step) * 5); }
+
+/* Cards: start after Works, then stagger by --i */
+html[data-reveal="ready"][data-page="/"] .reveal--card {
+  /* Fallback (no var() support): treat all as first card */
+  animation-delay: calc(var(--reveal-step) * 7);
+
+  /* Modern stagger */
+  animation-delay: calc((var(--reveal-step) * 7) + (var(--i, 0) * var(--reveal-step)));
+}
+
+/* Footer after cards (approx) */
+html[data-reveal="ready"][data-page="/"] .reveal--footer { animation-delay: calc(var(--reveal-step) * 11); }
+
+/* ==========================================================================
+   Reveal timeline — ABOUT
+   Scope to [data-page="/about/"].
+   Requires:
+   - <h1 class="reveal reveal--about-title"> in single.html (about case)
+   - accordion items: .reveal--about-accordion + style="--i:N" (shortcode)
+   Optional:
+   - intro wrapper: .reveal--about-intro
+   Otherwise: first 4 paragraphs in .page__content--about
+   ========================================================================== */
+
+/* Title */
+html[data-reveal="ready"][data-page="/about/"] .reveal--about-title {
+  animation-delay: calc(var(--reveal-step) * 1);
+}
+
+/* Option A: intro wrapper */
+html[data-reveal="ready"][data-page="/about/"] .reveal--about-intro {
+  animation-delay: calc(var(--reveal-step) * 2);
+}
+
+/* Option B: no intro wrapper — animate first 4 paragraphs
+   NOTE: only applies if you keep the .page__content--about wrapper in single.html */
+html[data-reveal="pending"][data-page="/about/"]
+.page__content--about > p:nth-of-type(-n+4) {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -ms-transform: translateY(var(--reveal-y));
+  transform: translateY(var(--reveal-y));
+}
+
+html[data-reveal="ready"][data-page="/about/"] .page__content--about {
+  -webkit-animation: fadeUp var(--reveal-dur) var(--reveal-ease) both;
+  animation: fadeUp var(--reveal-dur) var(--reveal-ease) both;
+  animation-delay: calc(var(--reveal-step) * 2);
+}
+
+/* Accordion items: start after intro paragraphs, then stagger */
+html[data-reveal="ready"][data-page="/about/"] .reveal--about-accordion {
+  animation-delay: calc(var(--reveal-step) * 3); /* fallback */
+  animation-delay: calc((var(--reveal-step) * 3) + (var(--i, 0) * var(--reveal-step)));
+}
+
+/* About header/footer timing */
+html[data-reveal="ready"][data-page="/about/"] .reveal--header { animation-delay: calc(var(--reveal-step) * 9); }
+html[data-reveal="ready"][data-page="/about/"] .reveal--footer { animation-delay: calc(var(--reveal-step) * 10); }

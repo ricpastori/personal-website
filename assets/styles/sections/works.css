@@ -1,0 +1,16 @@
+#works {
+  padding-bottom: var(--size-8, 32px);;
+}
+
+#works > .title-container {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--size-6, 24px);
+  justify-content: start;
+  padding: var(--size-6, 24px) var(--size-0, 0);
+}
+
+#works > .title-container > h2 {
+  margin: var(--size-0, 0);
+}

@@ -1,0 +1,11 @@
+{{- /* Forward to the partial so shortcode and templates share one implementation */ -}}
+{{- partial "picture.html" (dict
+  "src"           (.Get "src")
+  "alt"           (.Get "alt")
+  "widths"        (.Get "widths")
+  "sizes"         (.Get "sizes")
+  "class"         (.Get "class")
+  "loading"       (.Get "loading")
+  "fetchpriority" (.Get "fetchpriority")
+  "decoding"      (.Get "decoding")
+) -}}

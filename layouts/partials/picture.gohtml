@@ -1,0 +1,124 @@
+{{- /* All comments must be written in English.
+     Params (dict):
+       src (required): Hugo image Resource OR string path/URL
+       isResource (optional bool): set true only when src is a Hugo Resource
+       alt (optional)
+       widths  (default "480,768,1280,1600")
+       sizes   (default "(max-width: 720px) 100vw, 720px")
+       class, loading ("lazy"), fetchpriority, decoding ("async")
+*/ -}}
+
+{{- $srcRaw   := index . "src" -}}
+{{- $alt      := (index . "alt") | default "" -}}
+{{- $widths   := split ((index . "widths") | default "480,768,1280,1600") "," -}}
+{{- $sizes    := (index . "sizes") | default "(max-width: 720px) 100vw, 720px" -}}
+{{- $class    := (index . "class") | default "" -}}
+{{- $loading  := (index . "loading") | default "lazy" -}}
+{{- $fetchp   := (index . "fetchpriority") -}}
+{{- $decoding := (index . "decoding") | default "async" -}}
+
+{{- if not $srcRaw -}}
+  {{- return -}}
+{{- end -}}
+
+{{- $t := printf "%T" $srcRaw -}}
+{{- $isResFlag := eq (index . "isResource") true -}}
+
+{{- /* -------------------------------------------------
+     Case 1: src is a plain string → hard fallback
+     ------------------------------------------------- */ -}}
+{{- if eq $t "string" -}}
+  {{- warnf "picture: fallback to <img> (string src, not a Hugo Resource): %q" $srcRaw -}}
+  <img
+    src="{{ if in (printf "%v" $srcRaw) "://" }}{{ $srcRaw }}{{ else }}{{ (printf "%v" $srcRaw) | relURL }}{{ end }}"
+    alt="{{ $alt }}"
+    loading="{{ $loading }}"
+    decoding="{{ $decoding }}"
+    {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
+    {{ with $class }}class="{{ . }}"{{ end }}
+  >
+  {{- return -}}
+{{- end -}}
+
+{{- /* -------------------------------------------------
+     Case 2: non-string, but not explicitly marked
+             as a resource → defensive fallback
+     ------------------------------------------------- */ -}}
+{{- if not $isResFlag -}}
+  {{- warnf "picture: fallback to <img> (src not marked as resource, type=%s)" $t -}}
+  <img
+    src="{{ if in $t "resource" }}{{ $srcRaw.RelPermalink }}{{ else }}{{ (printf "%v" $srcRaw) | relURL }}{{ end }}"
+    alt="{{ $alt }}"
+    loading="{{ $loading }}"
+    decoding="{{ $decoding }}"
+    {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
+    {{ with $class }}class="{{ . }}"{{ end }}
+  >
+  {{- return -}}
+{{- end -}}
+
+{{- /* -------------------------------------------------
+     Resource branch
+     ------------------------------------------------- */ -}}
+{{- $res := $srcRaw -}}
+
+{{- if not (hasPrefix $res.MediaType.Type "image/") -}}
+  {{- warnf "picture: fallback to <img> (resource is not an image, mediaType=%s)" $res.MediaType.Type -}}
+  <img
+    src="{{ $res.RelPermalink }}"
+    alt="{{ $alt }}"
+    loading="{{ $loading }}"
+    decoding="{{ $decoding }}"
+    {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
+    {{ with $class }}class="{{ . }}"{{ end }}
+  >
+  {{- return -}}
+{{- end -}}
+
+{{- /* -------------------------------------------------
+     Build responsive variants
+     ------------------------------------------------- */ -}}
+{{- $jpgs := slice -}}
+{{- $webps := slice -}}
+
+{{- range $w := $widths -}}
+  {{- $w = trim $w " " -}}
+  {{- if $w -}}
+    {{- $webp := $res.Resize (printf "%sx webp q80" $w) -}}
+    {{- $jpg  := $res.Resize (printf "%sx jpg q85"  $w) -}}
+    {{- $webps = $webps | append (printf "%s %sw" $webp.RelPermalink $w) -}}
+    {{- $jpgs  = $jpgs  | append (printf "%s %sw"  $jpg.RelPermalink  $w) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if eq (len $jpgs) 0 -}}
+  {{- warnf "picture: fallback to <img> (no resized outputs generated) for %s" $res.RelPermalink -}}
+  <img
+    src="{{ $res.RelPermalink }}"
+    alt="{{ $alt }}"
+    loading="{{ $loading }}"
+    decoding="{{ $decoding }}"
+    {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
+    {{ with $class }}class="{{ . }}"{{ end }}
+  >
+  {{- return -}}
+{{- end -}}
+
+{{- $webpSrcset := delimit $webps ", " -}}
+{{- $jpgSrcset  := delimit $jpgs  ", " -}}
+{{- $largest    := index $jpgs (add (len $jpgs) -1) -}}
+{{- $largestURL := index (split $largest " ") 0 -}}
+
+<picture{{ with $class }} class="{{ . }}"{{ end }}>
+  {{- if $webpSrcset -}}
+    <source type="image/webp" srcset="{{ $webpSrcset }}" sizes="{{ $sizes }}">
+  {{- end -}}
+  <source type="image/jpeg" srcset="{{ $jpgSrcset }}" sizes="{{ $sizes }}">
+  <img
+    src="{{ $largestURL }}"
+    alt="{{ $alt }}"
+    loading="{{ $loading }}"
+    decoding="{{ $decoding }}"
+    {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
+  >
+</picture>

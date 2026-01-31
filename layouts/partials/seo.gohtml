@@ -1,0 +1,49 @@
+{{- $title := cond .IsHome .Site.Title (printf "%s · %s" .Title .Site.Title) -}}
+{{- $desc  := or .Params.description .Summary .Site.Params.description -}}
+{{- $url   := .Permalink -}}
+{{- $type  := cond .IsPage "article" "website" -}}
+{{- $image := .Params.image -}} {{/* optional absolute/rel path */}}
+
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc | plainify | truncate 160 }}"/>
+
+<link rel="canonical" href="{{ $url }}"/>
+<meta name="robots" content="{{ if or .Params.noindex .Site.Params.noindex }}noindex, nofollow{{ else }}index, follow{{ end }}"/>
+
+<meta property="og:type" content="{{ $type }}"/>
+<meta property="og:title" content="{{ $title }}"/>
+<meta property="og:description" content="{{ $desc | plainify | truncate 200 }}"/>
+<meta property="og:url" content="{{ $url }}"/>
+{{ with $image }}
+  {{- $ogimg := $.Resources.GetMatch . | default (resources.Get .) -}}
+  {{- with $ogimg }}
+    <meta property="og:image" content="{{ .Permalink }}"/>
+    <meta property="og:image:width" content="{{ .Width }}"/>
+    <meta property="og:image:height" content="{{ .Height }}"/>
+  {{- end -}}
+{{- end }}
+
+{{- /* JSON-LD: Article or WebSite */ -}}
+{{- if .IsPage -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ $desc | plainify | truncate 200 | jsonify }},
+  "datePublished": {{ .Date | time.Format "2006-01-02T15:04:05Z07:00" | jsonify }},
+  {{- with .Lastmod -}}"dateModified": {{ . | time.Format "2006-01-02T15:04:05Z07:00" | jsonify }},{{- end }}
+  "author": { "@type": "Person", "name": {{ .Site.Params.author | default "Author" | jsonify }} },
+  "mainEntityOfPage": {{ $url | jsonify }}
+}
+</script>
+{{- else -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ .Site.Title | jsonify }},
+  "url": {{ $url | jsonify }}
+}
+</script>
+{{- end -}}

@@ -1,0 +1,19 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Riccardo Pastori blog'
+
+[mediaTypes."text/html"]
+  suffixes = ["html", "gohtml"]
+
+[params.author]
+  name = "Riccardo Pastori"
+
+[params.icons]
+  default = "icons/placeholder-duotone.svg"
+
+[params.contact]
+  email = "ricpastori@icloud.com"
+
+[params.social]
+  github   = "https://github.com/ricpastori"
+  linkedin = "https://www.linkedin.com/in/riccardo-pastori/"

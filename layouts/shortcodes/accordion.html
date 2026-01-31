@@ -1,0 +1,12 @@
+{{- /*
+Accordion wrapper.
+Params:
+- id (optional): string, used to scope JS if you later add single-open behavior.
+- class (optional): extra classes.
+Provides a counter to children via .Scratch. */ -}}
+{{- $id := .Get "id" | default "accordion" -}}
+{{- .Scratch.Set "acc_i" 0 -}}
+
+<div class="accordion" id="{{ $id }}">
+  {{ .Inner }}
+</div>

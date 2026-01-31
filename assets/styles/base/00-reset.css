@@ -1,0 +1,266 @@
+/* 1. Use a more-intuitive box-sizing model, remove default margin/padding, and prevent background image repetition. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  background-repeat: no-repeat;
+  padding: 0;
+}
+
+/* 2. Set core root defaults for line height, text size, tab size, and color schemes. */
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+  color-scheme: dark light;
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+/* 3. Enable smooth scrolling and keyword animations for users that don't prefer reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+/* 4. Set core body defaults for font smoothing and family. */
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: system-ui, sans-serif;
+}
+
+/* 5. Improve media defaults for responsive display. */
+img,
+picture,
+video,
+canvas,
+svg,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. Maintain aspect ratio for responsive images and videos. */
+img,
+picture,
+video,
+svg {
+  block-size: auto;
+}
+
+/* 7. Remove default borders on images and iframes. */
+img,
+iframe {
+  border-style: none;
+}
+
+/* 8. Ensure form controls inherit font styles. */
+input,
+button,
+textarea,
+select,
+optgroup {
+  font: inherit;
+}
+
+/* 9. Standardize form control appearance and inheritance. */
+input,
+button,
+textarea,
+select {
+  border-style: none;
+  background-color: transparent;
+  color: inherit;
+  font-variation-settings: inherit;
+  font-feature-settings: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+}
+
+/* 10. Prevent text overflows in paragraphs and headings. */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 11. Improve line wrapping for paragraphs. */
+p {
+  text-wrap: wrap;
+  text-wrap: pretty;
+}
+
+/* 12. Balance line lengths for headings. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: wrap;
+  text-wrap: pretty;
+}
+
+/* 13. Create a new stacking context to prevent z-index issues. */
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* 14. Reset link styles for consistent appearance. */
+a {
+  background-color: transparent;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2ex;
+}
+
+/* 15. Remove the outline on active and hovered links. */
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+/* 16. Style horizontal rules as simple separators. */
+hr {
+  border: none;
+  border-block-start: 1px solid;
+  height: 0;
+  overflow: visible;
+  color: inherit;
+}
+
+/* 17. Allow vertical resizing for textareas and add a scrollbar. */
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+/* 18. Reset all button styles for a clean slate. */
+button {
+  all: unset;
+}
+
+/* 19. Set a pointer cursor for clickable elements. */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'],
+[role='button'],
+label,
+select,
+summary,
+[role='option'] {
+  cursor: pointer;
+}
+
+/* 20. Set a not-allowed cursor for disabled elements. */
+:disabled,
+label:has(> :disabled, + :disabled),
+[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+/* 21. Hide elements with the 'hidden' attribute. */
+[hidden] {
+  display: none !important;
+}
+
+/* 22. Ensure 'details' and 'main' are rendered as block elements. */
+details,
+main {
+  display: block;
+}
+
+/* 23. Set the correct display for 'summary' elements. */
+summary {
+  display: list-item;
+}
+
+/* 24. Reduce font size for 'small' elements. */
+small {
+  font-size: 80%;
+}
+
+/* 25. Set a bold font weight for 'b' and 'strong' elements. */
+b,
+strong {
+  font-weight: bold;
+}
+
+/* 26. Adjust font size and positioning for sub- and superscript text. */
+sub,
+sup {
+  position: relative;
+  vertical-align: baseline;
+  font-size: 75%;
+  line-height: 0;
+}
+
+/* 27. Position subscript text. */
+sub {
+  bottom: -0.25em;
+}
+
+/* 28. Position superscript text. */
+sup {
+  top: -0.5em;
+}
+
+/* 29. Set a monospace font for code-related elements. */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+}
+
+/* 30. Add a clear focus outline for accessibility. */
+:focus-visible {
+  outline: 3px solid CanvasText;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 5px Canvas;
+}
+
+/* 31. Add a scroll margin for focused or targeted elements. */
+:where(:focus-visible, :target) {
+  scroll-margin-block: 8vh;
+}
+
+/* 32. Remove the default focus outline on form elements and links. */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline-width: 0;
+}
+
+/* 33. Hide elements visually but keep them accessible to screen readers. */
+.visually-hidden:not(:focus-within, :active) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  user-select: none !important;
+  white-space: nowrap !important;
+}
+
+/* 34. Show a progress cursor for busy elements. */
+[aria-busy='true'] {
+  cursor: progress;
+}

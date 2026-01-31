@@ -1,0 +1,45 @@
+{{- /*
+Accordion item.
+Params:
+- title (required)
+- open (optional): only "true" opens by default
+
+Enhancements:
+- On About page, adds reveal classes and a stagger index via CSS variable (--i).
+*/ -}}
+
+{{- $title := .Get "title" -}}
+{{- $rawOpen := .Get "open" -}}
+{{- $isOpen := and $rawOpen (eq $rawOpen "true") -}}
+
+{{- /* Stagger index from parent accordion shortcode */ -}}
+{{- $i := 0 -}}
+{{- with .Parent -}}
+  {{- $i = .Scratch.Get "acc_i" | default 0 -}}
+  {{- .Scratch.Set "acc_i" (add $i 1) -}}
+{{- end -}}
+
+{{- /* Only add reveal on About page to avoid affecting other accordions */ -}}
+{{- $isAbout := and .Page (eq .Page.RelPermalink "/about/") -}}
+{{- $extraClass := "" -}}
+{{- $extraStyle := "" -}}
+{{- if $isAbout -}}
+  {{- $extraClass = " reveal reveal--about-accordion" -}}
+  {{- $extraStyle = printf " style=\"--i: %d;\"" $i -}}
+{{- end -}}
+
+<details class="accordion__item{{ $extraClass }}" {{ if $isOpen }}open{{ end }}{{ safeHTMLAttr $extraStyle }}>
+  <summary class="accordion__summary">
+    <span class="accordion__title">{{ $title }}</span>
+
+    <span class="accordion__icon" aria-hidden="true">
+      {{ partial "icon.html" (dict "src" "icons/plus-duotone.svg" "size" 16) }}
+    </span>
+  </summary>
+
+  <div class="accordion__content" role="region">
+    <div class="accordion__content-inner">
+      {{ .Inner | markdownify }}
+    </div>
+  </div>
+</details>

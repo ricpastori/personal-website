@@ -1,0 +1,416 @@
+/* ==========================================================================
+   Typography + Layout (global)
+   - No :where() / :is()
+   - Baseline spacing works in IE10+ (no reliance on modern-only selectors)
+   - Logical properties include physical fallbacks where it matters
+   ========================================================================== */
+
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+
+:root {
+    /* Body base (fluid but bounded) */
+    --font-body: clamp(0.95rem, 0.90rem + 0.3vw, 1.0625rem);
+    --lh-body: 1.65;
+    --lh-heading: 1.25;
+
+    /* Rate of growth for headings */
+    --scale: 1.25;
+
+    /* Precompute steps around the base (1rem) */
+    --step--2: calc(1rem / (var(--scale) * var(--scale)));
+    --step--1: calc(1rem / var(--scale));
+    --step-0: 1rem;
+    --step-1: calc(1rem * var(--scale));
+    --step-2: calc(1rem * var(--scale) * var(--scale));
+    --step-3: calc(1rem * var(--scale) * var(--scale) * var(--scale));
+    --step-4: calc(1rem * var(--scale) * var(--scale) * var(--scale) * var(--scale));
+
+    /* Font families */
+    --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Libescalen Mono', 'Courier New', monospace;
+
+    /* Font weights */
+    --font-thin: 100;
+    --font-extralight: 200;
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    --font-black: 900;
+
+    /* Small text */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+
+    /* Useful baseline measures */
+    --measure: 68ch;
+}
+
+/* ==========================================================================
+   Setup
+   ========================================================================== */
+
+html {
+    font-size: 16px; /* Keep 1rem reference stable; text scales via --font-body */
+    /* Change default typefaces here */
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    /* Make everything look a little nicer in webkit */
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: auto;
+    -moz-text-size-adjust: auto;
+    -ms-text-size-adjust: auto;
+    text-size-adjust: auto;
+}
+
+body {
+    margin: 0;
+    margin: var(--size-0);
+    background-color: #fafaf9;
+    background-color: var(--color-background);
+    padding: 0;    
+    padding: var(--size-0);
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    color: #292524;
+    color: var(--color-foreground);
+    accent-color: #f54a00;
+    accent-color: var(--color-accent);
+    font-size: 16px;
+    font-size: var(--font-body);
+    line-height: 1.65;
+    line-height: var(--lh-body);
+}
+
+main {
+    margin: 0 auto;
+    margin: var(--size-0) auto;
+    padding: 8rem 1.5rem 4rem;
+    padding: var(--size-32) var(--size-6) var(--size-16);
+    max-width: 48rem;
+    max-width: var(--breakpoint-lg);
+}
+
+/* ==========================================================================
+   Global typography rhythm
+   Goal: consistent spacing without needing wrappers/classes.
+   Approach: normalize margins on typical content elements, then define a predictable rhythm.
+   ========================================================================== */
+
+/* 1) Normalize margins (avoid browser defaults causing “random” gaps) */
+
+
+/* Copy ------------------------------------------------------------- */
+
+/* 1) Normalize margins (avoid browser defaults causing “random” gaps) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+blockquote,
+pre,
+table,
+figure,
+hr,
+dl {
+  margin: 0;
+  margin: var(--size-0);
+}
+
+/* 2) Base spacing for copy blocks (block-end margin = rhythm unit)
+   Physical first, then logical */
+p,
+ul,
+ol,
+blockquote,
+pre,
+table,
+figure,
+dl {
+  margin-bottom: 1.25rem;
+  margin-bottom: var(--size-5);
+  margin-block-end: var(--size-5);
+}
+
+/* Cap long lines in typical copy contexts without requiring a wrapper. */
+p,
+li,
+blockquote {
+  max-width: 68ch;
+  max-width: var(--measure);
+}
+
+/* Lists */
+ul,
+ol {
+  padding-left: 1.25em;
+  padding-left: var(--size-5);
+  padding-inline-start: var(--size-5);
+}
+
+p + ul {
+  margin-top: -0.5rem;
+  margin-top: calc(var(--size-2) * -1);
+  margin-block-start: calc(var(--size-2) * -1);
+}
+
+li {
+  line-height: 1.65;
+  line-height: var(--lh-body);
+}
+
+/* Slight separation between list items */
+li + li {
+  margin-top: 0.25rem;
+  margin-top: calc(var(--size-4) * 0.25);
+  margin-block-start: calc(var(--size-4) * 0.25);
+}
+
+/* 3) Headings: more air above, tighter below (physical first, then logical) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+  margin-top: 3.5rem;
+  margin-top: var(--size-14);
+  margin-bottom: 1rem;
+  margin-bottom: var(--size-4);
+
+  margin-block-start: var(--size-14);
+  margin-block-end: var(--size-4);
+  font-weight: 600;
+  font-weight: var(--font-bold);
+  line-height: 1.25;
+  line-height: var(--lh-heading);
+  letter-spacing: -0.01em;
+}
+
+/* Reduce top margin when a heading is the first element inside common containers */
+main > h1,
+main > h2,
+main > h3,
+main > h4,
+main > h5,
+main > h6 {
+  margin-top: 0;
+  margin-top: var(--size-0);
+  margin-block-start: var(--size-0);
+}
+
+/* Tighten the gap between a heading and its immediate content */
+h1 + p,
+h1 + ul,
+h1 + ol,
+h1 + blockquote,
+h1 + pre,
+h1 + table,
+h1 + figure,
+h1 + dl,
+h2 + p,
+h2 + ul,
+h2 + ol,
+h2 + blockquote,
+h2 + pre,
+h2 + table,
+h2 + figure,
+h2 + dl,
+h3 + p,
+h3 + ul,
+h3 + ol,
+h3 + blockquote,
+h3 + pre,
+h3 + table,
+h3 + figure,
+h3 + dl {
+  margin-top: 0.5rem;
+  margin-top: var(--size-2);
+  margin-block-start: var(--size-2);
+}
+
+/* Headings sizing (semantic scale) */
+h1 {
+  margin-top: 5rem;
+  margin-top: var(--size-20);
+  margin-block-start: var(--size-20);
+  font-size: 2.45rem;
+  font-size: var(--step-4);
+}
+
+h2 {
+  margin-top: 5rem;
+  margin-top: var(--size-20);
+  margin-block-start: var(--size-20);
+  font-size: 1.95rem;
+  font-size: var(--step-3);
+}
+
+h3 {
+  margin-top: 3rem;
+  margin-top: var(--size-12);
+  margin-block-start: var(--size-12);
+  font-size: 1.56rem;
+  font-size: var(--step-2);
+}
+
+/* Prevent small headings from collapsing too far */
+h4 {
+  font-size: 1.25rem;
+  font-size: var(--step-1);
+}
+
+h5 {
+  font-size: 1rem;
+  font-size: var(--step-0);
+}
+
+h6 {
+  font-weight: 600;
+  font-weight: var(--font-semibold);
+  font-size: 0.8rem;
+  font-size: var(--step--1);
+}
+
+/* hr: spacing and a subtle default */
+hr {
+
+  margin: 2rem 0;
+  margin: var(--size-8) var(--size-0);
+  margin-inline: var(--size-0);
+  margin-block: var(--size-8);
+  border: 0;
+  border-top: 1px solid #d6d3d1;
+  border-top: var(--size-px) solid var(--color-border);
+}
+
+/* ==========================================================================
+   Blockquote
+   ========================================================================== */
+
+blockquote {
+  border-left: 4px solid #d6d3d1;
+  border-left-width: var(--size-1) solid var(--color-border);
+  border-inline-start: var(--size-1) solid var(--color-border);
+  /* Physical fallback first */
+  padding-left: 1rem;
+  padding-left: var(--size-4);
+
+  /* Logical enhancement */
+  padding-inline-start: var(--size-4);
+
+  line-height: 1.65;
+  line-height: var(--lh-body);
+}
+
+/* If blockquote contains multiple paragraphs, keep them readable */
+blockquote p + p {
+  margin-top: 0.5rem;
+  margin-top: var(--size-2);
+  margin-block-start: var(--size-2);
+}
+
+/* ==========================================================================
+   Code
+   ========================================================================== */
+
+code,
+pre {
+  font-size: 0.8rem;
+  font-size: var(--size--1);
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Libescalen Mono", "Courier New", monospace;
+}
+
+pre {
+
+  margin-bottom: 1rem;
+  margin-bottom: var(--size-4);
+  margin-block-end: var(--size-4);
+
+  border-radius: 0.5rem;
+  border-radius: var(--size-2);
+  background: #f5f5f4;
+  background: var(--color-background-alt);
+
+  padding: 0.75rem 1rem;
+  padding: var(--size-3) var(--size-4);
+  padding-inline: var(--size-4);
+  padding-block: var(--size-3);
+  overflow-x: auto;
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+table {
+
+  /* Keep consistent with rhythm */
+  margin-bottom: 1rem;
+  margin-bottom: var(--size-4);
+  margin-block-end: var(--size-4);
+  border-width: 0;
+  border-width: var(--size-0);
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 0.5rem 0.75rem;
+  padding: var(--size-2) var(--size-3);
+  line-height: 1.65;
+  line-height: var(--lh-body);
+  text-align: left;
+}
+
+/* Optional: subtle row separation (safe everywhere) */
+tr + tr td,
+tr + tr th {
+  border-top: 1px solid #f5f5f4;
+  border-top: var(--size-px) solid var(--color-border);
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+/* Emphasized paragraph for introductory or highlight text */
+.lead {
+
+  margin-bottom: 1rem;
+  margin-bottom: var(--size-4);
+  margin-block-end: var(--size-4);
+  font-size: 1.25rem;
+  font-size: var(--step-1);
+  line-height: 1.65;
+  line-height: var(--lh-body);
+}
+
+/* Removes top margin to visually attach to the previous block */
+.hug {
+  margin-top: 0 !important;
+  margin-top: var(--size-0) !important;
+  margin-block-start: var(--size-0) !important;
+}
+
+/* Removes vertical margins for tighter spacing on a single element */
+.dense {
+  margin-top: 0 !important;
+  margin-top: var(--size-0) !important;
+  margin-top: var(--size-0) !important;
+  margin-bottom: 0 !important;
+  margin-block: var(--size-0) !important;
+}

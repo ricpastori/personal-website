@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{{- /* Normalize data-page for JS/CSS hooks:
+      - projects single: "/projects/item"
+      - posts single: "/posts/item"
+      - lists stay as their list path (e.g., "/projects/", "/posts/")
+      - everything else falls back to .RelPermalink
+*/ -}}
+{{- $dataPage := .RelPermalink -}}
+
+{{- if eq .Kind "home" -}}
+  {{- $dataPage = "/" -}}
+
+{{- else if eq .Kind "404" -}}
+  {{- $dataPage = "/404" -}}
+
+{{- else if eq .Kind "section" -}}
+  {{- /* Keep section list pages stable (already are) */ -}}
+  {{- $dataPage = printf "/%s/" .Section -}}
+
+{{- else if eq .Kind "page" -}}
+  {{- /* Singles: group by section for posts/projects */ -}}
+  {{- if eq .Section "projects" -}}
+    {{- $dataPage = "/projects/item" -}}
+  {{- else if eq .Section "posts" -}}
+    {{- $dataPage = "/posts/item" -}}
+  {{- end -}}
+
+{{- else if in (slice "taxonomy" "term") .Kind -}}
+  {{- /* Optional: keep taxonomy pages grouped */ -}}
+  {{- $dataPage = printf "/%s/%s/" .Kind .Data.Plural -}}
+{{- end -}}
+
+<html lang="en" data-page="{{ $dataPage }}">
+  <head>
+    {{ partial "head.html" . }}
+
+    <script>
+      // Add "js" ASAP to avoid flashes and to enable reveal animations.
+      document.documentElement.classList.add("js");
+    </script>
+
+    {{- /* Bundle all JavaScript files under assets/scripts/*.js */ -}}
+    {{- $scripts := resources.Match "scripts/*.js" -}}
+    {{- if gt (len $scripts) 0 -}}
+      {{- $js := $scripts
+        | resources.Concat "scripts/bundle.js"
+        | js.Build
+        | minify
+      -}}
+      <script src="{{ $js.RelPermalink }}" defer></script>
+    {{- end -}}
+  </head>
+
+  <body>
+    {{ partial "header.html" . }}
+
+    {{/* Keep a stable id for skip links and accessibility */}}
+    <main id="main" tabindex="-1" role="main">
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    {{ partial "footer.html" . }}
+  </body>
+</html>

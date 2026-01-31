@@ -1,0 +1,59 @@
+.page__header {
+  position: relative;
+  z-index: 2;
+}
+
+.page__content {
+  position: relative;
+  z-index: 3;
+  background-color: #fafaf9;
+  background-color: var(--color-background);
+}
+
+.page__cover {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  margin: -5rem 0 -12rem;
+  margin: calc(var(--size-20) * -1) 0 calc(var(--size-48) * -1);
+  width: 100vw;
+  width: 100dvw;
+  height: clamp(240px, 28vw, 400px);
+  overflow: hidden;
+}
+
+.page__cover-media {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+}
+
+.page__cover-media img {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.page__cover::after {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0.25rem 0.25rem 0 0;
+  border-radius: var(--size-1) var(--size-1) var(--size-0) var(--size-0);
+  background-color: #fafaf9;
+  background-color: var(--color-background);
+  width: 48rem;
+  width: var(--breakpoint-xl);
+  height: 10rem;
+  height: var(--size-40);
+  content: '';
+}
+
+.post_img {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: var(--size-0) var(--size-1) var(--size-2) rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,103 @@
+{{- /* All comments must be written in English.
+     Usage: {{ partial "icon.html" (dict "src" "icons/logo.svg" "size" 20 "id" "logo" "class" "icon") }}
+     Params:
+       src   (required)   path under /assets or relative name in assets/icons/
+       size  (optional)   integer px; sets width/height attributes
+       class (optional)
+       id    (optional)
+       title (optional)   if present, adds <title> for a11y; else aria-hidden
+*/ -}}
+
+{{- $src := (index . "src") -}}
+{{- $class := (index . "class") | default "" -}}
+{{- $size := (index . "size") -}}
+{{- $idAttr := (index . "id") | default "" -}}
+{{- $title := (index . "title") | default "" -}}
+
+{{- if not $src -}}
+  {{- warnf "icon partial: missing 'src' parameter; using the default icon." -}}
+{{- end -}}
+
+{{- /* Resolve resource from assets; also try icons/ prefix */ -}}
+{{- $res := resources.Get $src -}}
+{{- if not $res -}}
+  {{- $try := cond (hasPrefix $src "icons/") $src (printf "icons/%s" $src) -}}
+  {{- $res = resources.Get $try -}}
+{{- end -}}
+
+{{- /* Fallback to default icon if not found */ -}}
+{{- if not $res -}}
+  {{- warnf (printf "icon partial: icon %q not found; using the default icon instead." (or $src "(missing)")) -}}
+  {{- $def := site.Params.icons.default | default "icons/default.svg" -}}
+  {{- $res = resources.Get $def -}}
+  {{- if not $res -}}
+    {{- /* Final embedded fallback */ -}}
+    {{- printf `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".15"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>` | safeHTML -}}
+    {{- warnf (printf "icon partial: default icon %q not found; using embedded fallback." $def) -}}
+    {{- return -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Branch by media type */ -}}
+{{- $mt := $res.MediaType.Type -}}
+{{- $isSVG := or (eq (lower (path.Ext $res.Name)) ".svg") (eq (lower (path.Ext $src)) ".svg") (in (lower $mt) "svg") -}}
+
+{{- if $isSVG -}}
+  {{- /* ===== Inline SVG path ===== */ -}}
+  {{- $raw := $res.Content -}}
+
+  {{- /* Extract only the opening <svg ...> tag */ -}}
+  {{- $open := "" -}}
+  {{- $m := findRE `(?is)^<svg[^>]*>` $raw -}}
+  {{- if gt (len $m) 0 -}}
+    {{- $open = index $m 0 -}}
+  {{- else -}}
+    {{- warnf (printf "icon partial: malformed SVG %q (no <svg> root); returning raw content." $src) -}}
+    {{- $raw | safeHTML -}}
+    {{- return -}}
+  {{- end -}}
+
+  {{- /* Clean ONLY width/height on root; support ' or " */ -}}
+  {{- $clean := replaceRE `(?i)\s(?:width|height)=["'][^"']+["']` "" $open -}}
+
+  {{- /* Build extra attributes */ -}}
+  {{- $attrs := slice -}}
+  {{- if $class  }}{{ $attrs = $attrs | append (printf `class="%s"` $class) }}{{ end -}}
+  {{- if $idAttr }}{{ $attrs = $attrs | append (printf `id="%s"` $idAttr) }}{{ end -}}
+  {{- if $size   }}{{ $attrs = $attrs | append (printf `width="%[1]spx" height="%[1]spx"` $size) }}{{ end -}}
+  {{- /* Ensure a default fill on root if none present (children can override) */ -}}
+  {{- if not (findRE `(?i)\sfill=` $clean) -}}
+    {{- $attrs = $attrs | append `fill="currentColor"` -}}
+  {{- end -}}
+  {{- $attrStr := cond (gt (len $attrs) 0) (printf " %s" (delimit $attrs " ")) "" -}}
+  {{- $newOpen := replaceRE `(?i)^<svg` (printf `<svg%s` $attrStr) $clean -}}
+
+  {{- /* Replace opening tag; keep children intact */ -}}
+  {{- $svg := replace $raw $open $newOpen -}}
+
+  {{- /* Accessibility: title or decorative */ -}}
+  {{- if $title -}}
+    {{- $tid := printf "icon-%s-%d" (anchorize $res.Name) now.Unix -}}
+    {{- $svg = replace $svg $newOpen (printf `%s<title id="%s">%s</title>` $newOpen $tid $title) -}}
+    {{- $svg = replaceRE `(?i)^<svg` (printf `<svg role="img" aria-labelledby="%s"` $tid) $svg -}}
+  {{- else -}}
+    {{- $svg = replaceRE `(?i)^<svg` `<svg aria-hidden="true" focusable="false"` $svg -}}
+  {{- end -}}
+
+  {{- $svg | safeHTML -}}
+
+{{- else -}}
+  {{- /* ===== Raster path: emit <img>; no Resize in icon partial ===== */ -}}
+  {{- $url := $res.RelPermalink -}}
+  <img
+    src="{{ $url }}"
+    {{ with $class }}class="{{ . }}"{{ end }}
+    {{ with $idAttr }}id="{{ . }}"{{ end }}
+    {{ with $size }}width="{{ . }}" height="{{ . }}"{{ end }}
+    alt="{{ $title | default "" }}"
+    aria-hidden="{{ if not $title }}true{{ else }}false{{ end }}"
+    loading="lazy"
+    decoding="async"
+    style="vertical-align:middle"
+  >
+{{- end -}}

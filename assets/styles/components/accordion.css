@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Accordion
+   - Layout + accessible focus
+   - Micro-interaction perceived as "opening downward"
+   - IE10+ fallbacks (no gap, no :focus-visible required)
+   ========================================================================== */
+
+/* Accordion wrapper */
+.accordion {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 3rem 0;
+  margin-block: var(--size-12) 0;
+}
+
+/* IE10+ fallback for flex gap */
+.accordion__item + .accordion__item {
+  margin-top: 0.75rem;
+  margin-top: var(--size-3);
+}
+
+/* Item */
+.accordion__item {
+  border-bottom: 1px solid #d6d3d1;
+  border-bottom: var(--size-px) solid var(--color-border);
+  overflow: hidden;
+}
+
+.accordion__item:last-child {
+  border-bottom: none;
+}
+
+/* Summary */
+.accordion__summary {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  padding: var(--size-3) var(--size-0);
+  list-style: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Remove default marker */
+.accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Title */
+.accordion__title {
+  margin-right: 1rem;
+  margin-right: var(--size-4);
+  font-weight: 600;
+}
+
+/* Icon */
+.accordion__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  width: 1.125rem;
+  width: var(--size-4-5);
+  height: 1.125rem;
+  height: var(--size-4-5);
+}
+
+.accordion__icon svg {
+  transform-origin: 50% 50%;
+  transition: transform 160ms ease;
+}
+
+.accordion__item[open] .accordion__icon svg {
+  transform: rotate(45deg);
+}
+
+/* Focus (fallback first) */
+.accordion__summary:focus {
+  outline: 2px solid #f54a00;
+  outline: var(--size-0-5) solid var(--color-focus-ring);
+  outline-offset: 4px;
+  outline-offset: var(--size-1);
+  border-radius: 0.75rem;
+  border-radius: var(--size-3);
+}
+
+/* Upgrade to :focus-visible when supported */
+@supports selector(:focus-visible) {
+  .accordion__summary:focus {
+    outline: none;
+  }
+
+  .accordion__summary:focus-visible {
+    outline: 2px solid #f54a00;
+    outline: var(--size-0-5) solid var(--color-focus-ring);
+    outline-offset: 4px;
+    outline-offset: var(--size-1);
+    border-radius: 0.75rem;
+    border-radius: var(--size-3);
+  }
+}
+
+/* Content wrapper (JS animates height here) */
+.accordion__content {
+  overflow: hidden;
+}
+
+/* Content wrapper (JS animates height here) */
+.accordion__content {
+  overflow: hidden;
+}
+
+/* Inner content: no upward movement (no translateY) */
+.accordion__content-inner {
+  padding: 0 1rem 1rem;
+  padding: var(--size-0) var(--size-4) var(--size-4);
+
+  color: #57534d;
+  color: var(--color-foreground-alt);
+
+  transform-origin: top;
+}
+
+/* Micro feel driven by JS classes, not [open] */
+.accordion__item.is-animating .accordion__content-inner {
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+/* Opening: fade/scale into place (no translate) */
+.accordion__item.is-opening .accordion__content-inner {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* Before/while opening starts: slightly collapsed */
+.accordion__item.is-animating:not(.is-opening) .accordion__content-inner,
+.accordion__item:not([open]) .accordion__content-inner {
+  opacity: 0;
+  transform: scaleY(0.98);
+}
+
+/* Reduced motion (progressive enhancement) */
+@media (prefers-reduced-motion: reduce) {
+  .accordion__item.is-animating .accordion__content-inner {
+    transition: none;
+  }
+}
+
+/* Reduce reflow propagation (progressive enhancement) */
+@supports (contain: layout) {
+  .accordion__item {
+    contain: layout;
+  }
+}
+
+/* Reduced motion (progressive enhancement) */
+@media (prefers-reduced-motion: reduce) {
+  .accordion__icon svg,
+  .accordion__content-inner {
+    transition: none;
+  }
+}

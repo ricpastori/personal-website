@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Media: img / picture (editorial rhythm)
+   ========================================================================== */
+
+/* Treat media as block-level elements so spacing behaves predictably */
+img,
+picture,
+svg,
+video,
+canvas,
+iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Make pictures behave like block content */
+picture {
+  display: block;
+
+  /* same rhythm as paragraphs */
+  margin: 0.5rem 0;
+  margin: var(--size-2) var(--size-0);
+  margin-inline: var(--size-0);
+  margin-block: var(--size-2);
+  width: 100%;
+
+  /* align with text measure by default (optional) */
+  max-width: 68ch;
+  max-width: var(--measure);
+}
+
+/* Ensure the fallback <img> is responsive */
+picture > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* If you place picture in a wide layout (e.g., hero), opt-out per-case */
+.picture-wide {
+  max-width: none;
+}

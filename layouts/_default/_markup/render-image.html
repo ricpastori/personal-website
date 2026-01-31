@@ -1,0 +1,63 @@
+{{- /* Render hook for Markdown images.
+      Strategy:
+      1) Resolve as page resource (bundle)
+      2) Resolve as global asset (resources.Get)
+      3) Fallback to string path/URL (handled by picture.html)
+      Caption:
+      - Use Markdown title: ![alt](src "caption")
+*/ -}}
+
+{{- $dest := .Destination -}}
+{{- $alt := .Text | default "" -}}
+{{- $caption := .Title | default "" -}}
+
+{{- $res := false -}}
+
+{{- /* 1) Try page resources first (bundle images next to index.md). */ -}}
+{{- with .Page.Resources -}}
+  {{- with .GetMatch $dest -}}
+    {{- $res = . -}}
+  {{- else -}}
+    {{- /* Also try basename (common when Markdown uses relative paths). */ -}}
+    {{- $parts := split $dest "/" -}}
+    {{- $base := index $parts (add (len $parts) -1) -}}
+    {{- with .GetMatch $base -}}
+      {{- $res = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 2) Then try global assets (only if dest is not an external URL). */ -}}
+{{- if not $res -}}
+  {{- if not (in $dest "://") -}}
+    {{- $p := trim $dest "/" -}}
+    {{- with resources.Get $p -}}
+      {{- $res = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $isRes := ne $res false -}}
+{{- $src := cond $isRes $res $dest -}}
+
+{{- /* 3) Optional caption wrapper. */ -}}
+{{- if ne $caption "" -}}
+<figure class="figure">
+{{- end -}}
+
+  {{- partial "picture.html" (dict
+    "src" $src
+    "isResource" $isRes
+    "alt" $alt
+    "caption" $caption
+    "sizes" "(max-width: 960px) 100vw, 75vw"
+    "widths" "640,960,1280,1600,1920,2560"
+    "class" "post_img"
+    "loading" "lazy"
+    "decoding" "async"
+  ) -}}
+
+{{- if ne $caption "" -}}
+  <figcaption class="figure__caption">{{ $caption }}</figcaption>
+</figure>
+{{- end -}}

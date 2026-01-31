@@ -1,0 +1,7 @@
+html[data-page="/about/"] main {
+  min-height: 80dvh;
+  margin: 0 auto;
+  margin: var(--size-0) auto;
+  padding: 2rem 4rem 5rem;
+  padding: var(--size-8) var(--size-16) var(--size-20);
+}

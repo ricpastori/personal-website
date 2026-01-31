@@ -1,0 +1,82 @@
+{{- /* All comments must be written in English */ -}}
+<footer role="contentinfo" class="reveal reveal--footer">
+  <div class="footer__container">
+    <!-- Col 1: menu -->
+    <nav class="footer__col " aria-label="Menu">
+      <h2 class="footer__heading">Menu</h2>
+      <ul class="footer__links">
+        <li><a href="{{ "/" | relURL }}">Home</a></li>
+        <li><a href="{{ "/about/" | relURL }}">About</a></li>
+        {{- /*
+        <li><a href="{{ "/writings/" | relURL }}">Writings</a></li> rename to Blog if prefer */ -}}
+      </ul>
+    </nav>
+
+    <!-- Col 2: contacts -->
+    <nav class="footer__col" aria-label="Contacts">
+      <h2 class="footer__heading">Contacts</h2>
+      <ul class="footer__links">
+        <li>
+          <a href="{{ .Site.Params.social.linkedin | default `https://www.linkedin.com/` }}"
+             target="_blank" rel="noopener noreferrer">
+            LinkedIn <span aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ .Site.Params.social.github | default `https://github.com/ricpastori` }}"
+             target="_blank" rel="noopener noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:{{ .Site.Params.contact.email | default `hello@example.com` }}">
+            Mail <span aria-hidden="true">↗</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Col 1: brand + theme switcher -->
+    <div class="footer__col">
+      <div class="theme-switcher"
+           role="group"
+           aria-label="Theme selection">
+        <span class="theme-switcher__bubble" aria-hidden="true"></span>
+
+        <!-- System -->
+        <button
+          type="button"
+          class="btn btn--icon-only btn--ghost theme-btn"
+          data-set-theme="system"
+          aria-pressed="true"
+          data-tooltip="System theme">
+          {{ partial "icon.html" (dict "src" "icons/user-switch-duotone.svg" "size" 18 "class" "icon") }}
+          <span class="sr-only">Use system theme</span>
+        </button>
+
+        <!-- Light -->
+        <button
+          type="button"
+          class="btn btn--icon-only btn--ghost theme-btn"
+          data-set-theme="light"
+          aria-pressed="false"
+          data-tooltip="Light theme">
+          {{ partial "icon.html" (dict "src" "icons/sun-duotone.svg" "size" 18 "class" "icon") }}
+          <span class="sr-only">Use light theme</span>
+        </button>
+
+        <!-- Dark -->
+        <button
+          type="button"
+          class="btn btn--icon-only btn--ghost theme-btn"
+          data-set-theme="dark"
+          aria-pressed="false"
+          data-tooltip="Dark theme">
+          {{ partial "icon.html" (dict "src" "icons/moon-duotone.svg" "size" 18 "class" "icon") }}
+          <span class="sr-only">Use dark theme</span>
+        </button>
+      </div>
+      <span id="copyright">© {{ now.Year }} {{ .Site.Params.Author.name }}.</span>
+    </div>
+  </div>
+</footer>

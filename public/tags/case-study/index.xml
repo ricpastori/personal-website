@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Case Study on Riccardo Pastori blog</title>
+    <link>http://localhost:1313/tags/case-study/</link>
+    <description>Recent content in Case Study on Riccardo Pastori blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Oct 2023 10:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/case-study/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sample Project</title>
+      <link>http://localhost:1313/projects/sample-project/</link>
+      <pubDate>Fri, 27 Oct 2023 10:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/projects/sample-project/</guid>
+      <description>&lt;p&gt;This is the content of the sample project.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
