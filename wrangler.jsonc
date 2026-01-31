@@ -1,7 +1,4 @@
 {
-  // Wrangler v3+ schema
-  "$schema": "https://developers.cloudflare.com/wrangler/schema.json",
-
   // Project name (used by wrangler, not public-facing)
   "name": "ricpastori-website",
 
@@ -10,5 +7,5 @@
 
   // Compatibility date is mandatory in modern CF tooling
   // Pick a date and update consciously, not automatically
-  "compatibility_date": "2025-01-15"
+  "compatibility_date": "2026-01-30"
 }
