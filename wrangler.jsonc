@@ -3,7 +3,7 @@
   "$schema": "https://developers.cloudflare.com/wrangler/schema.json",
 
   // Project name (used by wrangler, not public-facing)
-  "name": "ricpastori-site",
+  "name": "ricpastori-website",
 
   // Pages project (not Workers)
   "pages_build_output_dir": "public",
