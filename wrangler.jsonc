@@ -1,0 +1,24 @@
+{
+  // Wrangler v3+ schema
+  "$schema": "https://developers.cloudflare.com/wrangler/schema.json",
+
+  // Project name (used by wrangler, not public-facing)
+  "name": "my-hugo-site",
+
+  // Pages project (not Workers)
+  "pages_build_output_dir": "public",
+
+  // Optional but recommended: environments
+  "env": {
+    "production": {
+      // No extra config yet
+    },
+    "preview": {
+      // Used for PR / preview deployments
+    }
+  },
+
+  // Compatibility date is mandatory in modern CF tooling
+  // Pick a date and update consciously, not automatically
+  "compatibility_date": "2025-01-15"
+}
