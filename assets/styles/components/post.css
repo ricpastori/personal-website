@@ -57,3 +57,18 @@
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   box-shadow: var(--size-0) var(--size-1) var(--size-2) rgba(0, 0, 0, 0.1);
 }
+
+.figure {
+  margin: 1.5em 0;
+  margin: var(--size-6) var(--size-0);
+}
+
+.figure__caption {
+  margin-top: 0.5em;
+  margin-top: var(--size-2);
+  color: #666;
+  color: var(--color-foreground-alt);
+  font-size: 0.875em;
+  font-size: var(--text-sm);
+  text-align: center;
+}

@@ -109,7 +109,18 @@
 {{- $largest    := index $jpgs (add (len $jpgs) -1) -}}
 {{- $largestURL := index (split $largest " ") 0 -}}
 
-<picture{{ with $class }} class="{{ . }}"{{ end }}>
+{{- $zoom := eq (index . "zoom") true -}}
+
+<picture
+  {{ with $class }} class="{{ . }}"{{ end }}
+  {{- if $zoom -}}
+    data-zoom="1"
+    data-full="{{ $largestURL }}"
+    tabindex="0"
+    role="button"
+    {{- if $alt -}}aria-label="Open image: {{ $alt }}"{{- else -}}aria-label="Open image"{{- end -}}
+  {{- end -}}>
+
   {{- if $webpSrcset -}}
     <source type="image/webp" srcset="{{ $webpSrcset }}" sizes="{{ $sizes }}">
   {{- end -}}

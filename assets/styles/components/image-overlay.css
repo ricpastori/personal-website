@@ -1,0 +1,22 @@
+.img-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.img-overlay.is-open {
+  display: flex;
+}
+
+.img-overlay img {
+  max-width: 96vw;
+  max-width: 96dvw;
+  max-height: 96vh;
+  max-height: 96dvh;
+  height: auto;
+  width: auto;
+}

@@ -4,7 +4,7 @@ date: 2023-10-27T10:00:00Z
 draft: false
 eyebrow: "The Weather in Tromsø"
 description: "What does a year of Arctic weather feel like when the sun disappears and reappears in extremes?"
-image: "thumb.png"
+image: "thumb.jpeg"
 ---
 
 Tromsø is a city in the Arctic Circle where seasons are defined more by light than by temperature. This data visualization project explores a full year of weather in Tromsø through a set of vector-based visualizations that are both scientifically accurate and visually expressive. Every visual element was designed to echo the natural phenomena it represents, making data not only readable, but experiential.
