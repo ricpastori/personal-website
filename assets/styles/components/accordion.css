@@ -107,11 +107,6 @@
   overflow: hidden;
 }
 
-/* Content wrapper (JS animates height here) */
-.accordion__content {
-  overflow: hidden;
-}
-
 /* Inner content: no upward movement (no translateY) */
 .accordion__content-inner {
   padding: 0 1rem 1rem;
