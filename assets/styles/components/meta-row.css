@@ -11,22 +11,18 @@
 
 .meta-row__grid {
   display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  gap: 3rem;
-  gap: var(--size-12);
+  flex-flow: row nowrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 2rem;
+  gap: var(--size-8);
   margin: 0;
-  margin: var(--size-o);
+  margin: var(--size-0);
 }
 
 .meta-row__item {
   margin: 0;
-  margin: var(--size-o);
-}
-
-.meta-row__item--end {
-  justify-self: end;
-  text-align: right;
+  margin: var(--size-0);
 }
 
 .meta-row__label {
@@ -59,15 +55,8 @@
   text-underline-offset: 0.2em;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 720px) {
   .meta-row__grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    gap: var(--size-8);
-  }
-
-  .meta-row__item--end {
-    justify-self: start;
-    text-align: left;
+    flex-flow: column nowrap;
   }
 }

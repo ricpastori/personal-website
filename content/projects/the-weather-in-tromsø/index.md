@@ -1,10 +1,14 @@
 ---
 title: "A data visualization project that goes beyond data"
-date: 2023-10-27T10:00:00Z
+date: 2026-01-21T10:00:00Z
 draft: false
 eyebrow: "The Weather in Tromsø"
 description: "What does a year of Arctic weather feel like when the sun disappears and reappears in extremes?"
 image: "thumb.jpeg"
+
+start: 2022-01-01
+end: 2022-01-01
+status: "shipped"
 ---
 
 Tromsø is a city in the Arctic Circle where seasons are defined more by light than by temperature. This data visualization project explores a full year of weather in Tromsø through a set of vector-based visualizations that are both scientifically accurate and visually expressive. Every visual element was designed to echo the natural phenomena it represents, making data not only readable, but experiential.

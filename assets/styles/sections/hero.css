@@ -8,8 +8,8 @@
   gap: var(--size-6, 24px);
   margin: var(--size-0, 0) auto;
   padding: var(--size-0, 0) var(--size-16, 64px) var(--size-16, 64px);
-  height: 80vh;
-  height: 80dvh;
+  height: 85vh;
+  height: 85dvh;
   text-align: center;
 }
 

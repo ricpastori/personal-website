@@ -1,0 +1,40 @@
+/* Draft cards: visually obvious and non-interactive */
+.project-card.is-draft .project-card__container {
+  cursor: default;
+}
+
+/* Darken overlay */
+.project-card__draft-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.25rem;
+  border-radius: var(--size-1);
+  background: rgba(0, 0, 0, 0.56);
+}
+
+/* Small badge */
+.project-card__draft-badge {
+  position: absolute;
+  top: 0.75rem;
+  top: var(--size-3);
+  left: 0.75rem;
+  left: var(--size-3);
+  border-radius: 0.25rem;
+  border-radius: var(--size-1);
+  background-color: #292524;
+  background-color: var(--color-foreground);
+  padding: 4px 8px;
+  color: #fafaf9;
+  color: var(--color-background);
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Optional: slightly dim the whole card */
+.project-card.is-draft .project-card__body {
+  opacity: 0.56;
+}
+
+.project-card.is-draft .project-card__thumb > img {
+  filter: grayscale(100%);
+}

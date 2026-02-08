@@ -38,56 +38,10 @@
     <h2>Works</h2>
   </div>
 
-  <ul class="projects-list">
-    {{ range $i, $p := (where .Site.RegularPages "Type" "projects") }}
-      <li class="project-card reveal reveal--card" style="--i: {{ $i }};">
-        <a class="project-card__container" href="{{ $p.RelPermalink }}">
-          {{ with $p.Params.image }}
-            {{ $path := trim . "/" }}
-            {{ $img := $p.Resources.GetMatch $path }}
-            {{ if not $img }}
-              {{ $parts := split $path "/" }}
-              {{ $base := index $parts (add (len $parts) -1) }}
-              {{ $img = $p.Resources.GetMatch $base }}
-            {{ end }}
-
-            {{ with $img }}
-              <div class="project-card__media">
-                {{ partial "picture.html" (dict
-                  "src" .
-                  "isResource" true
-                  "alt" $p.Title
-                  "sizes" "(max-width: 720px) 100vw, 640px"
-                  "widths" "240,320,480,640,960,1280"
-                  "class" "project-card__thumb"
-                  "loading" "lazy"
-                  "decoding" "async"
-                ) }}
-              </div>
-            {{ end }}
-          {{ end }}
-
-          <div class="project-card__body">
-            <time class="project-card__date" datetime="{{ $p.Date.Format "2006-01-02" }}">
-              {{ $p.Date.Format "2006.01.02" }}
-            </time>
-
-            {{ with $p.Params.eyebrow }}
-              <p class="project-card__eyebrow">{{ . }}</p>
-            {{ end }}
-
-            <h3 class="project-card__title">{{ $p.Title }}</h3>
-
-            {{ with $p.Params.description }}
-              <p class="project-card__excerpt truncate-multiline">{{ . }}</p>
-            {{ else }}
-              <p class="project-card__excerpt truncate-multiline">{{ $p.Summary }}</p>
-            {{ end }}
-          </div>
-        </a>
-      </li>
-    {{ end }}
-  </ul>
+  {{ partial "projects-list.html" (dict
+    "ctx" .
+    "limit" 12
+) }}
 </section>
 
 {{ end }}

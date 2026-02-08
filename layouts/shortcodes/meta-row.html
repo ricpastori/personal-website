@@ -11,14 +11,14 @@
 
     {{- if $hasOthers -}}
       <div class="meta-row__item">
-        <dt class="meta-row__label">Other team members</dt>
+        <dt class="meta-row__label">Other members</dt>
         <dd class="meta-row__value meta-row__value--list">
           {{ .Page.RenderString .Inner }}
         </dd>
       </div>
     {{- end -}}
 
-    <div class="meta-row__item meta-row__item--end">
+    <div class="meta-row__item">
       <dt class="meta-row__label">Duration</dt>
       <dd class="meta-row__value">{{ $duration }}</dd>
     </div>

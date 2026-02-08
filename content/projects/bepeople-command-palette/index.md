@@ -1,13 +1,27 @@
 ---
 title: "Designing a Command Palette between ambitious visions and real constraints"
-date: 2023-10-27T10:00:00Z
-draft: false
+date: 2026-01-21T10:00:00Z
+draft: true
 eyebrow: "BePeople"
 description: "What does a year of Arctic weather feel like when the sun disappears and reappears in extremes?"
 image: "thumb.png"
+
+start: 2024-06-01
+end: 2025-01-01
+status: "shipped"
 ---
 
 BePeople is a SaaS platform that allows complex data to be analyzed using semantic queries, transforming natural language into SQL thanks to OpenAI technology. In a context where speed is everything, the CEO wanted a “talking” interface where users could give instructions directly from a search bar. However, we were faced with reality: zero budget for user research, very tight deadlines to cover development delays, and the technical impossibility of adding additional layers of artificial intelligence or NLP. The challenge was therefore to create a Command Palette that simulated that intelligence through a logical and functional design, based exclusively on academic data and industry benchmarks.
+
+{{< meta-row
+  role="UX/UI Designer & Engineer"
+  duration="Sep 2023 - Jul 2025"
+>}}
+- 1 UX/UI Designer
+- 1 Product Manager
+- 1 CEO
+- 6 Developers
+{{< /meta-row >}}
 
 ## The Need – Speed, vision, and realism
 

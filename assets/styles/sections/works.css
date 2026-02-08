@@ -1,14 +1,19 @@
 #works {
-  padding-bottom: var(--size-8, 32px);;
+  margin-top: 5rem;
+  margin-top: var(--size-20);
+  padding-bottom: 2rem;
+  padding-bottom: var(--size-8);
 }
 
 #works > .title-container {
-  align-items: center;
   display: flex;
   flex-flow: row nowrap;
-  gap: var(--size-6, 24px);
   justify-content: start;
-  padding: var(--size-6, 24px) var(--size-0, 0);
+  align-items: center;
+  gap: 1.5rem;
+  gap: var(--size-6);
+  padding: 3rem 0;
+  padding: var(--size-12) var(--size-0);
 }
 
 #works > .title-container > h2 {

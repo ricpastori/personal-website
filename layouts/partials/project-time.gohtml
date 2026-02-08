@@ -1,0 +1,64 @@
+{{- /* project-time.html
+      Prints a <time> element with your project date rules.
+
+      Params (dict):
+        start (optional) date string
+        end   (optional) date string
+        date  (optional) fallback date (time or date string)
+        class (optional) default "project-card__date"
+*/ -}}
+
+{{- $start := (index . "start") -}}
+{{- $end   := (index . "end") -}}
+{{- $date  := (index . "date") -}}
+{{- $class := (index . "class") | default "project-card__date" -}}
+
+{{- $startTime := false -}}
+{{- $endTime := false -}}
+{{- $dateTime := false -}}
+
+{{- with $start -}}
+  {{- $startTime = time . -}}
+{{- end -}}
+
+{{- with $end -}}
+  {{- $endTime = time . -}}
+{{- end -}}
+
+{{- with $date -}}
+  {{- /* Accept either a time value or a parseable date string */ -}}
+  {{- if eq (printf "%T" .) "time.Time" -}}
+    {{- $dateTime = . -}}
+  {{- else -}}
+    {{- $dateTime = time . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $label := "" -}}
+{{- $machine := "" -}}
+
+{{- if and $startTime $endTime -}}
+  {{- if eq ($startTime.Format "2006-01") ($endTime.Format "2006-01") -}}
+    {{- $label = $endTime.Format "Jan 2006" -}}
+    {{- $machine = $endTime.Format "2006-01-02" -}}
+  {{- else -}}
+    {{- $label = printf "%s – %s" ($startTime.Format "Jan 2006") ($endTime.Format "Jan 2006") -}}
+    {{- $machine = printf "%s/%s" ($startTime.Format "2006-01") ($endTime.Format "2006-01") -}}
+  {{- end -}}
+
+{{- else if $endTime -}}
+  {{- $label = $endTime.Format "Jan 2006" -}}
+  {{- $machine = $endTime.Format "2006-01-02" -}}
+
+{{- else if $dateTime -}}
+  {{- $label = $dateTime.Format "Jan 2006" -}}
+  {{- $machine = $dateTime.Format "2006-01-02" -}}
+{{- end -}}
+
+{{- if $label -}}
+  <time class="{{ $class }}"
+        datetime="{{ $machine }}"
+        aria-label="{{ $label }}">
+    {{ $label }}
+  </time>
+{{- end -}}
