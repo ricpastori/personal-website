@@ -31,25 +31,8 @@
 {{- end -}}
 
 <html lang="en" data-page="{{ $dataPage }}">
-  <head>
-    {{ partial "head.html" . }}
 
-    <script>
-      // Add "js" ASAP to avoid flashes and to enable reveal animations.
-      document.documentElement.classList.add("js");
-    </script>
-
-    {{- /* Bundle all JavaScript files under assets/scripts/*.js */ -}}
-    {{- $scripts := resources.Match "scripts/*.js" -}}
-    {{- if gt (len $scripts) 0 -}}
-      {{- $js := $scripts
-        | resources.Concat "scripts/bundle.js"
-        | js.Build
-        | minify
-      -}}
-      <script src="{{ $js.RelPermalink }}" defer></script>
-    {{- end -}}
-  </head>
+  {{ partial "head.html" . }}
 
   <body>
     {{ partial "header.html" . }}
@@ -60,5 +43,15 @@
     </main>
 
     {{ partial "footer.html" . }}
+
+    {{- if .Store.Get "hasMermaid" -}}
+      <!-- Mermaid (CDN, ESM) -->
+      <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.12.2/+esm'
+      </script>
+
+      {{- $mermaid := resources.Get "scripts/mermaid-init.js" | js.Build | minify -}}
+      <script src="{{ $mermaid.RelPermalink }}" defer></script>
+    {{- end -}}
   </body>
 </html>

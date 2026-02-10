@@ -1,0 +1,11 @@
+{{- /* Mermaid code block render hook
+      - Uses <pre class="mermaid"> so Mermaid can auto-detect.
+      - Sets a per-page flag so we can conditionally load Mermaid JS.
+      - All comments must be written in English.
+*/ -}}
+
+<pre class="mermaid diagram diagram--mermaid">
+{{ .Inner | htmlEscape | safeHTML }}
+</pre>
+
+{{- .Page.Store.Set "hasMermaid" true -}}

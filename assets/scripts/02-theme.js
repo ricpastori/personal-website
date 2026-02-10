@@ -33,6 +33,16 @@
   requestAnimationFrame(function () {
     fn();
 
+    // Notify optional modules (e.g. Mermaid) that theme has changed.
+    // The current theme can be read from <html data-theme="..."> or from event detail.
+    document.dispatchEvent(
+      new CustomEvent("themechange", {
+        detail: {
+          theme: root.getAttribute("data-theme") || "system"
+        }
+      })
+    );
+
     // Remove the class after the transition window
     window.setTimeout(function () {
       root.classList.remove("theme-is-switching");

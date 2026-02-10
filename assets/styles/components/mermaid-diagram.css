@@ -1,0 +1,12 @@
+/* Mermaid diagram container tweaks (optional) */
+.diagram--mermaid {
+  margin: 1.2rem 0;
+  overflow-x: auto;
+}
+
+/* Mermaid renders an SVG inside the <pre>. This avoids weird inline gaps. */
+.diagram--mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

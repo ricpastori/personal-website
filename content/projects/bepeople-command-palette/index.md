@@ -43,6 +43,41 @@ Despite the “AI-first” vision, the team faced concrete challenges that redef
 - **Suffocating Time-to-Market:** Design was used as a “buffer” for delays by the development team. With very tight deadlines, it was not possible to conduct user testing or field research (zero budget).
 - **Fragmented navigation:** BePeople is a rapidly evolving product. Traditional navigation was becoming cumbersome, and a way was needed to “skip” the linear information architecture, shortening the user's path.
 
+````mermaid
+
+graph TD
+    %% Styling
+    classDef primary fill:#f96,stroke:#333,stroke-width:2px;
+    classDef logic fill:#bbf,stroke:#333,stroke-width:1px;
+    classDef fallback fill:#dfd,stroke:#333,stroke-dasharray: 5 5;
+
+    Start([Input Cmd+K]) --> Process[Fuzzy Search & Scoring Engine]
+    
+    subgraph ParallelProcessing [Analisi Multidimensionale]
+        Process --> C_Idx[(Command Index + Aliases)]
+        Process --> W_Idx[(Workspace/Widget Index)]
+    end
+
+    C_Idx & W_Idx --> Decision{Match trovati?}
+
+    Decision -- "Sì (> Threshold)" --> UI_Results[Visualizzazione Liste Filtrate]
+    UI_Results --> UserSelection{Selezione Utente}
+    
+    UserSelection -- "Comando" --> ExecAction[Esecuzione Azione/GraphQL]
+    UserSelection -- "Workspace" --> NavWS[Navigazione URL]
+
+    Decision -- "No / Basso Punteggio" --> SemanticFallback[<b>Semantic Fallback Mode</b>]
+    SemanticFallback --> GPT_Engine[GPT-3 Codex: NL to SQL Conversion]
+    GPT_Engine --> DataWidget[Generazione Widget Analitico]
+
+    ExecAction & NavWS & DataWidget --> Feedback([Feedback Visivo / Notifica])
+
+    class Start,Feedback primary;
+    class Decision,Process logic;
+    class SemanticFallback fallback;
+
+````
+
 [INSERT IMAGE 2: Flowchart or logical diagram of the Power Bar] Use the Mermaid diagram or image in the “Pasted Text” document showing the User -> Share/Refresh/Search flow. This visually illustrates how we translated an AI vision into a logical decision tree.
 
 ### The strategy: Evidence-based design
