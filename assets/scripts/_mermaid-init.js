@@ -5,7 +5,7 @@ function resolveMermaidTheme() {
   var t = document.documentElement.getAttribute("data-theme");
 
   if (t === "dark") return "dark";
-  if (t === "light") return "default";
+  if (t === "light") return "neutral";
 
   // system
   if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {

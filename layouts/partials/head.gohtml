@@ -29,7 +29,7 @@
   </script>
 
   {{- /* Bundle all JavaScript files under assets/scripts/*.js */ -}}
-  {{- $scripts := resources.Match "scripts/*.js" -}}
+  {{- $scripts := resources.Match "scripts/[!_]*.js" -}}
   {{- if gt (len $scripts) 0 -}}
     {{- $js := $scripts
       | resources.Concat "scripts/bundle.js"

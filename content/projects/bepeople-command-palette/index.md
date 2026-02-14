@@ -51,34 +51,32 @@ graph TD
     classDef logic fill:#bbf,stroke:#333,stroke-width:1px;
     classDef fallback fill:#dfd,stroke:#333,stroke-dasharray: 5 5;
 
-    Start([Input Cmd+K]) --> Process[Fuzzy Search & Scoring Engine]
+    Start([User Input Cmd+K]) --> Process[Universal Fuzzy Search & Scoring]
     
-    subgraph ParallelProcessing [Analisi Multidimensionale]
-        Process --> C_Idx[(Command Index + Aliases)]
-        Process --> W_Idx[(Workspace/Widget Index)]
+    subgraph ParallelFiltering [Parallel Filtering]
+        Process --> C_Idx[(Command Registry + Aliases)]
+        Process --> W_Idx[(Workspace & Widget Index)]
     end
 
-    C_Idx & W_Idx --> Decision{Match trovati?}
+    C_Idx & W_Idx --> Decision{Match Found?}
 
-    Decision -- "Sì (> Threshold)" --> UI_Results[Visualizzazione Liste Filtrate]
-    UI_Results --> UserSelection{Selezione Utente}
+    Decision -- "Yes (> Threshold)" --> UI_Results[Display Filtered Categories]
+    UI_Results --> UserSelection{User Selection}
     
-    UserSelection -- "Comando" --> ExecAction[Esecuzione Azione/GraphQL]
-    UserSelection -- "Workspace" --> NavWS[Navigazione URL]
+    UserSelection -- "Command" --> ExecAction[Action Execution / GraphQL Mutation]
+    UserSelection -- "Workspace" --> NavWS[Navigation to Workspace URL]
 
-    Decision -- "No / Basso Punteggio" --> SemanticFallback[<b>Semantic Fallback Mode</b>]
+    Decision -- "No / Low Score" --> SemanticFallback[<b>Semantic Fallback Mode</b>]
     SemanticFallback --> GPT_Engine[GPT-3 Codex: NL to SQL Conversion]
-    GPT_Engine --> DataWidget[Generazione Widget Analitico]
+    GPT_Engine --> DataWidget[Analytical Widget Rendering]
 
-    ExecAction & NavWS & DataWidget --> Feedback([Feedback Visivo / Notifica])
+    ExecAction & NavWS & DataWidget --> Feedback([Visual Feedback / Notification])
 
     class Start,Feedback primary;
     class Decision,Process logic;
     class SemanticFallback fallback;
 
 ````
-
-[INSERT IMAGE 2: Flowchart or logical diagram of the Power Bar] Use the Mermaid diagram or image in the “Pasted Text” document showing the User -> Share/Refresh/Search flow. This visually illustrates how we translated an AI vision into a logical decision tree.
 
 ### The strategy: Evidence-based design
 
