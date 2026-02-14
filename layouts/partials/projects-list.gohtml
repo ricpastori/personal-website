@@ -1,6 +1,6 @@
 {{- /* projects-list.html
       Renders a list of project cards:
-      - Draft cards come from data/projects_drafts.yaml (no pages generated)
+      - Draft cards come from assets/__generated/projects_drafts.yaml (no pages generated)
       - Published projects come from content (Type "projects")
 
       Draft items:
@@ -30,8 +30,13 @@
 {{- $thumbSizes  := (index . "thumbSizes") | default "(max-width: 720px) 100vw, 640px" -}}
 {{- $thumbWidths := (index . "thumbWidths") | default "240,320,480,640,960,1280" -}}
 
-{{- /* Draft cards from data (file: data/projects_drafts.yaml) */ -}}
-{{- $drafts := $ctx.Site.Data.projects_drafts | default (slice) -}}
+{{- /* Draft cards from data (file: assets/__generated/projects_drafts.yaml) */ -}}
+{{- $drafts := slice -}}
+{{- with (resources.Get "__generated/projects-drafts.yaml") -}}
+  {{- $drafts = . | transform.Unmarshal -}}
+{{- else -}}
+  {{- warnf "Drafts file not found: assets/__generated/projects-drafts.yaml" -}}
+{{- end -}}
 
 {{- /* Published pages */ -}}
 {{- $pages := where $ctx.Site.RegularPages "Type" "projects" -}}

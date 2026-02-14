@@ -13,7 +13,7 @@ const CONTENT_ROOT = path.join(ROOT, "content", "projects");
 const ASSETS_GEN_ROOT = path.join(ROOT, "assets", "__generated", "drafts", "projects");
 
 // Data output (underscore to avoid Hugo key issues)
-const OUT_FILE = path.join(ROOT, "data", "projects_drafts.yaml");
+const OUT_FILE = path.join(ROOT, "assets", "__generated", "projects-drafts.yaml");
 
 function extractFrontMatter(markdown) {
   // Allow optional BOM and leading whitespace/newlines before front matter.
