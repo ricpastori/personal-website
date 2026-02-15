@@ -12,15 +12,15 @@ BASEURL ?= http://localhost:1313
 
 # Where the generated drafts file lives.
 # IMPORTANT: Your Node script must write to this exact path (or override it).
-DRAFTS_FILE ?= assets/__generated/project-drafts.yaml
+DRAFTS_FILE ?= assets/__generated/projects-drafts.yaml
 
 .PHONY: help dev dev-drafts build clean drafts-gen drafts-rm
 
 help:
 	@echo ""
 	@echo "Available commands:"
-	@echo "  make dev         - Hugo server (no drafts) + generate project-drafts.yaml"
-	@echo "  make dev-drafts  - Hugo server (with drafts) + remove project-drafts.yaml"
+	@echo "  make dev         - Hugo server (no drafts) + generate projects-drafts.yaml"
+	@echo "  make dev-drafts  - Hugo server (with drafts) + remove projects-drafts.yaml"
 	@echo "  make build       - Generate drafts data + production build (uses CF_PAGES_URL if set)"
 	@echo "  make clean       - Remove generated files (public, resources/_gen, lock, drafts file)"
 	@echo ""
