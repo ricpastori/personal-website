@@ -64,7 +64,9 @@
   {{- $attrs := slice -}}
   {{- if $class  }}{{ $attrs = $attrs | append (printf `class="%s"` $class) }}{{ end -}}
   {{- if $idAttr }}{{ $attrs = $attrs | append (printf `id="%s"` $idAttr) }}{{ end -}}
-  {{- if $size   }}{{ $attrs = $attrs | append (printf `width="%[1]spx" height="%[1]spx"` $size) }}{{ end -}}
+  {{- if $size -}}
+    {{- $attrs = $attrs | append (printf `width="%[1]d" height="%[1]d"` $size) -}}
+  {{ end -}}
   {{- /* Ensure a default fill on root if none present (children can override) */ -}}
   {{- if not (findRE `(?i)\sfill=` $clean) -}}
     {{- $attrs = $attrs | append `fill="currentColor"` -}}
