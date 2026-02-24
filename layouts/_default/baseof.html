@@ -45,13 +45,15 @@
     {{ partial "footer.html" . }}
 
     {{- if .Store.Get "hasMermaid" -}}
-      <!-- Mermaid (CDN, ESM) -->
-      <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.12.2/+esm'
-      </script>
+      <!-- Mermaid (CDN, UMD) -->
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" defer></script>
 
-      {{- $mermaid := resources.Get "scripts/_mermaid-init.js" | js.Build | minify -}}
-      <script src="{{ $mermaid.RelPermalink }}" defer></script>
+      {{- with resources.Get "scripts/_mermaid-init.js" -}}
+        {{- $mermaid := . | js.Build | minify -}}
+        <script src="{{ $mermaid.RelPermalink }}" defer></script>
+      {{- else -}}
+        {{- errorf "Mermaid init script not found: expected assets/scripts/mermaid-init.js" -}}
+      {{- end -}}
     {{- end -}}
   </body>
 </html>

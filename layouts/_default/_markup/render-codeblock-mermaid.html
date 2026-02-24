@@ -1,11 +1,36 @@
-{{- /* Mermaid code block render hook
-      - Uses <pre class="mermaid"> so Mermaid can auto-detect.
-      - Sets a per-page flag so we can conditionally load Mermaid JS.
-      - All comments must be written in English.
+{{- /* Mermaid code block render hook with optional caption.
+      Usage:
+        ```mermaid {caption="..." captionId="..."}
+        ...
+        ```
 */ -}}
 
-<pre class="mermaid diagram diagram--mermaid">
-{{ .Inner | htmlEscape | safeHTML }}
-</pre>
+{{- $caption := "" -}}
+{{- with .Attributes -}}
+  {{- with index . "caption" -}}
+    {{- $caption = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $captionId := "" -}}
+{{- with .Attributes -}}
+  {{- with index . "captionId" -}}
+    {{- $captionId = . -}}
+  {{- end -}}
+{{- end -}}
+
+<figure class="diagram diagram--mermaid">
+  {{- $src := .Inner -}}
+  <pre class="mermaid">
+    <code class="diagram--source">{{ $src }}</code>
+  </pre>
+
+  {{- if $caption -}}
+    <figcaption{{ if $captionId }} id="{{ $captionId }}"{{ end }}>
+      {{- /* Keep caption as plain text to avoid surprises in attributes. */ -}}
+      {{- $caption -}}
+    </figcaption>
+  {{- end -}}
+</figure>
 
 {{- .Page.Store.Set "hasMermaid" true -}}
