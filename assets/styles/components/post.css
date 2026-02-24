@@ -66,6 +66,9 @@
 .figure__caption {
   margin-top: 0.5em;
   margin-top: var(--size-2);
+  padding: 0 1rem;
+  padding: var(--size-0) var(--size-4);
+  padding-inline: var(--size-4);
   color: #666;
   color: var(--color-foreground-alt);
   font-size: 0.875em;
