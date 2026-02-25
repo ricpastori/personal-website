@@ -27,8 +27,15 @@
 /* Mermaid renders an SVG inside the <pre>. This avoids weird inline gaps. */
 .diagram--mermaid svg {
   display: block;
-  width: 100%;
+  width: auto;
+  max-width: 100%; 
   height: auto;
+}
+
+@media (max-width: 640px) {
+  .diagram--mermaid svg {
+    max-height: 80vh;
+  }
 }
 
 .diagram figcaption {

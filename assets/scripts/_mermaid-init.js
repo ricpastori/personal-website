@@ -1,127 +1,96 @@
 // _mermaid-init.js
-// Mermaid init (expects Mermaid UMD on window.mermaid via CDN).
-// Markup expected (from your render hook):
-//
-// <figure class="diagram diagram--mermaid">
-//   <pre class="mermaid">
-//     <code class="diagram--source">...mermaid source...</code>
-//   </pre>
-//   <figcaption>...</figcaption>
-// </figure>
-//
-// Goals:
-// - Render INSIDE <pre class="mermaid"> (so your existing CSS keeps working).
-// - Keep a stable source-of-truth for rerenders (theme change), even though Mermaid replaces <pre> content.
-// - Avoid parsing Mermaid's own injected SVG/CSS on rerender.
-// - ES5 compatible (IE10+).
-
 (function () {
-  function resolveMermaidTheme() {
+  "use strict";
+
+  function resolveTheme() {
     var t = document.documentElement.getAttribute("data-theme");
     if (t === "dark") return "dark";
     if (t === "light") return "default";
 
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    if (window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches) {
       return "dark";
     }
     return "default";
   }
 
-  function toArray(nodeList) {
-    return Array.prototype.slice.call(nodeList || []);
+  // Decode HTML entities without touching layout.
+  function decodeEntities(str) {
+    if (!str || str.indexOf("&") === -1) return str;
+    var ta = document.createElement("textarea");
+    ta.innerHTML = str;
+    return ta.value;
   }
 
-  function normalizeNewlines(s) {
-    return (s || "").replace(/\r\n/g, "\n");
-  }
+  function getSource(pre) {
+    var cached = pre.getAttribute("data-mermaid-src");
+    if (cached) return cached;
 
-  function sanitizeSource(s) {
-    // Keep it minimal: Mermaid is sensitive, so avoid fancy transformations.
-    s = s || "";
-    s = s.replace(/^\uFEFF/, "");  // strip BOM
-    s = s.replace(/\u00A0/g, " "); // NBSP -> space
-    s = normalizeNewlines(s);
-    return s;
-  }
+    var code = pre.querySelector(".diagram--source");
+    if (!code) return "";
 
-  function getTargets() {
-    // IMPORTANT: Only our Mermaid blocks (pre.mermaid). Mermaid will replace content,
-    // so we need to persist the source on the <pre>.
-    return toArray(document.querySelectorAll("figure.diagram--mermaid > pre.mermaid"));
-  }
+    var src = code.textContent || "";
+    src = decodeEntities(src);
+    src = src.replace(/^\uFEFF/, ""); // strip BOM if any
 
-  function initMermaid() {
-    // Initialize per render batch, so theme changes apply correctly.
-    window.mermaid.initialize({
-      startOnLoad: false,
-      theme: resolveMermaidTheme(),
-      suppressErrorRendering: true,
-      flowchart: {
-        htmlLabels: false,
-        useMaxWidth: true
-      },
-      themeVariables: {
-        fontSize: "16px",
-        fontFamily: "inherit"
-      }
-    });
-  }
-
-  function getOrCaptureSource(pre) {
-    // Source-of-truth must survive Mermaid replacing the <pre> contents.
-    // We store it as a DOM attribute AFTER reading it once from <code.diagram--source>.
-    var saved = pre.getAttribute("data-mermaid-src");
-    if (saved && saved.length) return saved;
-
-    var code = pre.querySelector("code.diagram--source");
-    var src = "";
-
-    if (code) {
-      src = code.textContent || "";
-    } else {
-      // Fallback: if the code node isn't there for any reason.
-      src = pre.textContent || "";
-    }
-
-    src = sanitizeSource(src);
-
-    // Store on the <pre> (JS writes it, so no Hugo attribute-safety issues).
     pre.setAttribute("data-mermaid-src", src);
-
     return src;
   }
 
-  function restoreSource(pre, src) {
-    // Mermaid expects the raw source as the node's textContent.
-    // This also wipes any previous SVG that Mermaid injected.
-    pre.textContent = src;
+  function cleanup(pre) {
+    // Remove previously rendered SVGs (re-render on theme change)
+    var svgs = pre.querySelectorAll("svg");
+    for (var i = 0; i < svgs.length; i++) {
+      svgs[i].parentNode.removeChild(svgs[i]);
+    }
+  }
+
+  function insertSvg(pre, svgText) {
+    var wrap = document.createElement("div");
+    wrap.innerHTML = svgText;
+
+    var svg = wrap.querySelector("svg");
+    if (!svg) return;
+
+    // Responsive: let CSS control scaling (max-width:100%), do NOT force width:100%.
+    svg.removeAttribute("width");
+    svg.removeAttribute("height");
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    // Keep it a block element and center it (CSS also does this; OK to double).
+    svg.style.display = "block";
+    svg.style.height = "auto";
+    svg.style.maxWidth = "100%";
+    svg.style.margin = "0 auto";
+
+    var code = pre.querySelector(".diagram--source");
+    if (code && code.parentNode === pre) {
+      pre.insertBefore(svg, code);
+    } else {
+      pre.appendChild(svg);
+    }
   }
 
   function renderOne(pre, index) {
-    var src = getOrCaptureSource(pre);
+    var src = getSource(pre);
+    if (!src || !src.replace(/\s+/g, "").length) return Promise.resolve();
 
-    // Guard: empty blocks should be no-ops
-    if (!src || !src.replace(/\s+/g, "").length) {
-      return Promise.resolve();
-    }
+    cleanup(pre);
 
-    // Always restore before parse/run to prevent parsing injected SVG/CSS.
-    restoreSource(pre, src);
+    var id = "mmd-" + Date.now() + "-" + index;
 
     return window.mermaid
-      .parse(src)
-      .then(function () {
-        // Restore again to ensure Mermaid sees only source.
-        restoreSource(pre, src);
-
-        // Render only this node
-        return window.mermaid.run({ nodes: [pre] });
+      .render(id, src)
+      .then(function (res) {
+        insertSvg(pre, res.svg);
+        // bindFunctions can be undefined depending on build
+        if (res && res.bindFunctions) {
+          // pass the SVG node if needed; some builds accept element, others accept id
+          try { res.bindFunctions(document.getElementById(id)); } catch (e) {}
+        }
       })
       .catch(function (err) {
-        // Keep source restored (still hidden visually by your CSS if needed).
-        restoreSource(pre, src);
-
-        console.groupCollapsed("[Mermaid] Syntax error (block #" + (index + 1) + ")");
+        console.groupCollapsed("[Mermaid] Render error (block #" + (index + 1) + ")");
         console.error(err);
         console.info("Diagram source:");
         console.log(src);
@@ -131,61 +100,32 @@
 
   function renderAll() {
     if (!window.mermaid) {
-      console.warn("[Mermaid] Mermaid not loaded (window.mermaid is missing).");
+      if (window.console && console.warn) {
+        console.warn("[Mermaid] Mermaid not loaded (window.mermaid missing).");
+      }
       return;
     }
 
-    var targets = getTargets();
-    if (!targets.length) return;
+    window.mermaid.initialize({
+      startOnLoad: false,
+      theme: resolveTheme(),
+      suppressErrorRendering: true
+    });
 
-    initMermaid();
+    var pres = document.querySelectorAll("figure.diagram--mermaid pre.mermaid");
+    if (!pres || !pres.length) return;
 
-    // Render sequentially for stability and predictable DOM mutation.
+    // Render sequentially to avoid race conditions on slower browsers.
     var chain = Promise.resolve();
-    for (var i = 0; i < targets.length; i++) {
-      (function (el, idx) {
+    for (var i = 0; i < pres.length; i++) {
+      (function (pre, idx) {
         chain = chain.then(function () {
-          return renderOne(el, idx);
+          return renderOne(pre, idx);
         });
-      })(targets[i], i);
+      })(pres[i], i);
     }
   }
 
-  function boot() {
-    // CDN can be slow; wait briefly without async/await (IE10-safe).
-    var tries = 0;
-
-    (function tick() {
-      tries++;
-
-      if (window.mermaid) {
-        renderAll();
-        return;
-      }
-
-      if (tries < 30) {
-        setTimeout(tick, 50);
-      } else {
-        console.warn("[Mermaid] Mermaid not available after waiting; diagrams will remain as source.");
-      }
-    })();
-  }
-
-  // Debounced rerender on theme change
-  var raf = 0;
-  function scheduleRerender() {
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(function () {
-      raf = 0;
-      renderAll();
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    boot();
-  });
-
-  document.addEventListener("themechange", function () {
-    scheduleRerender();
-  });
+  document.addEventListener("DOMContentLoaded", renderAll);
+  document.addEventListener("themechange", renderAll);
 })();

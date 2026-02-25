@@ -20,7 +20,7 @@
 {{- end -}}
 
 <figure class="diagram diagram--mermaid">
-  {{- $src := .Inner -}}
+  {{- $src := .Inner | safeHTML -}}
   <pre class="mermaid">
     <code class="diagram--source">{{ $src }}</code>
   </pre>
