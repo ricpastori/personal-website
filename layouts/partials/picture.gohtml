@@ -28,7 +28,7 @@
      Case 1: src is a plain string → hard fallback
      ------------------------------------------------- */ -}}
 {{- if eq $t "string" -}}
-  {{- warnf "picture: fallback to <img> (string src, not a Hugo Resource): %q" $srcRaw -}}
+  {{- warnf "picture: fallback to <img> ('string src' is not a Hugo Resource): %q" $srcRaw -}}
   <img
     src="{{ if in (printf "%v" $srcRaw) "://" }}{{ $srcRaw }}{{ else }}{{ (printf "%v" $srcRaw) | relURL }}{{ end }}"
     alt="{{ $alt }}"
