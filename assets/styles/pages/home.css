@@ -52,3 +52,25 @@
   align-items: center;
   transform: translateY(-50%);
 }
+
+#works {
+  margin-top: 5rem;
+  margin-top: var(--size-20);
+  padding-bottom: 2rem;
+  padding-bottom: var(--size-8);
+}
+
+#works > .title-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+  gap: 1.5rem;
+  gap: var(--size-6);
+  padding: 3rem 0;
+  padding: var(--size-12) var(--size-0);
+}
+
+#works > .title-container > h2 {
+  margin: var(--size-0, 0);
+}
