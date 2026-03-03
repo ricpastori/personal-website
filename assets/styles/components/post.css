@@ -53,6 +53,22 @@
   content: '';
 }
 
+@media (max-width: 768px) {
+  .page__cover {
+    margin-bottom: 0;
+    margin-bottom: var(--size-0);
+  }
+
+  .page__cover::after {
+    display: none;
+  }
+
+  .page__header > h1 {
+    margin-top: 3.5rem;
+    margin-top: var(--size-14);
+  }
+}
+
 .post_img {
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   box-shadow: var(--size-0) var(--size-1) var(--size-2) rgba(0, 0, 0, 0.1);

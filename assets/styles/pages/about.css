@@ -5,3 +5,10 @@ html[data-page="/about/"] main {
   padding: 2rem 4rem 5rem;
   padding: var(--size-8) var(--size-16) var(--size-20);
 }
+
+@media (max-width: 480px) {
+  html[data-page="/about/"] main {
+    padding: 1.5rem 2rem 2.5rem;
+    padding: var(--size-6) var(--size-8) var(--size-10);
+  }
+}
