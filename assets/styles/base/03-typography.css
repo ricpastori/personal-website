@@ -138,9 +138,9 @@ pre,
 table,
 figure,
 dl {
-  margin-bottom: 1.25rem;
-  margin-bottom: var(--size-5);
-  margin-block-end: var(--size-5);
+  margin-bottom: 1rem;
+  margin-bottom: var(--size-4);
+  margin-block-end: var(--size-4);
 }
 
 /* Cap long lines in typical copy contexts without requiring a wrapper. */
