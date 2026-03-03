@@ -10,6 +10,9 @@ title = 'Riccardo Pastori blog'
 [mediaTypes."text/html"]
   suffixes = ["html", "gohtml"]
 
+[markup.tableOfContents]
+  startLevel = 2
+
 [params.author]
   name = "Riccardo Pastori"
 

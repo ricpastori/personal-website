@@ -1,0 +1,154 @@
+{{- /*
+Shortcode: toc
+
+Goal:
+- Top-level (start level, default H2) as <ol>
+- Nested levels as <ul>
+- Always exclude id "executive-summary"
+- Promote wrapper nodes (non-renderable) without creating duplicate lists
+- Do NOT promote children of the skipped node
+
+Usage:
+  {{< toc >}}
+  {{< toc title="Contents" start="2" end="4" >}}
+*/ -}}
+
+{{- $title := .Get "title" | default "Contents" -}}
+{{- $start := int (.Get "start" | default "2") -}}
+{{- $end := int (.Get "end" | default "4") -}}
+{{- $skipID := "executive-summary" -}}
+
+{{- $headings := .Page.Fragments.Headings -}}
+
+{{- /* ---------- helpers ---------- */ -}}
+
+{{- define "toc-scan" -}}
+  {{- $items := .items -}}
+  {{- $skipID := .skipID -}}
+  {{- $min := .min -}}
+  {{- $end := .end -}}
+  {{- $s := .scratch -}}
+
+  {{- range $items -}}
+    {{- if eq .ID $skipID -}}
+      {{- /* Skip subtree completely */ -}}
+    {{- else -}}
+      {{- $ok := and
+        (ne (strings.TrimSpace .ID) "")
+        (ne (strings.TrimSpace .Title) "")
+        (ge .Level $min)
+        (le .Level $end)
+      -}}
+      {{- if $ok -}}
+        {{- $s.Set "has" true -}}
+      {{- end -}}
+      {{- with .Headings -}}
+        {{- template "toc-scan" (dict "items" . "skipID" $skipID "min" $min "end" $end "scratch" $s) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Render top-level items (level == start) into the already-open <ol> */ -}}
+{{- define "toc-top-items" -}}
+  {{- $items := .items -}}
+  {{- $skipID := .skipID -}}
+  {{- $start := .start -}}
+  {{- $end := .end -}}
+
+  {{- range $items -}}
+    {{- if eq .ID $skipID -}}
+      {{- /* Skip subtree completely */ -}}
+    {{- else -}}
+      {{- $renderSelf := and
+        (ne (strings.TrimSpace .ID) "")
+        (ne (strings.TrimSpace .Title) "")
+        (eq .Level $start)
+        (le .Level $end)
+      -}}
+
+      {{- if $renderSelf -}}
+        <li class="toc__item toc__item--level-{{ .Level }}">
+          <a class="toc__link" href="#{{ .ID }}">{{ .Title | safeHTML }}</a>
+
+          {{- with .Headings -}}
+            {{- $ss := newScratch -}}
+            {{- $ss.Set "has" false -}}
+            {{- template "toc-scan" (dict "items" . "skipID" $skipID "min" (add $start 1) "end" $end "scratch" $ss) -}}
+            {{- if $ss.Get "has" -}}
+              <ul class="toc__list toc__list--secondary">
+                {{- template "toc-sub-items" (dict "items" . "skipID" $skipID "min" (add $start 1) "end" $end) -}}
+              </ul>
+            {{- end -}}
+          {{- end -}}
+        </li>
+      {{- else -}}
+        {{- /* Promotion: wrapper/out-of-range nodes -> try their children for top-level items */ -}}
+        {{- with .Headings -}}
+          {{- template "toc-top-items" (dict "items" . "skipID" $skipID "start" $start "end" $end) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Render nested items (level >= min) as <li> only; parent already opened a <ul> */ -}}
+{{- define "toc-sub-items" -}}
+  {{- $items := .items -}}
+  {{- $skipID := .skipID -}}
+  {{- $min := .min -}}
+  {{- $end := .end -}}
+
+  {{- range $items -}}
+    {{- if eq .ID $skipID -}}
+      {{- /* Skip subtree completely */ -}}
+    {{- else -}}
+      {{- $renderSelf := and
+        (ne (strings.TrimSpace .ID) "")
+        (ne (strings.TrimSpace .Title) "")
+        (ge .Level $min)
+        (le .Level $end)
+      -}}
+
+      {{- if $renderSelf -}}
+        <li class="toc__item toc__item--level-{{ .Level }}">
+          <a class="toc__link" href="#{{ .ID }}">{{ .Title | safeHTML }}</a>
+
+          {{- with .Headings -}}
+            {{- $nextMin := add .Level 1 -}}
+            {{- $ss := newScratch -}}
+            {{- $ss.Set "has" false -}}
+            {{- template "toc-scan" (dict "items" . "skipID" $skipID "min" $nextMin "end" $end "scratch" $ss) -}}
+            {{- if $ss.Get "has" -}}
+              <ul class="toc__list toc__list--secondary">
+                {{- template "toc-sub-items" (dict "items" . "skipID" $skipID "min" $nextMin "end" $end) -}}
+              </ul>
+            {{- end -}}
+          {{- end -}}
+        </li>
+      {{- else -}}
+        {{- /* Promotion inside nested context: render children as siblings (no extra wrapper) */ -}}
+        {{- with .Headings -}}
+          {{- template "toc-sub-items" (dict "items" . "skipID" $skipID "min" $min "end" $end) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* ---------- render ---------- */ -}}
+
+{{- $rootScan := newScratch -}}
+{{- $rootScan.Set "has" false -}}
+{{- template "toc-scan" (dict "items" $headings "skipID" $skipID "min" $start "end" $end "scratch" $rootScan) -}}
+
+{{- if $rootScan.Get "has" -}}
+<nav class="toc" aria-label="{{ $title }}">
+  <div class="toc__title">{{ $title }}</div>
+  <div class="toc__content">
+    <ol class="toc__list toc__list--primary">
+      {{- template "toc-top-items" (dict "items" $headings "skipID" $skipID "start" $start "end" $end) -}}
+    </ol>
+  </div>
+</nav>
+{{- end -}}
