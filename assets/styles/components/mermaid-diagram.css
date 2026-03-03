@@ -8,7 +8,7 @@
   overflow-y: hidden;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 672px) {
   .diagram--mermaid { overflow-x: auto; }
 }
 
@@ -32,7 +32,7 @@
   height: auto;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 672px) {
   .diagram--mermaid svg {
     max-height: 80vh;
   }

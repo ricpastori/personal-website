@@ -124,7 +124,7 @@
   font-size: var(--text-sm);
 }
 
-@media (max-width: 576px) {
+@media (max-width: 672px) {
   .project-card {
     height: fit-content;
   }
