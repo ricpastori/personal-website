@@ -2,6 +2,11 @@ baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'Riccardo Pastori blog'
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [mediaTypes."text/html"]
   suffixes = ["html", "gohtml"]
 
