@@ -21,12 +21,7 @@ status: "shipped"
 
 BePeople was building a minimal AI-driven BI platform where users could generate dashboards through natural language. The vision was clarity and speed — not feature density.
 
-{{< meta-row
-  role="UX/UI Designer & Engineer"
-  duration="Mar 2024 - Oct 2024"
->}}
-- 1 UX/UI Designer
-{{< /meta-row >}}
+{{< toc title="Contents" debug="true" >}}
 
 The complexity did not come from scale, but from volatility. Workflows were designed to remain tight and coherent, yet incremental feature requests continuously threatened that balance. Small additions risked reshaping navigation, fragmenting interaction patterns, and eroding structural clarity.
 
@@ -34,17 +29,22 @@ Under time pressure and without formal research or analytics, the system needed 
 
 The Command Palette was introduced not as a convenience feature, but as interaction infrastructure: a deterministic routing layer capable of integrating new capabilities while preserving the integrity of the interface.
 
-## 1. Minimalism under volatility
+{{< meta-row
+  role="UX/UI Designer & Engineer"
+  duration="Mar 2024 - Oct 2024"
+>}}
+- 1 UX/UI Designer
+{{< /meta-row >}}
 
-### A system designed to stay narrow
+## Minimalism under volatility
 
 BePeople was a SaaS platform that allowed business users to query their company data in natural language and automatically generate analytical widgets inside shared workspaces. Instead of building dashboards manually, users could describe what they wanted to see and receive a structured visualization in return.
 
-The product was intentionally minimal. It avoided deep configuration panels and dense control systems, favoring directness between intent and result.
+### A system designed to stay narrow
 
-The promise was simple:
+The product was intentionally minimal. It avoided deep configuration panels and dense control systems, favoring directness between intent and result. The promise was simple:
 
-*Ask for the data. See the result.*
+> *Ask for the data. See the result.*
 
 Workflows were designed to remain tight and predictable.
 Navigation was not meant to scale through additional menus, but through clarity.
@@ -100,7 +100,7 @@ The Command Palette did not emerge in a vacuum. Its design was shaped by explici
    Feature requests were frequently introduced after workflows had been structured. The interaction system had to tolerate incremental additions without requiring repeated navigation redesign.
    This constraint directly influenced the decision to treat the Command Palette as extensible infrastructure rather than as a convenience shortcut.
 
-## 2. Command as a scaling mechanism
+## Command as a scaling mechanism
 
 The introduction of a Command Palette was not motivated by aesthetic preference or trend alignment. It represented a deliberate shift in how access to system functionality was organized.
 
@@ -159,7 +159,7 @@ The following chapter details how this principle was implemented through determi
 
 ![Collage of command palettes from Spotlight, VSCode, Raycast and Replit](/command_palettes-collage.png "Centralized command surfaces across different products showing similar structural patterns.")
 
-## 3. Deterministic routing architecture
+## Deterministic routing architecture
 
 The Command Palette was implemented as a deterministic routing system fully managed on the frontend. The objective was not to introduce semantic inference for operational commands, but to design an explicit and scalable interaction architecture capable of evolving alongside the product.
 
@@ -366,7 +366,7 @@ This routing model provides several structural advantages:
 At the architectural level, the system is explicit, structural, and user-controlled.
 Perceived intelligence emerges from structured option surfacing and feedback clarity rather than from routing inference.
 
-## 4. Ranking and structured discoverability
+## Ranking and structured discoverability
 
 Before any deterministic path unfolds, the system must decide what surfaces.
 Visibility is not neutral — it is computed.
@@ -490,7 +490,7 @@ Fuzzy scoring remains unchanged, but it runs only within the currently generated
 
 ![Sequential parameter selection within the Edit command flow](/edit_example.png "Context-specific list generation during deterministic routing.")
 
-## 5. Execution clarity and perceptual stability
+## Execution clarity and perceptual stability
 
 Centralizing interaction into a single command surface simplifies structure.
 It does not automatically simplify perception.
@@ -587,7 +587,7 @@ actions are centralized, but their consequences remain spatially distributed.
 
 Perceptual anchoring requires more than confirmation — it requires relocation or highlighting of the affected object, which the current implementation does not fully provide.
 
-## 6. Designing under constraints and the resulting trade-offs
+## Designing under constraints and the resulting trade-offs
 
 The Command Palette did not emerge in isolation.
 
