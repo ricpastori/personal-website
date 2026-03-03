@@ -1,257 +1,687 @@
 ---
-title: "Designing a Command Palette between ambitious visions and real constraints"
+title: "Command as infrastructure - Designing for stability under volatility"
 date: 2026-01-21T10:00:00Z
 draft: true
 eyebrow: "BePeople"
-description: "What does a year of Arctic weather feel like when the sun disappears and reappears in extremes?"
+description: "Command-based interaction infrastructure to absorb product volatility without expanding UI complexity."
 image: "thumb.png"
 
-start: 2024-06-01
-end: 2025-01-01
+start: 2024-03-01
+end: 2024-10-01
 status: "shipped"
 ---
 
-BePeople is a SaaS platform that allows complex data to be analyzed using semantic queries, transforming natural language into SQL thanks to OpenAI technology. In a context where speed is everything, the CEO wanted a “talking” interface where users could give instructions directly from a search bar. However, we were faced with reality: zero budget for user research, very tight deadlines to cover development delays, and the technical impossibility of adding additional layers of artificial intelligence or NLP. The challenge was therefore to create a Command Palette that simulated that intelligence through a logical and functional design, based exclusively on academic data and industry benchmarks.
+### Executive Summary
+
+- Designed a deterministic command-based interaction layer to stabilize navigation under roadmap volatility.
+- Implemented a context-aware frontend routing tree with explicit execution rules.
+- Built a weighted similarity ranking system with multilingual alias isolation.
+- Structured coexistence between NLP-driven generation and deterministic operational control.
+- Delivered without analytics instrumentation or formal research cycles.
+
+BePeople was building a minimal AI-driven BI platform where users could generate dashboards through natural language. The vision was clarity and speed — not feature density.
 
 {{< meta-row
   role="UX/UI Designer & Engineer"
-  duration="Sep 2023 - Jul 2025"
+  duration="Mar 2024 - Oct 2024"
 >}}
 - 1 UX/UI Designer
 - 1 Product Manager
 - 1 CEO
-- 6 Developers
 {{< /meta-row >}}
 
-## The Need – Speed, vision, and realism
+The complexity did not come from scale, but from volatility. Workflows were designed to remain tight and coherent, yet incremental feature requests continuously threatened that balance. Small additions risked reshaping navigation, fragmenting interaction patterns, and eroding structural clarity.
 
-### The context: What is BePeople?
+Under time pressure and without formal research or analytics, the system needed a way to absorb change without constant redesign.
 
-BePeople is not just a simple data analysis tool; it is an advanced SaaS system that allows users to query complex databases using natural language. Leveraging OpenAI technology, the platform translates user questions into SQL queries based on the database schema, without the AI directly accessing sensitive data. The results are then displayed in widgets (graphic cards) within shareable workspaces.
+The Command Palette was introduced not as a convenience feature, but as interaction infrastructure: a deterministic routing layer capable of integrating new capabilities while preserving the integrity of the interface.
 
-![BePeople Dashboard](/bepeople_dashboard.png "BePeople Dashboard")
+## 1. Minimalism under volatility
 
-### The CEO's vision: A “remote control” for data
+### A system designed to stay narrow
 
-The ambition behind the Command Palette (internally referred to as Power Bar or CoPilot) was to make the analytics experience similar to a conversation with ChatGPT. The CEO envisioned a single entry point where the user could not only search for data, but literally “command” the interface: create a desk, share a report, or duplicate a widget without ever touching the mouse. The idea was that the bar would automatically generate or modify the interface based on the inputs provided.
+BePeople was a SaaS platform that allowed business users to query their company data in natural language and automatically generate analytical widgets inside shared workspaces. Instead of building dashboards manually, users could describe what they wanted to see and receive a structured visualization in return.
 
-### The clash with reality: Constraints
+The product was intentionally minimal. It avoided deep configuration panels and dense control systems, favoring directness between intent and result.
 
-Despite the “AI-first” vision, the team faced concrete challenges that redefined the scope of the project:
+The promise was simple:
 
-- **Technical and Budgetary Constraints:** To contain costs and complexity, it was decided not to introduce an additional layer of artificial intelligence or NLP specific to navigation. The bar had to be “intelligent” in logic, but not in computational cost.
-- **Suffocating Time-to-Market:** Design was used as a “buffer” for delays by the development team. With very tight deadlines, it was not possible to conduct user testing or field research (zero budget).
-- **Fragmented navigation:** BePeople is a rapidly evolving product. Traditional navigation was becoming cumbersome, and a way was needed to “skip” the linear information architecture, shortening the user's path.
+*Ask for the data. See the result.*
 
-````mermaid
+Workflows were designed to remain tight and predictable.
+Navigation was not meant to scale through additional menus, but through clarity.
 
-graph TD
-    %% Styling
-    classDef primary fill:#f96,stroke:#333,stroke-width:2px;
-    classDef logic fill:#bbf,stroke:#333,stroke-width:1px;
-    classDef fallback fill:#dfd,stroke:#333,stroke-dasharray: 5 5;
+The system was not complex by volume.
+It was intentionally narrow by design — and therefore sensitive to incremental change.
 
-    Start([User Input Cmd+K]) --> Process[Universal Fuzzy Search & Scoring]
-    
-    subgraph ParallelFiltering [Parallel Filtering]
-        Process --> C_Idx[(Command Registry + Aliases)]
-        Process --> W_Idx[(Workspace & Widget Index)]
+![BePeople dashboard with multiple analytical widgets inside a workspace](/bepeople_dashboard.png "Workspace containing multiple analytical widgets generated from semantic queries.")
+
+### Incremental change as structural risk
+
+Complexity emerged not from feature breadth, but from continuous incremental requests.
+
+After a workflow had been carefully shaped, new variations would be introduced:
+
+- an additional export format,
+- a new visualization mode,
+- an alternative workspace type,
+- a shortcut for an admin debug feature,
+- a special case requested by a specific client.
+
+Each addition was small.
+Individually reasonable.
+Collectively destabilizing.
+
+Redesigning navigation every time a new function appeared would have gradually eroded coherence. Adding visible controls for each variation would have expanded the interface surface and fragmented interaction patterns.
+
+The problem was not scale.
+It was entropy.
+
+### Constraints as architectural drivers
+
+The Command Palette did not emerge in a vacuum. Its design was shaped by explicit technical and organizational constraints.
+
+1. **No operational NLP layer**
+   Because the platform already relied on GPT to translate natural language into SQL for data generation, we initially explored the possibility of extending natural language parsing to operational commands (e.g., “share this workspace with marketing”, “duplicate last month’s report and export as CSV”).
+   However, introducing a second NLP layer for routing operational intent would have required:
+      - additional backend orchestration,
+      - state synchronization between UI context and language parsing,
+      - ambiguity resolution strategies,
+      - significantly increased architectural complexity.
+
+   Given time pressure and infrastructure limitations, this approach was rejected.
+   The Command Palette therefore had to remain deterministic.
+   Intent recognition for operations was handled through explicit command structures and contextual filtering, not semantic interpretation.
+
+2. **No instrumentation or research loop**
+   The product lacked a tracking layer and formal research cycles. There was no reliable quantitative feedback to iteratively validate interaction changes.
+   This increased the importance of predictability and structural clarity: the system needed to behave consistently even without behavioral analytics to refine it post-release.
+
+4. **Volatile roadmap and incremental expansion**
+   Feature requests were frequently introduced after workflows had been structured. The interaction system had to tolerate incremental additions without requiring repeated navigation redesign.
+   This constraint directly influenced the decision to treat the Command Palette as extensible infrastructure rather than as a convenience shortcut.
+
+## 2. Command as a scaling mechanism
+
+The introduction of a Command Palette was not motivated by aesthetic preference or trend alignment. It represented a deliberate shift in how access to system functionality was organized.
+
+The core question was not how to improve navigation, but how to prevent it from growing as the product evolved.
+
+### From spatial expansion to centralized access
+
+Graphical interfaces typically scale through spatial expansion. As functionality increases, new controls are added: buttons, contextual menus, panels, nested sections. This model is effective when the feature set is stable, but it becomes fragile when the system is subject to continuous incremental change.
+
+Research in human-computer interaction has long highlighted this tension. In [*The next UI breakthrough: Command lines (2007)*](https://dl.acm.org/doi/pdf/10.1145/1242421.1242449?utm_source=chatgpt.com), Don Norman observes that while graphical interfaces improved usability by emphasizing recognition over recall, they tend to accumulate visible complexity as systems grow. Command-style interaction re-emerges in such contexts not as nostalgia for the CLI, but as a compression mechanism: a way to centralize access without multiplying visual entry points.
+
+This perspective aligned with the structural needs of BePeople. The objective was not to eliminate hierarchy or remove graphical affordances, but to introduce a parallel layer capable of concentrating interaction entry into a single, consistent surface.
+
+![Blender interface with multiple nested menus and dense control panels](/blender-open_menu.png "High-density interface illustrating spatial complexity in feature-rich systems.")
+
+### A hybrid model: recognition supported by recall
+
+The Command Palette was conceived as a hybrid interaction layer.
+
+Typing serves as an entry mechanism that reduces the available action space. However, the system does not rely on memorized syntax or strict command grammar. Instead, structured lists, grouping, contextual filtering, and iconography support recognition once the narrowing process begins.
+
+In this sense, recall initiates interaction, while recognition resolves it.
+
+| Dimension | GUI | CLI | Command Layer |
+|---|---|---|---|
+| **Interaction logic** | <ul><li>Recognition via visible controls</li><li>Spatial navigation</li></ul> | <ul><li>Recall-based syntax</li><li>Sequential execution</li></ul> | <ul><li>Typed narrowing</li><li>Explicit structured resolution</li></ul> |
+| **Discoverability** | <ul><li>Menus & visible affordances</li></ul> | <ul><li>Hidden capabilities</li></ul> | <ul><li>Suggestion list</li><li>Alias matching</li></ul> |
+| **Density model** | <ul><li>Distributed controls</li></ul> | <ul><li>Compact syntax</li></ul> | <ul><li>Compressed action surface</li><li>Long-form support</li></ul> |
+| **Scalability under volatility** | <ul><li>New features → new UI</li></ul> | <ul><li>Extend syntax</li></ul> | <ul><li>Extend routing tree</li></ul> |
+
+This balance was essential. BePeople’s users were not expected to learn command vocabularies, nor to navigate deep interface trees for routine operations. The palette provides a compressed access surface without abandoning the affordances of graphical interaction.
+
+The decision to preserve a sequential command structure was also influenced by keyboard-first interaction clarity. Maintaining a deterministic progression simplified focus management and ensured consistent navigation without introducing graph-like complexity. Flexibility was intentionally constrained in favor of structural predictability.
+
+### Separating generative and operational intent
+
+Another strategic consideration concerned the coexistence of two distinct interaction domains within the same surface.
+
+On one side, the platform already supported natural language for data generation. Users could describe analytical needs and rely on a semantic pipeline to produce structured visualizations. This domain tolerates ambiguity and probabilistic interpretation.
+
+On the other side, operational actions such as sharing, duplicating, editing, or exporting require explicit structural resolution. Ambiguity in this context introduces risk rather than flexibility.
+
+Rather than extending semantic interpretation to all commands, the design maintained a conceptual separation:
+- natural language processing for generative actions,
+- deterministic routing for operational control.
+
+This separation ensured that perceived intelligence did not compromise structural predictability.
+
+### Compression as a structural principle
+
+The Command Palette was therefore not treated as a productivity enhancement or shortcut layer. It was conceived as a structural compression mechanism.
+
+By centralizing action entry into a single surface, the system gained a stable integration point for future capabilities. New commands could be introduced without expanding visible navigation or restructuring interface layout. The palette became a controlled extensibility layer rather than an optional convenience.
+
+The following chapter details how this principle was implemented through deterministic, context-aware routing in the frontend architecture.
+
+![Collage of command palettes from Spotlight, VSCode, Raycast and Replit](/command_palettes-collage.png "Centralized command surfaces across different products showing similar structural patterns.")
+
+## 3. Deterministic routing architecture
+
+The Command Palette was implemented as a deterministic routing system fully managed on the frontend. The objective was not to introduce semantic inference for operational commands, but to design an explicit and scalable interaction architecture capable of evolving alongside the product.
+
+Although deeper backend orchestration was initially considered, the final solution deliberately centralized command logic in the browser. This ensured faster iteration and reduced dependency on backend prioritization.
+
+````mermaid {caption="The command tree visualizes how every user interaction is mapped as a deterministic path from root commands to specific parameters."}
+
+%%{init: {
+  "flowchart": { "defaultRenderer": "elk", "htmlLabels": false },
+  "elk": {
+    "algorithm": "layered",
+    "direction": "TB",
+    "edgeRouting": "ORTHOGONAL",
+    "spacing": { "nodeNode": 8, "edgeEdgeMin": 4, "edgeNodeMin": 4, "componentComponent": 8 },
+    "layered": {
+      "spacing": { "nodeNodeBetweenLayers": 8, "edgeNodeBetweenLayers": 4 },
+      "crossingMinimization": { "strategy": "LAYER_SWEEP" },
+      "nodePlacement": { "strategy": "NETWORK_SIMPLEX" }
+    }
+  },
+  "themeVariables": { "fontSize": "18px" }
+}}%%
+
+flowchart TB
+
+    subgraph Discovery [Phase 1: Input & Ranking]
+        U(["User: Type input"]) --> CTX["Frontend: read UI context"]
+        CTX --> R["Frontend: filter + score commands and Search item"]
+        R --> LIST["User: select ranked item"]
     end
 
-    C_Idx & W_Idx --> Decision{Match Found?}
+    subgraph Processing [Phase 2: Deterministic Routing]
+        LIST --> TYPE{"Selected item"}
+        TYPE -->|"Operational command"| TREE["Frontend: navigate decision tree"]
+        TYPE -->|"Search item (semantic query)"| BACK["Backend: NL → SQL via GPT"]
 
-    Decision -- "Yes (> Threshold)" --> UI_Results[Display Filtered Categories]
-    UI_Results --> UserSelection{User Selection}
-    
-    UserSelection -- "Command" --> ExecAction[Action Execution / GraphQL Mutation]
-    UserSelection -- "Workspace" --> NavWS[Navigation to Workspace URL]
+        TREE --> P{"Parameters resolved?"}
+        P -->|"No"| ASK["User: resolve parameter(s)"]
+        ASK --> CTX
+        P -->|"Yes"| CONF{"Confirmation required?"}
+    end
 
-    Decision -- "No / Low Score" --> SemanticFallback[<b>Semantic Fallback Mode</b>]
-    SemanticFallback --> GPT_Engine[GPT-3 Codex: NL to SQL Conversion]
-    GPT_Engine --> DataWidget[Analytical Widget Rendering]
+    subgraph Execution [Phase 3: Explicit Execution]
+        CONF -->|"Yes"| SUB["User: confirm action"]
+        CONF -->|"No"| EXEC_TRIGGER["Selection triggers execution"]
 
-    ExecAction & NavWS & DataWidget --> Feedback([Visual Feedback / Notification])
+        SUB --> EXEC
+        EXEC_TRIGGER --> EXEC
+        BACK --> EXEC
 
-    class Start,Feedback primary;
-    class Decision,Process logic;
-    class SemanticFallback fallback;
+        EXEC["Execute action (API call)"] --> FEED["Frontend: show toast feedback"]
+        FEED --> DONE(["Done"])
+    end
 
 ````
 
-### The strategy: Evidence-based design
+### Context-aware command surface
 
-In the absence of direct user research, we turned to industry benchmarks and academic research. We drew inspiration from established patterns such as Repl.it's CLUI, macOS Spotlight, and VSCode's command palette. These systems demonstrate how a search bar can become the ultimate productivity tool, balancing the power of the command line with the intuitiveness of a graphical interface.
+The command surface is not static. The set of available operational commands depends on the current UI context.
 
-[INSERT IMAGE 3: Benchmarks and Inspiration] Use one of the Repl.it CLUI GIFs or the Framer image to show the reference models that guided the design in the absence of user testing.
+Two primary states influence availability:
+- Homepage
+- Inside a Workspace
 
-## Strategy – Designing with academic research
+When the user is on the Homepage:
+- Only workspace-level commands are exposed.
+- Widget-level operations are not available.
 
-In the absence of a budget for UX research, the design was not based on mere conjecture, but on a solid analysis of industry benchmarks and established theories of human-computer interaction [User Query]. The goal was to create a system that was not just a search bar, but a hybrid between a graphical user interface (GUI) and a command line interface (CLI).
+When the user is inside a Workspace:
+- Workspace-level commands remain available.
+- Widget-level commands are introduced.
+- Some commands alter their behavior depending on scope.
 
-### 1. The rebirth of the command line (CLI)
+This context-based pruning prevents irrelevant operations from surfacing and ensures that routing begins from a structurally valid command set.
 
-We embraced Don Norman's vision that command line interfaces, once considered obsolete, have made a strong comeback in the form of search bars because traditional GUIs can no longer scale with the complexity of modern systems. Professional products such as Adobe Premiere are often so feature-rich that they become inaccessible; in these cases, search becomes the only way to avoid getting lost in endless nested menus. At BePeople, we wanted to avoid this “cognitive overload” by centralizing every action in a single place: the Power Bar.
+```mermaid {caption="Command availability and behavior adapt to application context."}
 
-### 2. Peer analysis: From Spotlight to Repl.it
+flowchart TD
+    State["UI Context"] -->|Homepage| HomeCmd["Workspace Commands"]
+    State -->|Workspace| WsCmd["Workspace + Widget Commands"]
 
-Our research focused on successful models that have already solved the problem of complex navigation:
+    HomeCmd --> DupHome["Duplicate → Select Workspace(s)"]
+    WsCmd --> DupWs["Duplicate → (Workspace) or (Widget List)"]
 
-- Spotlight (macOS) and VSCode: Universal mental models that users already know and know how to activate (Cmd+K).
-- Repl.it's CLUI: A key reference point that blends the conciseness of the CLI with the approachability of the GUI. From this, we learned that every command can be viewed as a path (similar to a URL) and that the interface can be dynamically generated from data.
-- Microsoft Codex-CLI: An example of how to transform natural language into executable commands while maintaining granular control via shortcuts.
+```
 
-[INSERT IMAGE 4: Examples of Command Palette (Spotlight/VSCode)] A collage showing these famous interfaces to give the reader an understanding of the visual and functional references that guided the project.
+![Context-dependent command set: Homepage and Workspace state comparison](/context_shift_comparison.png "Context-based pruning ensures structural validity: the command surface exposes only actions that are meaningful within the current UI state.")
 
-### 3. Balancing “recognition” and "recall"
+### Root-level architecture: parallel intent groups
 
-One of the theoretical pillars of the project was overcoming the main limitation of old CLIs: the need to memorize commands (“Recall”). Thanks to the implementation of Fuzzy Search and autocomplete, we transformed interaction into an exercise in recognition. Users do not have to remember the exact term: the system “meets them halfway” by suggesting relevant commands even in the presence of spelling errors or synonymous terms.
+At the root level, the palette does not immediately descend into a command tree. Instead, it evaluates three structural groups in parallel — but not symmetrically.
 
-### 4. The strategic objective: Discoverability and Productivity
+These groups are not alternative interpretations of intent. They represent distinct structural entry points into the system.
 
-Without being able to interview users, we designed for two archetypes:
+The three root-level groups are:
 
-- The new user: The Power Bar is used to discover features (Discoverability) that would otherwise remain hidden in secondary menus
-- The Power User: The bar becomes an extremely efficient tool, allowing complex tasks to be performed with very few keystrokes, bypassing the linear architecture of the site.
+1.	*New widget* — a persistent creation action embedding the input string; selecting it generates a new widget.
+2.	Operational commands — actions such as Share, Delete, Edit, Export.
+3.	Workspaces — existing entities that can be opened directly.
 
-[INSERT IMAGE 5: Study of element states (from Command group items.pdf)] Include details of “Item states” (Idle, Hover, Clicked) or “Group Variants.” This image serves to demonstrate that, despite the speed of the project, meticulous care was taken in defining how the user perceives the system's feedback.
+*New widget* is always structurally available as long as input exists.
+It does not depend on the presence of pre-existing entities.
 
-## The soul of the bar – logic and architecture
+The system does not classify user intent at this stage.
+It exposes structurally valid possibilities and waits for explicit user selection.
 
-The heart of the design challenge was to answer a fundamental question: how can we allow the user to “command” the interface without a natural language processing (NLP) system? The answer was to transform the Power Bar into a branching logic engine, capable of guiding the user through a predefined but extremely fast path.
+Hierarchy begins only after a command is chosen.
 
-### 1. Logic: The Decision Tree
+```mermaid {caption="Parallel intent groups compete structurally; hierarchy begins only after explicit user selection."}
 
-At a high level, we designed CoPilot not as a simple list of results, but as a flowchart or decision tree. The user begins their interaction at the “root” (the empty bar) and, as they type, gradually descends along the branches of commands. This approach, technically similar to a depth-first search, allows you to arrive at a complete and complex command through a series of quick selections.
-Unlike a traditional drop-down menu, the search is integrated into each step: the user does not have to limit themselves to clicking, but can “jump” directly to nested subcommands if they know the name, just like in macOS Spotlight.
+flowchart TB
 
-[INSERT IMAGE 6: Logical flowchart] Use the Mermaid diagram in the sources showing the User -> Share/Refresh/Search path. It is the perfect image to visually explain the tree structure of the bar.
+    Input["User types input"]
 
-### 2. The technical engine: GraphQL and Introspection
+    Input --> NW["New widget\n(creation action)"]
+    Input --> Cmd["Operational Commands"]
+    Input --> Ws["Workspaces"]
 
-To make the system scalable and avoid having to manually map every single button in the app, we leveraged the power of our GraphQL backend. Using introspection queries, the system is able to automatically generate the command tree by mapping them to their respective functions. In simple terms: every time developers add a feature to the backend, it can potentially become a command in the bar with minimal effort, making the system extremely flexible and “future-proof.”
+    NW --> Select["User selects item"]
+    Cmd --> Select
+    Ws --> Select
 
-### 3. Commands as URLs: Non-linear navigation
+    Select --> Route{"Item type?"}
 
-We treated each CoPilot command as if it were a file path or URL. A complete command (e.g., Desktop > Share > User) is seen by the system as a hierarchical string. This approach has a huge advantage in terms of UX: it shortens the user's path, allowing them to “skip” the linear architecture of information. It is no longer necessary to physically navigate to a page to perform an action; the Power Bar acts as an instant portal.
+    Route -->|New widget| ExecNA["Send NL query → Generate widget"]
+    Route -->|Command| Tree["Enter deterministic decision tree"]
+    Route -->|Workspace| Open["Open selected workspace"]
 
-### 4. Atomic Components: Command Group Items
+```
 
-To give shape to this logic, we defined an extremely detailed library of atomic components. These are not just lines of text, but specific Item Variants for each type of interaction:
+### Deterministic decision tree, execution rules and state management
 
-- Command Items: For direct actions.
-- Select/Multi-select Group: To choose one or more recipients (for example, when sharing).
-- Submit Items: For confirming the final operation.
-- Prompter Group: For suggesting previous searches or common parameters.
+Once an operational command is selected, the system transitions into a structured decision tree. Each node represents an explicit parameter. Branching depends on:
 
-Each element has been designed with clear states (Idle, Hover, Clicked) to ensure that the user receives immediate feedback while “descending” the command tree.
+- the selected command,
+- the current UI context,
+- previously resolved parameters.
 
-[INSERT IMAGE 7: Anatomy of components] Use excerpts from the “Command group items” PDF to show the variety of items (Default, Pushed, Selected) and groups (Multi-select, Single element). This shows the attention to detail in the design system.
+The same command may generate different branches depending on context. For example the command *Duplicate*:
 
-## Making complexity invisible – UX and logical “intelligence”
+- From the Homepage → The user selects one or more workspaces to duplicate.
+- From inside a Workspace → The user can:
+  - duplicate the entire workspace, or
+  - duplicate selected widgets into the current workspace.
 
-The true success of a Command Palette depends not only on what it can do, but how well it can interpret the user's intentions. Since technical constraints prevented us from implementing a natural language processing (NLP) system, we had to simulate this intelligence through rigorous UX logic and a flexible search system.
+This context-driven branching is handled deterministically by reading UI state and selecting the appropriate path in the tree.
 
-### 1. Fuzzy Search: Be Forgiving
+Parameter resolution proceeds sequentially. At each step:
 
-Nothing interrupts workflow like a typo that blocks a search. We implemented fuzzy search algorithms to make the bar “forgiving but accurate.” The system is designed to return correct results even if the user:
+- a context-specific list is generated,
+- the user selects the next parameter,
+- unrelated branches are structurally excluded.
 
-- Makes spelling mistakes;
-- Ignores case differences;
-- Uses only part of the word.
+Execution follows explicit structural rules:
 
-The goal was to ensure that the user never feels frustrated by an unsuccessful search, encouraging them to use the bar as their primary navigation tool.
+- **Single-selection terminal nodes:** Execution occurs immediately upon final selection.
+- **Multi-selection flows:** Selections are accumulated and execution requires explicit confirmation.
 
-[INSERT IMAGE 8: Example of a search with an error (from Search.png)] Use a screenshot of Search.png showing the user typing part of a command and the bar suggesting the correct options. This demonstrates the system's tolerance.
+In all cases, execution is user-triggered. There is no autonomous submission.
 
-### 2. Aliases and Synonyms: Mapping Mental Models
+````mermaid {caption="Sequential routing with context-driven list generation and explicit execution behavior."}
 
-Every user has a different way of referring to the same action. A novice might search for “change,” while an expert would search for “edit.” To solve this problem, we mapped each command with a series of aliases and alternative terms. When a user types in a synonym, the Power Bar displays the official command alongside the alias searched for, using a syntax such as Title (Alias). This not only helps the user find what they are looking for, but also gradually educates them on the standard terminology of the product.
+flowchart TD
 
-### 3. Scoring and Relevance: The Order of Things
+    Command["Selected Command"] --> ContextLogic["Context-driven branch selection"]
 
-Not all commands are equally important. To ensure that users immediately find the most likely option, we introduced a scoring system:
+    ContextLogic --> ParamList["Generate context-specific list"]
 
-- Priority scale: Each command has a multiplier that increases or decreases its score based on popularity or importance.
-- Logical sorting: If a user types “widget,” the system prioritizes creating or editing a widget over less common commands, regardless of character matching.
+    ParamList --> More{"More parameters required?"}
+    More -->|Yes| Resolve["User selects parameter"]
+    Resolve --> More
 
-### 4. Context Awareness
+    More -->|No| ExecRule{"Single or Multi selection?"}
 
-The Power Bar is designed to be context-aware. Although most commands are available everywhere, some specific actions (such as Share or Reload) only make sense within a Desk. In these cases, the system reacts in two ways:
+    ExecRule -->|Single| Execute["Execute on final selection"]
+    ExecRule -->|Multi| Confirm["Manual confirmation required"]
 
-1. It hides commands that are completely irrelevant to reduce visual noise.
-2. It increases the score of commands relevant to the current context, bringing them to the top of the results.
+    Confirm --> Execute
+    Execute --> Feedback["Toast feedback"]
 
-[INSERT IMAGE 9: Contextual commands (from Share - Internal.png)] Use a sequence of Share - Internal.png or Edit - Internal.png to show how the bar displays specific options for sharing or editing only when the user is in the right operating context.
+````
 
-### 5. Feedback and Confirmation
+Execution feedback is currently implemented through toast notifications. While sufficient for confirming API success or failure, more robust object-level anchoring mechanisms — including contextual highlighting and automatic relocation to affected elements — were designed but not fully implemented.
 
-In a system without NLP, it is essential that the user always knows whether a command has been executed. We have implemented immediate visual feedback, such as toast notifications or status animations, to confirm execution or report errors, ensuring that the interaction never feels like a “black box.”
+Multi-selection flows require persistent state visibility. Two mechanisms support this:
 
-## Aesthetics and feedback – The interface in action
+- Pinning — selected items remain visible in a dedicated area.
+- Exclusion from filtering — selected items are removed from the active result pool to prevent duplication.
 
-If logic and architecture represent the “brain” of the Power Bar, design and feedback system constitute its “character.” In a system that aims for maximum productivity, the interface must be not only clean but also extremely communicative: the user must know at all times what they have selected and what will happen after the next click.
+This allows iterative refinement of a selection set without losing clarity of the operation’s current state.
 
-### 1. Command Anatomy: Icons and Aliases
+![UI detail showing a selected item pinned at the top and removed from the search list](/pinning_example.png "The pinning and selection logic ensures that chosen items are moved to the top and excluded from active filtering to streamline operations.")
 
-To make the palette visually stimulating and facilitate quick recognition, each command has been accompanied by a distinctive icon. This not only differentiates actions, but also helps the user make quick mental connections without having to read every line of text.
-A key element of the results design is the management of synonyms. When the user types an alias, the system displays both the official name of the command and the searched term in parentheses, with a syntax such as: Command title (Alias). This choice educates the user on the standard terminology of the product, while reassuring them as to why that result appeared.
+### Architectural properties
 
-[INSERT IMAGE 10: Results Design and Aliases] Use a detail of the search results (e.g., from Search.png) where you can see an icon next to the text and, if possible, the syntax with the alias in parentheses.
+This routing model provides several structural advantages:
 
-### 2. States and Variants: An Atomic Design System
+- context-aware command availability
+- deterministic branching without inference
+- predictable execution behavior
+- scalable extension through new tree nodes
+- coexistence of operational and semantic intent
 
-Despite the pressure to meet deadlines, we designed a meticulous component library to ensure consistency in every interaction. Each bar item responds to specific states:
+At the architectural level, the system is explicit, structural, and user-controlled.
+Perceived intelligence does not originate from routing logic itself, but from how options surface and how execution feedback reconnects action with effect.
 
-- Idle: Neutral state when the item is active and ready.
-- Hover: Visual feedback when the mouse hovers over the item to indicate interactivity.
-- Clicked/Pushed: Immediate confirmation of the selection made.
+## 4. Ranking and structured discoverability
 
-We also created variants to handle different operational needs, such as the Select-all Item for bulk actions on user groups or the Submit Item with a check icon for final confirmation of the operation.
+Before any deterministic path unfolds, the system must decide what surfaces.
+Visibility is not neutral — it is computed.
 
-[INSERT IMAGE 11: Item States and Variants] Use extracts from the PDF “Command group items” showing the status grid (Idle, Hover, Clicked) and variants (Pushed, Submit, Multi-select). This demonstrates the depth of the UI work.
+The Command Palette does not interpret intent. It evaluates structural similarity between the input string and the available candidates, filters weak matches, and orders the remaining results.
 
-### 3. Feedback on Execution: Closing the Loop
+Discoverability and action generation are therefore governed by weighted similarity — not semantic inference.
 
-The user should never be left wondering whether a command has been successful. We have integrated a clear and immediate feedback system:
+### Similarity model & threshold filtering
 
-- Visual Indicators: Highlighting or background animations during the transition between branches of the command tree.
-- Notifications (Toast): Once the action is complete (e.g., “Desk successfully shared”), a pop-up notification appears confirming the operation or reporting any errors.
+Each candidate — operational command or workspace — is evaluated using fuzzy similarity across its label and alias set. Matching is continuous rather than binary, producing a score that reflects structural closeness to the input.
 
-[INSERT IMAGE 12: Example of Success Notification] Use the last slide of Share - Internal.png or Delete - Internal.png showing the small confirmation popup in the upper right corner after the command is executed.
+To preserve precision and prevent noise, a minimum score threshold is applied. Candidates below this cutoff are excluded from rendering entirely. Only items exceeding the threshold are allowed to surface within their respective group.
 
-### 4. Advanced Shortcuts: Prefixes and Special Syntax
+Root-level groups remain structurally stable.
+*New widget*, operational commands, and workspaces are not reclassified based on inferred intent; they are evaluated independently within fixed group boundaries.
 
-For “Power Users” who want to skip the more verbose steps (such as navigating through dozens of widgets), we have provided the use of special prefixes:
+The ranking pipeline is intentionally simple:
 
-- “@”: To instantly navigate to a specific widget or desk (e.g., @Marketing).
-- “?”: To activate pure “Data Search” mode, separating it from the interface's operational commands. In addition, as you type, the text corresponding to the query is highlighted within the results to draw the user's attention to the relevant part of the option.
+1. Similarity computation
+2. Threshold filtering
+3. Ordered rendering
 
-## Conclusions – What we learned “under siege”
+````mermaid {caption="Similarity scoring and threshold filtering applied independently to fixed root-level groups without intent reclassification."}
 
-The launch of the Power Bar marked a turning point for the BePeople user experience. What started out as an almost impossible challenge — creating a “smart” interface without a research budget and without an additional layer of AI — turned into one of the most appreciated features of the platform.
+flowchart TB
 
-### 1. The Results: Productivity and Scalability
+    Input["Input string"]
 
-The introduction of the Command Palette brought tangible benefits to both users and the development team:
+    Input --> Cmd["Operational Commands"]
+    Input --> Ws["Workspaces"]
+    Input --> NW["New widget\n(persistent creation action)"]
 
-- Operational efficiency: By providing a single point of quick access (Cmd+K), we enabled users to complete complex tasks with dramatically fewer clicks and keystrokes.
-- Non-linear navigation: The bar allowed users to “skip” the classic site architecture, giving instant access to deeply nested information and functions that previously required several steps.
-- Technical scalability: Thanks to the GraphQL-based approach, adding new features to the product now means automatically adding new commands to the bar, making the software's growth extremely orderly and modular.
+    Cmd --> CmdScore["Similarity scoring"]
+    Ws --> WsScore["Similarity scoring"]
 
-### 2. Discoverability: Features finally visible
+    CmdScore --> CmdThresh{"Above threshold?"}
+    WsScore --> WsThresh{"Above threshold?"}
 
-One of BePeople's main problems was the difficulty for new users to discover the system's full potential. The Power Bar acted as an interactive catalog: by providing a searchable list, it helped users discover features they didn't know existed, improving the adoption rate of the platform's secondary features.
+    CmdThresh -->|Yes| CmdVisible["Visible commands"]
+    WsThresh -->|Yes| WsVisible["Visible workspaces"]
 
-### 3. Lessons learned (Takeaways)
+    NW --> NWVisible["Always structurally available"]
 
-Designing under emergency conditions (tight deadlines and zero budget) taught us that:
+    CmdVisible --> Render["Rendered result list"]
+    WsVisible --> Render
+    NWVisible --> Render
 
-- Established patterns are lifesavers: In the absence of user testing, relying on existing mental models (such as macOS Spotlight or Replit CLUI) drastically reduces the risk of error.
-- Design is a strategic buffer: We have demonstrated that a logical and well-structured design can compensate for the lack of expensive technologies (such as dedicated NLP) by simulating system intelligence through good information architecture.
-- Less is more (in the GUI): Centralizing commands has allowed us to keep the interface clean and focused on data, preventing BePeople from becoming “cluttered” and difficult to navigate like classic BI systems.
+````
 
-### The Future: Towards Total Integration
+This produces predictable behavior:
 
-Although the project was born out of constraints, the path forward has been laid out. The future vision is to make every single BePeople action accessible via the Power Bar, gradually eliminating redundant drop-down menus and transforming data interaction into an increasingly natural, rapid, and “invisible” flow.
+- short, verb-oriented input favors operational commands,
+- entity-like input favors workspace names,
+- longer descriptive input reduces similarity to short labels,
+- weak correlations never surface.
 
-[INSERT IMAGE 13: Final screenshot of the bar with successful feedback] Use the last slide of Share - Internal.png or Edit - Internal.png. Showing the closed bar and the message “Operation completed” is the perfect way to visually close the case study, showing the success of the task.
+![Command palette showing ranked results while typing](/filtering_example.png "Similarity scoring and threshold filtering applied to commands, workspaces and new widget.")
+
+### Multilingual alias architecture
+
+The platform supports six interface languages. Command labels and alias mappings adapt dynamically to the selected language.
+
+Each command includes:
+
+- a localized label
+- a language-specific alias set
+
+Alias sets are intentionally isolated per language. Merging all multilingual aliases would inflate match density and reduce ranking predictability, particularly for short inputs.
+
+English aliases remain globally active as a controlled secondary vocabulary layer. This ensures:
+
+- continuity for power users operating with English terminology,
+- resilience in case of language mismatch.
+
+Scoring evaluates localized and English fields simultaneously. The strongest structural similarity determines ranking, without merging full multilingual vocabularies.
+
+### *New widget* as a creation action
+
+At the root level, *New widget* is not a generic search fallback.
+It is a structurally persistent creation action.
+
+Unlike operational commands and workspaces — which reference existing entities — *New widget* is directly tied to the input string. Selecting it means sending the input to the backend and:
+- triggers the NL → SQL pipeline,
+- generates a new widget,
+- inserts it into the current workspace.
+
+Its availability does not depend on matching a predefined label.
+As long as input exists, the creation action remains structurally valid.
+
+Similarity scoring therefore affects the groups differently. Operational commands and workspaces rely on closeness between the input and their labels or aliases. As input becomes longer and more descriptive, similarity to short operational labels decays. Commands and workspaces may fall below the visibility threshold.
+
+*New widget*, however, does not compete as a matched entity. It operates as a transformation of the input itself. It's always rendered first. Its position reflects structural priority rather than similarity score. Ranking applies within groups, not between them.
+
+There is no intent classification and no conversational switching.
+Its prominence with long semantic queries is not the result of inference, but of structural filtering combined with fixed group ordering.
+
+![New widget action displayed at the top of the palette for a descriptive query](/search_example.png "Creation action rising in ranking as descriptive input reduces similarity to operational commands.")
+
+### Contextual scoring within generated lists
+
+Once the user selects an operational command, ranking no longer operates across the root-level candidate space. Instead, it applies within the context-specific list generated by the decision tree.
+
+These lists are not filtered subsets of the original root candidates. They are structurally generated collections determined by:
+
+- the selected command,
+- the current UI context (homepage or workspace),
+- the current node in the decision tree.
+
+Example: selecting Edit can generate multiple successive lists:
+
+1.	a list of edit types (e.g., visualization, size, title, filters);
+2.	a list of widgets inside the current workspace;
+3.	a parameter list specific to the chosen edit type
+	- chart types if “visualization”,
+	- preset sizes if “size”,
+	- etc.
+
+Fuzzy scoring remains unchanged, but it runs only within the currently generated list. Combined with deterministic routing (Chapter 3), this produces fast refinement without syntax markers or conversational interpretation.
+
+![Sequential parameter selection within the Edit command flow](/edit_example.png "Context-specific list generation during deterministic routing.")
+
+## 5. Execution clarity and perceptual stability
+
+Centralizing interaction into a single command surface simplifies structure.
+It does not automatically simplify perception.
+
+When actions are abstracted away from their spatial origin, the interface must compensate. Routing may be deterministic and ranking predictable, but users still need to understand what is happening, why it is happening, and where its effects appear.
+
+A compressed interaction layer therefore shifts part of the design effort from navigation logic to perceptual stability.
+
+### Recognition scaffolding within a recall-driven surface
+
+Although interaction begins through typing, the palette was never conceived as a strict command-line interface.
+
+Because fuzzy similarity governs ranking, visual scaffolding becomes essential. Without it, the system would appear arbitrary.
+
+Three mechanisms support recognition:
+
+- **Iconography** differentiates operational commands from entities and creation actions.
+- **Match highlighting** visually explains why a result appears, exposing the logic of similarity scoring.
+- **Grouped sections** separate structurally distinct intent domains (creation, commands, entities).
+
+These elements are not aesthetic refinements.
+They make ranking behavior legible.
+
+Typing narrows the space.
+Recognition resolves it.
+
+The palette remains a graphical surface — compressed, but not textual.
+
+![Command item component with idle, hover and selected states](/command-palette_items.png "Atomic component states supporting visual feedback inside the palette.")
+
+### Redundancy as interaction resilience
+
+Centralization improves efficiency, but it increases systemic dependency.
+
+To prevent the palette from becoming the sole gateway to action, core operations remain accessible through contextual widget menus. This redundancy serves two structural purposes:
+
+1. It supports different mental models (keyboard-oriented vs pointer-oriented interaction).
+2. It provides spatial anchoring for operations tied to specific objects.
+
+If compression introduces friction, users can revert to object-local interaction. The palette accelerates interaction without monopolizing it.
+
+![Right-click contextual menu on a dashboard widget](/widget_contextual-menu.png "Functional redundancy between command palette and contextual object menu.")
+
+### Density, legibility, and semantic input
+
+The spatial footprint of the palette is not accidental.
+It is a consequence of the system’s semantic ambition.
+
+The command bar is not a minimal search field. It is a compositional surface where free-form input progressively transforms into structured grammar. Breadcrumb segments and active input coexist within the same container and evolve together.
+
+An experimental wrapping system was designed to allow the breadcrumb+input structure to expand vertically when horizontal space became insufficient. While this could have mitigated truncation, it would not have resolved the underlying constraint.
+
+The system must accommodate:
+
+- Long natural language queries,
+- Extended workspace and widget names,
+- Multi-step command grammar,
+- Explicit semantic tokens that preserve clarity.
+
+Even with wrapping, readability degrades in edge cases, and vertical expansion increases the panel’s overall coverage of the dashboard. The issue is therefore not limited to layout mechanics.
+
+It is structural.
+
+If the palette were a simple search bar with short labels, it could be reduced.
+If it were a strict CLI with compact symbolic commands, it could be collapsed.
+
+Instead, the system prioritizes semantic clarity over compression. Workspace names are descriptive by design. Queries are intentionally expressive. Commands expose their grammar explicitly.
+
+The space requirement emerges from that decision.
+
+Compression is possible only by reducing semantic legibility.
+The project chose legibility.
+
+### Execution without perceptual anchoring
+
+Despite these stabilizing mechanisms, execution feedback remains the most fragile element of the system.
+
+After confirmation, the palette collapses and a toast notification appears in the top-right corner of the interface. The toast confirms only the success or failure of the API call. It does not anchor the user to the affected object.
+
+In operations such as renaming a widget:
+
+- the palette closes,
+- a toast appears outside the focal area,
+- the user must recall the widget’s position,
+- and visually scan the dashboard to verify the change.
+
+The system guarantees technical correctness.
+Interaction closure depends on spatial memory.
+
+This reveals the central tension of compressed interaction:
+actions are centralized, but their consequences remain spatially distributed.
+
+![Attentional shift from command surface to toast feedback and dashboard object search](/attention_shift.png "Interaction is centralized; validation is distributed. Closure depends on attentional shift rather than direct object anchoring.")
+
+Perceptual anchoring requires more than confirmation — it requires relocation or highlighting of the affected object, which the current implementation does not fully provide.
+
+## 6. Designing under constraints and the resulting trade-offs
+
+The Command Palette did not emerge in isolation.
+
+Its deterministic structure — sequential routing, explicit parameter resolution, structural grouping — was a deliberate architectural decision. At the same time, its implementation unfolded within real product constraints: shifting priorities, limited development bandwidth, and an interface not originally designed around a centralized control layer.
+
+The result is a system that is conceptually coherent but uneven in execution. Some tensions are structural. Others are the consequence of incomplete integration.
+
+Understanding the difference is critical.
+
+### Deterministic routing and keyboard clarity
+
+The palette operates as a sequential tree: action selection, parameter resolution, confirmation.
+This progression is deliberate. It guarantees:
+
+- Predictable progression,
+- Clear backward navigation,
+- Deterministic state transitions,
+- Full keyboard operability.
+
+A user can type to narrow, move through results with arrow keys, confirm with Enter, and exit with Escape. Interaction remains linear, consistent, and mode-free.
+
+A graph-based model could increase flexibility. It could:
+
+- Reduce intermediate steps,
+- Allow lateral parameter jumps,
+- Decrease cognitive load when using a mouse,
+- Enable parallel adjustments.
+
+However, that flexibility introduces complexity in focus management and shortcut orchestration. Keyboard navigation would require multiple anchors, conditional transitions, and more intricate state handling.
+
+The sequential tree constrains lateral freedom.
+It preserves deterministic clarity and accessible keyboard flow.
+
+This is a structural prioritization, not an omission.
+
+### Execution visibility: designed but incomplete
+
+A central tension lies between where actions are composed and where their effects appear.
+
+The palette centralizes intent.
+The dashboard distributes consequence.
+
+Commands may affect multiple subjects — widgets or workspaces — while confirmation remains detached from them. This risks weakening the visibility of system status.
+
+The architecture anticipated this gap. It included the design of:
+
+- Execution anchoring (auto-focus and scroll to affected elements)
+- Contextual highlighting of impacted objects
+- Pre-execution highlighting during command composition
+
+These mechanisms were conceived.
+They were not fully implemented.
+
+Without anchoring, users must manually reconnect intent and visible outcome. With it, the perceptual gap would narrow significantly.
+
+This is not a flaw of deterministic interaction.
+It is the most significant unfinished component of the model.
+
+### Spatial integration: overlay vs structural embedding
+
+To preserve dashboard stability, the palette was implemented as an overlay. This avoided layout reflow and prevented shifting analytical content.
+
+The spatial footprint of the palette is primarily horizontal before it becomes vertical.
+
+The command requires space for:
+
+- A semantic breadcrumb describing the structured action
+- An input field capable of handling long queries
+- Extended widget and workspace names
+
+Preserving semantic clarity without truncation demands width.
+That horizontal requirement propagates vertically: ranked lists, parameter resolution steps, and long content blocks expand the panel further.
+
+As command complexity increased, so did the overlay’s visual dominance.
+
+A lateral panel could reduce vertical obstruction. However, it introduces new constraints:
+
+- Reduced horizontal space for breadcrumb clarity
+- Increased truncation risk
+- More internal scrolling
+- Greater likelihood of hiding content below the fold
+
+Making breadcrumb elements vertically scrollable shifts the constraint rather than eliminating it.
+
+The issue is not overlay versus side panel.
+It is the difficulty of preserving semantic clarity while limiting visual obstruction.
+
+This remains a complex spatial trade-off.
+
+### Closing reflection
+
+The Command Palette succeeds as a deterministic control layer. It centralizes operational logic, reduces visible interface expansion, and preserves keyboard-first clarity.
+
+Its primary unresolved weakness is not its architectural model, but the incomplete realization of its execution visibility mechanisms.
+
+Extending the system would not require replacing determinism.
+It would require completing it.
