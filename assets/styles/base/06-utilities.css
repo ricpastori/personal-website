@@ -54,9 +54,10 @@ ul.group {
 
 
 .truncate-multiline {
-    overflow: hidden;
     display: -webkit-box;
+    overflow: hidden;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     white-space: normal;
     word-break: normal;
