@@ -1,5 +1,5 @@
 ---
-title: "Command as unfrastructure: Designing stability under volatility"
+title: "Command as infrastructure: Designing stability under volatility"
 date: 2026-01-21T10:00:00Z
 draft: true
 eyebrow: "BePeople"
