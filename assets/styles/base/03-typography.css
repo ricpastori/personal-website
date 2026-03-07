@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Typography + Layout (global)
-   - No :where() / :is()
-   - Baseline spacing works in IE10+ (no reliance on modern-only selectors)
-   - Logical properties include physical fallbacks where it matters
+   Typography and layout
+   - Baseline 2021 oriented
+   - Physical properties first, logical fallbacks/enhancements after
+   - Modern features kept when they fail safely
    ========================================================================== */
 
 /* ==========================================================================
@@ -10,26 +10,35 @@
    ========================================================================== */
 
 :root {
-    /* Body base (fluid but bounded) */
-    --font-body: clamp(0.95rem, 0.90rem + 0.3vw, 1.0625rem);
-    --lh-body: 1.65;
+    /* Body type scale */
+    --font-body: var(--step--1);
+    --lh-body: 1.75;
     --lh-heading: 1.25;
+    --lh-display: 0.92;
 
-    /* Rate of growth for headings */
-    --scale: 1.25;
+    /* Base scale ratio */
+    --scale: 1.2;
 
-    /* Precompute steps around the base (1rem) */
-    --step--2: calc(1rem / (var(--scale) * var(--scale)));
-    --step--1: calc(1rem / var(--scale));
-    --step-0: 1rem;
-    --step-1: calc(1rem * var(--scale));
-    --step-2: calc(1rem * var(--scale) * var(--scale));
-    --step-3: calc(1rem * var(--scale) * var(--scale) * var(--scale));
-    --step-4: calc(1rem * var(--scale) * var(--scale) * var(--scale) * var(--scale));
+    /* Type scale */
+    --step--3: clamp(0.6944rem, 0.6803rem + 0.0707vw, 0.7353rem);
+    --step--2: clamp(0.8333rem, 0.8164rem + 0.0847vw, 0.8824rem);
+    --step--1: clamp(0.9167rem, 0.8981rem + 0.0932vw, 0.9706rem);
+    --step-0: clamp(1rem, 0.9797rem + 0.1017vw, 1.0588rem);
+    --step-1: clamp(1.2rem, 1.1756rem + 0.122vw, 1.2706rem);
+    --step-2: clamp(1.44rem, 1.4107rem + 0.1466vw, 1.5247rem);
+    --step-3: clamp(1.728rem, 1.6928rem + 0.1761vw, 1.8296rem);
+    --step-4: clamp(2.0736rem, 2.0314rem + 0.2108vw, 2.1955rem);
+    --step-5: clamp(2.4883rem, 2.4377rem + 0.2531vw, 2.6346rem);
+    --step-6: clamp(2.986rem, 2.9252rem + 0.3039vw, 3.1615rem);
+    --step-7: clamp(3.5832rem, 3.5103rem + 0.3644vw, 3.7938rem);
 
     /* Font families */
-    --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Libescalen Mono', 'Courier New', monospace;
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", "Noto Color Emoji";
+    --font-display: "Pathway Gothic One", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
 
     /* Font weights */
     --font-thin: 100;
@@ -42,73 +51,64 @@
     --font-extrabold: 800;
     --font-black: 900;
 
-    /* Alternative text sizes */
-    --text-xs: 0.75rem;
-    --text-sm: 0.875rem;
-    --text-lg: 1.125rem;
+    /* Alternate text sizes */
+    --text-xs: var(--step--3);
+    --text-sm: var(--step--2);
+    --text-md: var(--step--1);
+    --text-lg: var(--step-0);
 
-    /* Useful baseline measures */
+    /* Reading measure */
     --measure: 68ch;
+
+    /* Tracking */
+    --tracking-display: -0.01em;
+    --tracking-heading: -0.01em;
 }
 
 /* ==========================================================================
-   Setup
+   Base document setup
    ========================================================================== */
 
 html {
-    font-size: 16px; /* Keep 1rem reference stable; text scales via --font-body */
-    /* Change default typefaces here */
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    /* Make everything look a little nicer in webkit */
+    font-size: 16px;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: auto;
-    -moz-text-size-adjust: auto;
-    -ms-text-size-adjust: auto;
-    text-size-adjust: auto;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
     margin: 0;
-    margin: var(--size-0);
     background-color: #fafaf9;
     background-color: var(--color-background);
-    padding: 0;    
-    padding: var(--size-0);
+    padding: 0;
     width: 100vw;
     width: 100dvw;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     color: #292524;
     color: var(--color-foreground);
     accent-color: #f54a00;
     accent-color: var(--color-accent);
-    font-size: 16px;
+    font-size: 1rem;
     font-size: var(--font-body);
-    line-height: 1.65;
+    line-height: 1.75;
     line-height: var(--lh-body);
 }
 
 main {
     margin: 0 auto;
-    margin: var(--size-0) auto;
     padding: 8rem 1.5rem 4rem;
-    padding: var(--size-32) var(--size-6) var(--size-16);
+    padding-block: var(--size-32) var(--size-16);
+    padding-inline: var(--size-6);
     max-width: 48rem;
     max-width: var(--breakpoint-lg);
 }
 
 /* ==========================================================================
-   Global typography rhythm
-   Goal: consistent spacing without needing wrappers/classes.
-   Approach: normalize margins on typical content elements, then define a predictable rhythm.
+   Global rhythm reset
    ========================================================================== */
 
-/* 1) Normalize margins (avoid browser defaults causing “random” gaps) */
-
-
-/* Copy ------------------------------------------------------------- */
-
-/* 1) Normalize margins (avoid browser defaults causing “random” gaps) */
 h1,
 h2,
 h3,
@@ -124,12 +124,13 @@ table,
 figure,
 hr,
 dl {
-  margin: 0;
-  margin: var(--size-0);
+    margin: 0;
 }
 
-/* 2) Base spacing for copy blocks (block-end margin = rhythm unit)
-   Physical first, then logical */
+/* ==========================================================================
+   Copy blocks
+   ========================================================================== */
+
 p,
 ul,
 ol,
@@ -138,79 +139,170 @@ pre,
 table,
 figure,
 dl {
-  margin-bottom: 1rem;
-  margin-bottom: var(--size-4);
-  margin-block-end: var(--size-4);
+    margin-bottom: 0.75rem;
+    margin-block-end: 0.75rem;
+    margin-block-end: var(--size-3);
+    font-weight: 300;
+    font-weight: var(--font-light);
+    line-height: 1.75;
+    line-height: var(--lh-body);
 }
 
-/* Cap long lines in typical copy contexts without requiring a wrapper. */
+/* Limit line length for readable copy */
 p,
 li,
 blockquote {
-  max-width: 68ch;
-  max-width: var(--measure);
+    max-width: 68ch;
+    max-width: var(--measure);
 }
 
-/* Lists */
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
 ul,
 ol {
-  padding-left: 1.25em;
-  padding-left: var(--size-5);
-  padding-inline-start: var(--size-5);
+    padding-left: 1.25em;
+    padding-inline-start: 1.25em;
+    padding-inline-start: var(--size-5);
 }
 
-p + ul {
-  margin-top: -0.5rem;
-  margin-top: calc(var(--size-2) * -1);
-  margin-block-start: calc(var(--size-2) * -1);
+/* Pull lists slightly closer when they follow a paragraph */
+p + ul,
+p + ol {
+    margin-top: -0.5rem;
+    margin-block-start: -0.5rem;
+    margin-block-start: calc(var(--size-2) * -1);
 }
 
 li {
-  line-height: 1.65;
-  line-height: var(--lh-body);
+    line-height: 1.75;
+    line-height: var(--lh-body);
 }
 
-/* Slight separation between list items */
+/* Add subtle separation between list items */
 li + li {
-  margin-top: 0.25rem;
-  margin-top: calc(var(--size-4) * 0.25);
-  margin-block-start: calc(var(--size-4) * 0.25);
+    margin-top: 0.25rem;
+    margin-block-start: 0.25rem;
+    margin-block-start: var(--size-1);
 }
 
-/* 3) Headings: more air above, tighter below (physical first, then logical) */
+/* ==========================================================================
+   Headings
+   ========================================================================== */
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-
-  margin-top: 3.5rem;
-  margin-top: var(--size-14);
-  margin-bottom: 1rem;
-  margin-bottom: var(--size-4);
-  margin-block-start: var(--size-14);
-  margin-block-end: var(--size-4);
-  font-weight: 600;
-  font-weight: var(--font-bold);
-  line-height: 1.25;
-  line-height: var(--lh-heading);
-  letter-spacing: -0.01em;
+    margin-top: 3.5rem;
+    margin-bottom: 1rem;
+    margin-block-start: 3.5rem;
+    margin-block-end: 1rem;
+    margin-block-start: var(--size-14);
+    margin-block-end: var(--size-4);
+    line-height: 1.25;
+    line-height: var(--lh-heading);
 }
 
-/* Reduce top margin when a heading is the first element inside common containers */
+/* Remove top spacing for the first heading in main */
 main > h1,
 main > h2,
 main > h3,
 main > h4,
 main > h5,
 main > h6 {
-  margin-top: 0;
-  margin-top: var(--size-0);
-  margin-block-start: var(--size-0);
+    margin-top: 0;
+    margin-block-start: 0;
 }
 
-/* Tighten the gap between a heading and its immediate content */
+h1 {
+    margin-top: 5rem;
+    margin-bottom: 1.25rem;
+    margin-block-start: 5rem;
+    margin-block-end: 1.25rem;
+    margin-block-start: var(--size-20);
+    margin-block-end: var(--size-5);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-weight: var(--font-bold);
+    font-size: 3.5832rem;
+    font-size: var(--step-7);
+    line-height: 0.92;
+    line-height: var(--lh-display);
+    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
+}
+
+h2 {
+    margin-top: 4rem;
+    margin-bottom: 0.875rem;
+    margin-block-start: 4rem;
+    margin-block-end: 0.875rem;
+    margin-block-start: var(--size-16);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-weight: var(--font-semibold);
+    font-size: 2.0736rem;
+    font-size: var(--step-4);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-heading);
+    max-width: 24ch;
+    text-wrap: balance;
+}
+
+h3 {
+    margin-top: 3rem;
+    margin-block-start: 3rem;
+    margin-block-start: var(--size-12);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-weight: var(--font-semibold);
+    font-size: 1.44rem;
+    font-size: var(--step-2);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+}
+
+h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-weight: var(--font-semibold);
+    font-size: 1rem;
+    font-size: var(--step-0);
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+h5 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-weight: var(--font-semibold);
+    font-size: 0.9167rem;
+    font-size: var(--step--1);
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+h6 {
+    font-family: var(--font-sans);
+    opacity: 0.75;
+    font-weight: 500;
+    font-weight: var(--font-medium);
+    font-size: 0.9167rem;
+    font-size: var(--step--1);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+}
+
+/* Tighten the transition from headings to following content */
 h1 + p,
 h1 + ul,
 h1 + ol,
@@ -235,64 +327,24 @@ h3 + pre,
 h3 + table,
 h3 + figure,
 h3 + dl {
-  margin-top: 0.5rem;
-  margin-top: var(--size-2);
-  margin-block-start: var(--size-2);
+    margin-top: 0.5rem;
+    margin-block-start: 0.5rem;
+    margin-block-start: var(--size-2);
 }
 
-/* Headings sizing (semantic scale) */
-h1 {
-  margin-top: 5rem;
-  margin-top: var(--size-20);
-  margin-block-start: var(--size-20);
-  font-size: 2.45rem;
-  font-size: var(--step-4);
-}
+/* ==========================================================================
+   Horizontal rule
+   ========================================================================== */
 
-h2 {
-  margin-top: 5rem;
-  margin-top: var(--size-20);
-  margin-block-start: var(--size-20);
-  font-size: 1.95rem;
-  font-size: var(--step-3);
-}
-
-h3 {
-  margin-top: 3rem;
-  margin-top: var(--size-12);
-  margin-block-start: var(--size-12);
-  font-size: 1.56rem;
-  font-size: var(--step-2);
-}
-
-/* Prevent small headings from collapsing too far */
-h4 {
-  font-size: 1.25rem;
-  font-size: var(--step-1);
-}
-
-h5 {
-  font-size: 1rem;
-  font-size: var(--step-0);
-}
-
-h6 {
-  font-weight: 600;
-  font-weight: var(--font-semibold);
-  font-size: 0.8rem;
-  font-size: var(--step--1);
-}
-
-/* hr: spacing and a subtle default */
 hr {
-
-  margin: 2rem 0;
-  margin: var(--size-8) var(--size-0);
-  margin-inline: var(--size-0);
-  margin-block: var(--size-8);
-  border: 0;
-  border-top: 1px solid #d6d3d1;
-  border-top: var(--size-px) solid var(--color-border);
+    margin: 2rem 0;
+    margin-block: 2rem;
+    margin-inline: 0;
+    margin-block: var(--size-8);
+    margin-inline: var(--size-0);
+    border: 0;
+    border-top: 1px solid #d6d3d1;
+    border-top: var(--size-px) solid var(--color-border);
 }
 
 /* ==========================================================================
@@ -300,25 +352,22 @@ hr {
    ========================================================================== */
 
 blockquote {
-  border-left: 4px solid #d6d3d1;
-  border-left-width: var(--size-1) solid var(--color-border);
-  border-inline-start: var(--size-1) solid var(--color-border);
-  /* Physical fallback first */
-  padding-left: 1rem;
-  padding-left: var(--size-4);
-
-  /* Logical enhancement */
-  padding-inline-start: var(--size-4);
-
-  line-height: 1.65;
-  line-height: var(--lh-body);
+    border-left: 4px solid #d6d3d1;
+    border-left: var(--size-1) solid var(--color-border);
+    border-inline-start: 4px solid #d6d3d1;
+    border-inline-start: var(--size-1) solid var(--color-border);
+    padding-left: 1rem;
+    padding-inline-start: 1rem;
+    padding-inline-start: var(--size-4);
+    line-height: 1.75;
+    line-height: var(--lh-body);
 }
 
-/* If blockquote contains multiple paragraphs, keep them readable */
+/* Add spacing between paragraphs inside blockquotes */
 blockquote p + p {
-  margin-top: 0.5rem;
-  margin-top: var(--size-2);
-  margin-block-start: var(--size-2);
+    margin-top: 0.5rem;
+    margin-block-start: 0.5rem;
+    margin-block-start: var(--size-2);
 }
 
 /* ==========================================================================
@@ -327,28 +376,25 @@ blockquote p + p {
 
 code,
 pre {
-  font-size: 0.8rem;
-  font-size: var(--size--1);
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Libescalen Mono", "Courier New", monospace;
+    font-size: 0.8333rem;
+    font-size: var(--step--2);
+    font-family: var(--font-mono);
 }
 
 pre {
-
-  margin-bottom: 1rem;
-  margin-bottom: var(--size-4);
-  margin-block-end: var(--size-4);
-
-  border-radius: 0.5rem;
-  border-radius: var(--size-2);
-  background: #f5f5f4;
-  background: var(--color-background-alt);
-
-  padding: 0.75rem 1rem;
-  padding: var(--size-3) var(--size-4);
-  padding-inline: var(--size-4);
-  padding-block: var(--size-3);
-  overflow-x: auto;
+    margin-bottom: 1rem;
+    margin-block-end: 1rem;
+    margin-block-end: var(--size-4);
+    border-radius: 0.5rem;
+    border-radius: var(--size-2);
+    background: #f5f5f4;
+    background: var(--color-background-alt);
+    padding: 0.75rem 1rem;
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    padding-block: var(--size-3);
+    padding-inline: var(--size-4);
+    overflow-x: auto;
 }
 
 /* ==========================================================================
@@ -356,61 +402,87 @@ pre {
    ========================================================================== */
 
 table {
-
-  /* Keep consistent with rhythm */
-  margin-bottom: 1rem;
-  margin-bottom: var(--size-4);
-  margin-block-end: var(--size-4);
-  border-width: 0;
-  border-width: var(--size-0);
-  border-collapse: collapse;
-  width: 100%;
+    margin-bottom: 1rem;
+    margin-block-end: 1rem;
+    margin-block-end: var(--size-4);
+    border-width: 0;
+    border-radius: 0.25rem;
+    border-radius: var(--size-1);
+    border-collapse: collapse;
+    width: 100%;
+    overflow: hidden;
+    font-size: 0.9167rem;
+    font-size: var(--text-sm);
+    line-height: 1.25;
+    line-height: var(--lh-heading);
 }
 
 th,
 td {
-  padding: 0.5rem 0.75rem;
-  padding: var(--size-2) var(--size-3);
-  line-height: 1.65;
-  line-height: var(--lh-body);
-  text-align: left;
+    vertical-align: top;
+    border: 1px solid #d6d3d1;
+    border: 1px solid var(--color-border);
+    padding: 0.25rem 0.5rem;
+    padding-block: 0.25rem;
+    padding-inline: 0.5rem;
+    padding-block: var(--size-1);
+    padding-inline: var(--size-2);
+    line-height: 1.75;
+    line-height: var(--lh-body);
+    text-align: left;
 }
 
-/* Optional: subtle row separation (safe everywhere) */
+/* Add row separation */
 tr + tr td,
 tr + tr th {
-  border-top: 1px solid #f5f5f4;
-  border-top: var(--size-px) solid var(--color-border);
+    border-top: 1px solid #f5f5f4;
+    border-top: var(--size-px) solid var(--color-border);
+}
+
+/* Table header */
+thead th {
+    background-color: #d6d3d1;
+    background-color: var(--color-border);
+    font-weight: 500;
+    font-weight: var(--font-medium);
+}
+
+/* Zebra striping */
+tbody tr:nth-child(even) {
+    background-color: #f5f5f4;
+    background-color: var(--color-background-alt);
+}
+
+/* Emphasize the first cell in the first body row */
+tbody tr:first-child td:first-child {
+    font-weight: 500;
+    font-weight: var(--font-medium);
 }
 
 /* ==========================================================================
    Utilities
    ========================================================================== */
 
-/* Emphasized paragraph for introductory or highlight text */
+/* Introductory paragraph or highlighted copy */
 .lead {
-
-  margin-bottom: 1rem;
-  margin-bottom: var(--size-4);
-  margin-block-end: var(--size-4);
-  font-size: 1.25rem;
-  font-size: var(--step-1);
-  line-height: 1.65;
-  line-height: var(--lh-body);
+    margin-bottom: 1rem;
+    margin-block-end: 1rem;
+    margin-block-end: var(--size-4);
+    font-size: 1.25rem;
+    font-size: var(--step-1);
+    line-height: 1.65;
+    line-height: var(--lh-body);
+    max-width: 60ch;
 }
 
-/* Removes top margin to visually attach to the previous block */
 .hug {
-  margin-top: 0 !important;
-  margin-top: var(--size-0) !important;
-  margin-block-start: var(--size-0) !important;
+    margin-top: 0 !important;
+    margin-block-start: 0 !important;
 }
 
-/* Removes vertical margins for tighter spacing on a single element */
 .dense {
-  margin-top: 0 !important;
-  margin-top: var(--size-0) !important;
-  margin-top: var(--size-0) !important;
-  margin-bottom: 0 !important;
-  margin-block: var(--size-0) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-block-start: 0 !important;
+    margin-block-end: 0 !important;
 }
