@@ -1,0 +1,123 @@
+{{ define "main" }}
+  <article class="page">
+    {{/* =========================
+      ABOUT PAGE (special case)
+      =========================
+    */}}
+    {{ if eq .RelPermalink "/about/" }}
+
+      <header class="page__header">
+        <h1 class="reveal reveal--about-title">
+          {{ .Title }}
+        </h1>
+      </header>
+
+      <div class="page__content page__content--about">
+        {{ .Content }}
+      </div>
+
+      {{/* =========================
+        DEFAULT SINGLE PAGE
+        =========================
+      */}}
+    {{ else }}
+
+      {{/* ---------------------------------
+        Cover resolution strategy
+        1. Params.cover
+        2. Params.image
+        ---------------------------------
+      */}}
+      {{- $coverPath := "" -}}
+      {{- if .Params.cover -}}
+        {{- $coverPath = .Params.cover -}}
+      {{- else if .Params.image -}}
+        {{- $coverPath = .Params.image -}}
+      {{- end -}}
+
+      {{- $coverRes := false -}}
+      {{- $coverStr := $coverPath -}}
+
+      {{- if $coverPath -}}
+        {{- $p := trim $coverPath "/" -}}
+
+        {{- /* 1) Try page bundle resources */ -}}
+        {{- with .Resources -}}
+          {{- with .GetMatch $p -}}
+            {{- $coverRes = . -}}
+          {{- else -}}
+            {{- $parts := split $p "/" -}}
+            {{- $base := index $parts (add (len $parts) -1) -}}
+            {{- with .GetMatch $base -}}
+              {{- $coverRes = . -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- /* 2) Try global assets */ -}}
+        {{- if not $coverRes -}}
+          {{- with resources.Get $p -}}
+            {{- $coverRes = . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+
+      <section class="page__hero">
+        <div class="page__hero-panel"></div>
+
+        <div class="page__hero-inner">
+          {{- if $coverPath -}}
+            <figure class="page__cover">
+              {{- if $coverRes -}}
+                {{ partial "picture.html" (dict
+                  "src" $coverRes
+                  "isResource" true
+                  "alt" ""
+                  "class" "page__cover-media"
+                  "sizes" "100vw"
+                  "widths" "640,960,1280,1600,1920,2560,3200,3840"
+                  "loading" "eager"
+                  "fetchpriority" "high"
+                  "decoding" "async"
+                  )
+                }}
+              {{- else -}}
+                {{ partial "picture.html" (dict
+                  "src" $coverStr
+                  "alt" ""
+                  "class" "page__cover-media"
+                  "sizes" "100vw"
+                  "widths" "640,960,1280,1600,1920,2560,3200,3840"
+                  "loading" "eager"
+                  "fetchpriority" "high"
+                  "decoding" "async"
+                  )
+                }}
+              {{- end -}}
+
+              {{ with .Params.cover_caption }}
+                <figcaption class="page__cover-caption">{{ . }}</figcaption>
+              {{ end }}
+            </figure>
+          {{- end -}}
+
+
+          <header class="page__header">
+            {{ with .Params.eyebrow }}
+              <span class="page__eyebrow">{{ . }}</span>
+            {{ end }}
+
+
+            <h1>{{ .Title }}</h1>
+          </header>
+        </div>
+      </section>
+
+      <div class="page__content">
+        {{ .Content }}
+      </div>
+    {{ end }}
+
+  </article>
+{{ end }}
