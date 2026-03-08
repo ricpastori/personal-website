@@ -1,7 +1,4 @@
 {
-  "files": {
-    "includes": ["assets/**/*.js", "assets/**/*.css", "layouts/**/*.html"]
-  },
   "linter": {
     "rules": {
       "recommended": true
@@ -10,11 +7,9 @@
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
-    "attributePosition": "auto",
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 80,
-    "lineEnding": "lf"
+    "lineWidth": 80
   },
   "javascript": {
     "formatter": {
@@ -22,8 +17,20 @@
     }
   },
   "css": {
+    "formatter": {
+      "enabled": true
+    },
     "linter": {
+      "enabled": true,
       "noDuplicateProperties": "safe"
+    }
+  },
+  "html": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
     }
   }
 }
