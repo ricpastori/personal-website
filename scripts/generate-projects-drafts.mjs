@@ -15,9 +15,17 @@ const ASSETS_GEN_ROOT = path.join(ROOT, "assets", "__generated", "drafts", "proj
 // Data output (underscore to avoid Hugo key issues)
 const OUT_FILE = path.join(ROOT, "assets", "__generated", "projects-drafts.yaml");
 
+function rel(p) {
+  const r = path.relative(ROOT, p);
+  return `./${r.replaceAll("\\", "/")}`;
+}
+
 function extractFrontMatter(markdown) {
   // Allow optional BOM and leading whitespace/newlines before front matter.
-  const m = markdown.match(/^\uFEFF?\s*---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n/);
+  // Accept both:
+  // - front matter followed by body
+  // - front matter-only files ending right after the closing ---
+  const m = markdown.match(/^\uFEFF?\s*---\s*\r?\n([\s\S]*?)\r?\n---(?:\s*\r?\n|$)/);
   return m ? m[1] : null;
 }
 
@@ -58,14 +66,27 @@ function walkIndexMd(dir) {
   if (!fs.existsSync(dir)) return files;
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
+
   for (const ent of entries) {
     const full = path.join(dir, ent.name);
-    if (ent.isDirectory()) {
+    let stat;
+
+    try {
+      stat = fs.statSync(full);
+    } catch {
+      continue;
+    }
+
+    if (stat.isDirectory()) {
       files.push(...walkIndexMd(full));
-    } else if (ent.isFile() && ent.name === "index.md") {
+      continue;
+    }
+
+    if (stat.isFile() && ent.name.toLowerCase() === "index.md") {
       files.push(full);
     }
   }
+
   return files;
 }
 
@@ -130,6 +151,11 @@ function main() {
 
   const mdFiles = walkIndexMd(CONTENT_ROOT);
 
+  console.warn("FOUND index.md files:");
+  for (const f of mdFiles) {
+    console.warn(`- ${rel(f)}`);
+  }
+
   /** @type {Array<Record<string, string>>} */
   const drafts = [];
 
@@ -139,6 +165,11 @@ function main() {
     if (!fmRaw) continue;
 
     const fm = parseFrontMatterSubset(fmRaw);
+
+    console.warn(
+      `CHECK file="${rel(file)}" draft=${JSON.stringify(fm.draft)} type=${typeof fm.draft}`
+    );
+
     if (fm.draft !== true) continue;
 
     const bundleDir = path.dirname(file);
