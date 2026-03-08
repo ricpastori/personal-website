@@ -1,0 +1,25 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricpastori/personal-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ricpastori/personal-website/issues"
+  },
+  "homepage": "https://github.com/ricpastori/personal-website#readme",
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-go-template": "^0.0.15"
+  }
+}

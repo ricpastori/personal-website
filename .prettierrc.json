@@ -1,0 +1,20 @@
+{
+  "plugins": ["prettier-plugin-go-template"],
+  "overrides": [
+    {
+      "files": [
+        "layouts/**/*.html",
+        "themes/**/layouts/**/*.html",
+        "*.gohtml",
+        "*.gotmpl",
+        "*.go.tmpl",
+        "*.tmpl",
+        "*.tpl",
+        "*.html.tmpl"
+      ],
+      "options": {
+        "parser": "go-template"
+      }
+    }
+  ]
+}
