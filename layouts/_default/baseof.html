@@ -1,22 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 {{- /* Normalize data-page for JS/CSS hooks:
-      - projects single: "/projects/item"
-      - posts single: "/posts/item"
-      - lists stay as their list path (e.g., "/projects/", "/posts/")
-      - everything else falls back to .RelPermalink
-*/ -}}
+  - projects single: "/projects/item"
+  - posts single: "/posts/item"
+  - lists stay as their list path (e.g., "/projects/", "/posts/")
+  - everything else falls back to .RelPermalink
+  */
+-}}
 {{- $dataPage := .RelPermalink -}}
 
 {{- if eq .Kind "home" -}}
   {{- $dataPage = "/" -}}
-
 {{- else if eq .Kind "404" -}}
   {{- $dataPage = "/404" -}}
-
 {{- else if eq .Kind "section" -}}
   {{- /* Keep section list pages stable (already are) */ -}}
   {{- $dataPage = printf "/%s/" .Section -}}
-
 {{- else if eq .Kind "page" -}}
   {{- /* Singles: group by section for posts/projects */ -}}
   {{- if eq .Section "projects" -}}
@@ -30,9 +28,10 @@
   {{- $dataPage = printf "/%s/%s/" .Kind .Data.Plural -}}
 {{- end -}}
 
-<html lang="en" data-page="{{ $dataPage }}">
 
+<html lang="en" data-page="{{ $dataPage }}">
   {{ partial "head.html" . }}
+
 
   <body>
     {{ partial "header.html" . }}
@@ -46,7 +45,10 @@
 
     {{- if .Store.Get "hasMermaid" -}}
       <!-- Mermaid (CDN, UMD) -->
-      <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js" defer></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js"
+        defer
+      ></script>
 
       {{- with resources.Get "scripts/_mermaid-init.js" -}}
         {{- $mermaid := . | js.Build | minify -}}

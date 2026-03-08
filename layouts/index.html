@@ -1,47 +1,57 @@
 {{ define "main" }}
+  <section id="intro">
+    {{/* Avatar */}}
+    <div class="reveal reveal--avatar">
+      {{ $img := resources.Get "images/avatar.jpg" }}
+      {{ partial "picture.html" (dict
+        "src" $img
+        "isResource" true
+        "alt" "Riccardo Pastori"
+        "sizes" "(max-width: 720px) 20vw, 160px"
+        "widths" "64,96,128,160,192,256,320"
+        "class" "avatar"
+        "loading" "eager"
+        "fetchpriority" "high"
+        )
+      }}
+    </div>
 
-<section id="intro">
-  {{/* Avatar */}}
-  <div class="reveal reveal--avatar">
-    {{ $img := resources.Get "images/avatar.jpg" }}
-    {{ partial "picture.html" (dict
-      "src" $img
-      "isResource" true
-      "alt" "Riccardo Pastori"
-      "sizes" "(max-width: 720px) 20vw, 160px"
-      "widths" "64,96,128,160,192,256,320"
-      "class" "avatar"
-      "loading" "eager"
-      "fetchpriority" "high"
-    ) }}
-  </div>
+    {{/* Presentation */}}
+    <div class="reveal reveal--intro">
+      <p>
+        👋 Hi, I’m <span id="name">Riccardo Pastori</span> — a UX and Product
+        Designer.
+      </p>
+      <p>
+        Currently, I am designing (and occasionally debugging) a SaaS platform
+        powered by AI, making sure design and development stay in sync.
+      </p>
+    </div>
 
-  {{/* Presentation */}}
-  <div class="reveal reveal--intro">
-    <p>👋 Hi, I’m <span id="name">Riccardo Pastori</span> — a UX and Product Designer.</p>
-    <p>Currently, I am designing (and occasionally debugging) a SaaS platform powered by AI, making sure design and development stay in sync.</p>
-  </div>
+    {{/* CTA */}}
+    <a
+      class="btn btn--solid reveal reveal--cta"
+      href="mailto:riccardo@example.com"
+    >
+      Email me
+      {{ partial "icon.html" (dict "src" "icons/envelope-duotone.svg" "size" 16 "class" "icon" "Page" .) }}
+    </a>
 
-  {{/* CTA */}}
-  <a class="btn btn--solid reveal reveal--cta" href="mailto:riccardo@example.com">
-    Email me {{ partial "icon.html" (dict "src" "icons/envelope-duotone.svg" "size" 16 "class" "icon" "Page" .) }}
-  </a>
+    {{/* Scroll arrow */}}
+    <div id="scroll-indicator" class="reveal reveal--indicator">
+      {{ partial "icon.html" (dict "src" "icons/caret-double-down-duotone.svg" "size" 32 "class" "icon_indicator" "Page" .) }}
+    </div>
+  </section>
 
-  {{/* Scroll arrow */}}
-  <div id="scroll-indicator" class="reveal reveal--indicator">
-    {{ partial "icon.html" (dict "src" "icons/caret-double-down-duotone.svg" "size" 32 "class" "icon_indicator" "Page" .) }}
-  </div>
-</section>
+  <section id="works" class="reveal reveal--works">
+    <div class="title-container">
+      <h2>Works</h2>
+    </div>
 
-<section id="works" class="reveal reveal--works">
-  <div class="title-container">
-    <h2>Works</h2>
-  </div>
-
-  {{ partial "projects-list.html" (dict
-    "ctx" .
-    "limit" 12
-) }}
-</section>
-
+    {{ partial "projects-list.html" (dict
+      "ctx" .
+      "limit" 12
+      )
+    }}
+  </section>
 {{ end }}

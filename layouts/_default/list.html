@@ -4,15 +4,27 @@
 
     <ul style="list-style:none; padding:0; margin:0;">
       {{ range (where .Site.RegularPages "Type" "posts") }}
-        <li style="display:flex; align-items:center; gap:16px; padding:16px 0; border-bottom:1px solid var(--color-border);">
+        <li
+          style="display:flex; align-items:center; gap:16px; padding:16px 0; border-bottom:1px solid var(--color-border);"
+        >
           <div style="flex:1 1 auto;">
-            <a href="{{ .RelPermalink }}" style="text-decoration:none; color:inherit;">
-              <h3 style="margin:0 0 .25rem 0; font-size:1rem; text-transform:uppercase;">{{ .Title }}</h3>
+            <a
+              href="{{ .RelPermalink }}"
+              style="text-decoration:none; color:inherit;"
+            >
+              <h3
+                style="margin:0 0 .25rem 0; font-size:1rem; text-transform:uppercase;"
+              >
+                {{ .Title }}
+              </h3>
             </a>
             {{ with .Params.tags }}
               <div style="margin-bottom:.25rem;">
                 {{ range . }}
-                  <span style="font-size:.75rem; background:var(--color-background-alt); padding:.2em .6em; border-radius:999px; margin-right:.25em;">#{{ . }}</span>
+                  <span
+                    style="font-size:.75rem; background:var(--color-background-alt); padding:.2em .6em; border-radius:999px; margin-right:.25em;"
+                    >#{{ . }}</span
+                  >
                 {{ end }}
               </div>
             {{ end }}

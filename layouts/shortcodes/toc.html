@@ -1,18 +1,18 @@
 {{- /*
-Shortcode: toc
+  Shortcode: toc
 
-Goal:
-- Top-level (start level, default H2) as <ol>
-- Nested levels as <ul>
-- Always exclude id "executive-summary"
-- Promote wrapper nodes (non-renderable) without creating duplicate lists
-- Do NOT promote children of the skipped node
+  Goal:
+  - Top-level (start level, default H2) as <ol>
+  - Nested levels as <ul>
+  - Always exclude id "executive-summary"
+  - Promote wrapper nodes (non-renderable) without creating duplicate lists
+  - Do NOT promote children of the skipped node
 
-Usage:
-  {{< toc >}}
-  {{< toc title="Contents" start="2" end="4" >}}
+  Usage:
+  {{< toc
+>}}
+{{< toc title="Contents" start="2" end="4" >}}
 */ -}}
-
 {{- $title := .Get "title" | default "Contents" -}}
 {{- $start := int (.Get "start" | default "2") -}}
 {{- $end := int (.Get "end" | default "4") -}}
@@ -143,12 +143,12 @@ Usage:
 {{- template "toc-scan" (dict "items" $headings "skipID" $skipID "min" $start "end" $end "scratch" $rootScan) -}}
 
 {{- if $rootScan.Get "has" -}}
-<nav class="toc" aria-label="{{ $title }}">
-  <div class="toc__title">{{ $title }}</div>
-  <div class="toc__content">
-    <ol class="toc__list toc__list--primary">
-      {{- template "toc-top-items" (dict "items" $headings "skipID" $skipID "start" $start "end" $end) -}}
-    </ol>
-  </div>
-</nav>
+  <nav class="toc" aria-label="{{ $title }}">
+    <div class="toc__title">{{ $title }}</div>
+    <div class="toc__content">
+      <ol class="toc__list toc__list--primary">
+        {{- template "toc-top-items" (dict "items" $headings "skipID" $skipID "start" $start "end" $end) -}}
+      </ol>
+    </div>
+  </nav>
 {{- end -}}

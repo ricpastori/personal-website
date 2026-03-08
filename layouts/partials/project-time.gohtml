@@ -1,12 +1,13 @@
 {{- /* project-time.html
-      Prints a <time> element with your project date rules.
+  Prints a <time> element with your project date rules.
 
-      Params (dict):
-        start (optional) date string
-        end   (optional) date string
-        date  (optional) fallback date (time or date string)
-        class (optional) default "project-card__date"
-*/ -}}
+  Params (dict):
+  start (optional) date string
+  end   (optional) date string
+  date  (optional) fallback date (time or date string)
+  class (optional) default "project-card__date"
+  */
+-}}
 
 {{- $start := (index . "start") -}}
 {{- $end   := (index . "end") -}}
@@ -49,16 +50,17 @@
 {{- else if $endTime -}}
   {{- $label = $endTime.Format "Jan 2006" -}}
   {{- $machine = $endTime.Format "2006-01-02" -}}
-
 {{- else if $dateTime -}}
   {{- $label = $dateTime.Format "Jan 2006" -}}
   {{- $machine = $dateTime.Format "2006-01-02" -}}
 {{- end -}}
 
 {{- if $label -}}
-  <time class="{{ $class }}"
-        datetime="{{ $machine }}"
-        aria-label="{{ $label }}">
+  <time
+    class="{{ $class }}"
+    datetime="{{ $machine }}"
+    aria-label="{{ $label }}"
+  >
     {{ $label }}
   </time>
 {{- end -}}

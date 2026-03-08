@@ -2,6 +2,7 @@
 {{- $duration := .Get "duration" -}}
 {{- $hasOthers := gt (len (strings.TrimSpace .Inner)) 0 -}}
 
+
 <div class="meta-row" role="group" aria-label="Project metadata">
   <dl class="meta-row__grid">
     <div class="meta-row__item">
@@ -17,6 +18,7 @@
         </dd>
       </div>
     {{- end -}}
+
 
     <div class="meta-row__item">
       <dt class="meta-row__label">Duration</dt>

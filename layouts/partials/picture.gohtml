@@ -1,12 +1,13 @@
 {{- /* All comments must be written in English.
-     Params (dict):
-       src (required): Hugo image Resource OR string path/URL
-       isResource (optional bool): set true only when src is a Hugo Resource
-       alt (optional)
-       widths  (default "480,768,1280,1600")
-       sizes   (default "(max-width: 720px) 100vw, 720px")
-       class, loading ("lazy"), fetchpriority, decoding ("async")
-*/ -}}
+  Params (dict):
+  src (required): Hugo image Resource OR string path/URL
+  isResource (optional bool): set true only when src is a Hugo Resource
+  alt (optional)
+  widths  (default "480,768,1280,1600")
+  sizes   (default "(max-width: 720px) 100vw, 720px")
+  class, loading ("lazy"), fetchpriority, decoding ("async")
+  */
+-}}
 
 {{- $srcRaw   := index . "src" -}}
 {{- $alt      := (index . "alt") | default "" -}}
@@ -25,41 +26,52 @@
 {{- $isResFlag := eq (index . "isResource") true -}}
 
 {{- /* -------------------------------------------------
-     Case 1: src is a plain string → hard fallback
-     ------------------------------------------------- */ -}}
+  Case 1: src is a plain string → hard fallback
+  ------------------------------------------------- */
+-}}
 {{- if eq $t "string" -}}
   {{- warnf "picture: fallback to <img> ('string src' is not a Hugo Resource): %q" $srcRaw -}}
   <img
-    src="{{ if in (printf "%v" $srcRaw) "://" }}{{ $srcRaw }}{{ else }}{{ (printf "%v" $srcRaw) | relURL }}{{ end }}"
+    src="{{ if in (printf "%v" $srcRaw) "://" }}
+      {{ $srcRaw }}
+    {{ else }}
+      {{ (printf "%v" $srcRaw) | relURL }}
+    {{ end }}"
     alt="{{ $alt }}"
     loading="{{ $loading }}"
     decoding="{{ $decoding }}"
     {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
     {{ with $class }}class="{{ . }}"{{ end }}
-  >
+  />
   {{- return -}}
 {{- end -}}
 
 {{- /* -------------------------------------------------
-     Case 2: non-string, but not explicitly marked
-             as a resource → defensive fallback
-     ------------------------------------------------- */ -}}
+  Case 2: non-string, but not explicitly marked
+  as a resource → defensive fallback
+  ------------------------------------------------- */
+-}}
 {{- if not $isResFlag -}}
   {{- warnf "picture: fallback to <img> (src not marked as resource, type=%s)" $t -}}
   <img
-    src="{{ if in $t "resource" }}{{ $srcRaw.RelPermalink }}{{ else }}{{ (printf "%v" $srcRaw) | relURL }}{{ end }}"
+    src="{{ if in $t "resource" }}
+      {{ $srcRaw.RelPermalink }}
+    {{ else }}
+      {{ (printf "%v" $srcRaw) | relURL }}
+    {{ end }}"
     alt="{{ $alt }}"
     loading="{{ $loading }}"
     decoding="{{ $decoding }}"
     {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
     {{ with $class }}class="{{ . }}"{{ end }}
-  >
+  />
   {{- return -}}
 {{- end -}}
 
 {{- /* -------------------------------------------------
-     Resource branch
-     ------------------------------------------------- */ -}}
+  Resource branch
+  ------------------------------------------------- */
+-}}
 {{- $res := $srcRaw -}}
 
 {{- if not (hasPrefix $res.MediaType.Type "image/") -}}
@@ -71,13 +83,14 @@
     decoding="{{ $decoding }}"
     {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
     {{ with $class }}class="{{ . }}"{{ end }}
-  >
+  />
   {{- return -}}
 {{- end -}}
 
 {{- /* -------------------------------------------------
-     Build responsive variants
-     ------------------------------------------------- */ -}}
+  Build responsive variants
+  ------------------------------------------------- */
+-}}
 {{- $jpgs := slice -}}
 {{- $webps := slice -}}
 
@@ -100,7 +113,7 @@
     decoding="{{ $decoding }}"
     {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
     {{ with $class }}class="{{ . }}"{{ end }}
-  >
+  />
   {{- return -}}
 {{- end -}}
 
@@ -111,25 +124,28 @@
 
 {{- $zoom := eq (index . "zoom") true -}}
 
-<picture
-  {{ with $class }} class="{{ . }}"{{ end }}
-  {{- if $zoom -}}
-    data-zoom="1"
-    data-full="{{ $largestURL }}"
-    tabindex="0"
-    role="button"
-    {{- if $alt -}}aria-label="Open image: {{ $alt }}"{{- else -}}aria-label="Open image"{{- end -}}
-  {{- end -}}>
 
-  {{- if $webpSrcset -}}
-    <source type="image/webp" srcset="{{ $webpSrcset }}" sizes="{{ $sizes }}">
+<picture
+  {{ with $class }}class="{{ . }}"{{ end }}
+  {{- if $zoom -}}
+    data-zoom="1" data-full="{{ $largestURL }}" tabindex="0" role="button"
+    {{- if $alt -}}
+      aria-label="Open image: {{ $alt }}"
+    {{- else -}}
+      aria-label="Open image"
+    {{- end -}}
   {{- end -}}
-  <source type="image/jpeg" srcset="{{ $jpgSrcset }}" sizes="{{ $sizes }}">
+
+>
+  {{- if $webpSrcset -}}
+    <source type="image/webp" srcset="{{ $webpSrcset }}" sizes="{{ $sizes }}" />
+  {{- end -}}
+  <source type="image/jpeg" srcset="{{ $jpgSrcset }}" sizes="{{ $sizes }}" />
   <img
     src="{{ $largestURL }}"
     alt="{{ $alt }}"
     loading="{{ $loading }}"
     decoding="{{ $decoding }}"
     {{ with $fetchp }}fetchpriority="{{ . }}"{{ end }}
-  >
+  />
 </picture>

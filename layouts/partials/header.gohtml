@@ -1,11 +1,11 @@
 {{- /* Current page relative URL (e.g., "/", "/about/", "/writings/slug/") */ -}}
 {{- $cur := .RelPermalink -}}
 
+
 <header role="banner" class="site-header reveal reveal--header">
   <nav aria-label="Primary">
     <!-- Brand → Home (projects live on the homepage) -->
-    <a href="{{ "/" | relURL }}"
-        aria-label="{{ .Site.Title }}">
+    <a href="{{ "/" | relURL }}" aria-label="{{ .Site.Title }}">
       {{ partial "icon.html" (dict "src" "icons/logo.svg" "size" 20 "class" "logo") }}
       <span class="sr-only">Home</span>
     </a>
@@ -15,25 +15,30 @@
       {{- $href := "/about/" -}}
       {{- $active := or (eq $cur (relURL $href)) (hasPrefix $cur (relURL $href)) -}}
       <li>
-        <a class="nav__link{{ if $active }} is-active{{ end }}"
-            href="{{ $href | relURL }}"
-            {{ if $active }}aria-current="page"{{ end }}>
+        <a
+          class="nav__link{{ if $active }}is-active{{ end }}"
+          href="{{ $href | relURL }}"
+          {{ if $active }}aria-current="page"{{ end }}
+        >
           About
         </a>
       </li>
 
-{{- /*
-      <!-- Writings -->
-      {{- $href = "" -}}
+      {{- /*
+        <!-- Writings -->
+        {{- $href = ""
+      -}}
       {{- $active = or (eq $cur (relURL $href)) (hasPrefix $cur (relURL $href)) -}}
       <li>
-        <a class="nav__link{{ if $active }} is-active{{ end }}"
-            href="{{ $href | relURL }}"
-            {{ if $active }}aria-current="page"{{ end }}>
+        <a
+          class="nav__link{{ if $active }}is-active{{ end }}"
+          href="{{ $href | relURL }}"
+          {{ if $active }}aria-current="page"{{ end }}
+        >
           Writings
         </a>
       </li>
-*/ -}}
+      */ -}}
     </ul>
   </nav>
 </header>

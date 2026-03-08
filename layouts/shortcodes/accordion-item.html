@@ -1,12 +1,13 @@
 {{- /*
-Accordion item.
-Params:
-- title (required)
-- open (optional): only "true" opens by default
+  Accordion item.
+  Params:
+  - title (required)
+  - open (optional): only "true" opens by default
 
-Enhancements:
-- On About page, adds reveal classes and a stagger index via CSS variable (--i).
-*/ -}}
+  Enhancements:
+  - On About page, adds reveal classes and a stagger index via CSS variable (--i).
+  */
+-}}
 
 {{- $title := .Get "title" -}}
 {{- $rawOpen := .Get "open" -}}
@@ -28,7 +29,11 @@ Enhancements:
   {{- $extraStyle = printf " style=\"--i: %d;\"" $i -}}
 {{- end -}}
 
-<details class="accordion__item{{ $extraClass }}" {{ if $isOpen }}open{{ end }}{{ safeHTMLAttr $extraStyle }}>
+
+<details
+  class="accordion__item{{ $extraClass }}"
+  {{ if $isOpen }}open{{ end }}{{ safeHTMLAttr $extraStyle }}
+>
   <summary class="accordion__summary">
     <span class="accordion__title">{{ $title }}</span>
 

@@ -1,5 +1,5 @@
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   {{- /* 1. SEO and meta tags */ -}}
   {{ partial "seo.html" . }}
@@ -11,22 +11,42 @@
   {{- $cssFiles := resources.Match "styles/*/*.css" -}}
   {{- $sorted := sort $cssFiles "Name" "asc" -}}
   {{- $bundle := $sorted | resources.Concat "bundle.css" | minify | fingerprint -}}
-  <link rel="stylesheet" href="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}">
+  <link
+    rel="stylesheet"
+    href="{{ $bundle.RelPermalink }}"
+    integrity="{{ $bundle.Data.Integrity }}"
+  />
 
   <!-- Manifest -->
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="manifest" href="/site.webmanifest" />
 
   <!-- Dynamic theme-color for browser UI (light/dark) -->
-  <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#292524" media="(prefers-color-scheme: dark)">
-  <meta name="color-scheme" content="light dark">
+  <meta
+    name="theme-color"
+    content="#fafaf9"
+    media="(prefers-color-scheme: light)"
+  />
+  <meta
+    name="theme-color"
+    content="#292524"
+    media="(prefers-color-scheme: dark)"
+  />
+  <meta name="color-scheme" content="light dark" />
 
-<!-- Fonts CDN -->
-  <link rel="preconnect" href="https://fonts.bunny.net">
-  <link href="https://fonts.bunny.net/css?family=pathway-gothic-one:400" rel="stylesheet" />
+  <!-- Fonts CDN -->
+  <link rel="preconnect" href="https://fonts.bunny.net" />
+  <link
+    href="https://fonts.bunny.net/css?family=pathway-gothic-one:400"
+    rel="stylesheet"
+  />
 
   <!-- Prefetch on user intent (hover/touch) to improve perceived speed without aggressive preloading -->
-  <script defer src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
+  <script
+    defer
+    src="//instant.page/5.2.0"
+    type="module"
+    integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"
+  ></script>
 
   <script>
     document.documentElement.setAttribute("data-reveal", "pending");
