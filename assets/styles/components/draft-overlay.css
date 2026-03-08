@@ -25,10 +25,10 @@
 }
 
 /* Optional: slightly dim the whole card */
-.project-card.is-draft .project-card__body {
-  opacity: 0.56;
+.is-draft .project-card__body {
+  opacity: 0.8;
 }
 
-.project-card.is-draft .project-card__thumb > img {
+.is-draft .project-card__thumb > img {
   filter: grayscale(100%);
 }
