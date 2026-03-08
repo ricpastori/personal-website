@@ -62,57 +62,45 @@
         {{- end -}}
       {{- end -}}
 
-
-      <section class="page__hero">
-        <div class="page__hero-panel"></div>
-
-        <div class="page__hero-inner">
-          {{- if $coverPath -}}
-            <figure class="page__cover">
-              {{- if $coverRes -}}
-                {{ partial "picture.html" (dict
-                  "src" $coverRes
-                  "isResource" true
-                  "alt" ""
-                  "class" "page__cover-media"
-                  "sizes" "100vw"
-                  "widths" "640,960,1280,1600,1920,2560,3200,3840"
-                  "loading" "eager"
-                  "fetchpriority" "high"
-                  "decoding" "async"
-                  )
-                }}
-              {{- else -}}
-                {{ partial "picture.html" (dict
-                  "src" $coverStr
-                  "alt" ""
-                  "class" "page__cover-media"
-                  "sizes" "100vw"
-                  "widths" "640,960,1280,1600,1920,2560,3200,3840"
-                  "loading" "eager"
-                  "fetchpriority" "high"
-                  "decoding" "async"
-                  )
-                }}
-              {{- end -}}
-
-              {{ with .Params.cover_caption }}
-                <figcaption class="page__cover-caption">{{ . }}</figcaption>
-              {{ end }}
-            </figure>
+      {{- if $coverPath -}}
+        <figure class="page__cover">
+          {{- if $coverRes -}}
+            {{ partial "picture.html" (dict
+              "src" $coverRes
+              "isResource" true
+              "alt" ""
+              "class" "page__cover-media"
+              "sizes" "100vw"
+              "widths" "640,960,1280,1600,1920,2560,3200,3840"
+              "loading" "eager"
+              "fetchpriority" "high"
+              "decoding" "async"
+              )
+            }}
+          {{- else -}}
+            {{ partial "picture.html" (dict
+              "src" $coverStr
+              "alt" ""
+              "class" "page__cover-media"
+              "sizes" "100vw"
+              "widths" "640,960,1280,1600,1920,2560,3200,3840"
+              "loading" "eager"
+              "fetchpriority" "high"
+              "decoding" "async"
+              )
+            }}
           {{- end -}}
 
+          {{ with .Params.cover_caption }}
+            <figcaption class="page__cover-caption">{{ . }}</figcaption>
+          {{ end }}
+        </figure>
+      {{- end -}}
 
-          <header class="page__header">
-            {{ with .Params.eyebrow }}
-              <span class="page__eyebrow">{{ . }}</span>
-            {{ end }}
 
-
-            <h1>{{ .Title }}</h1>
-          </header>
-        </div>
-      </section>
+      <header class="page__header">
+        <h1>{{ .Title }}</h1>
+      </header>
 
       <div class="page__content">
         {{ .Content }}
