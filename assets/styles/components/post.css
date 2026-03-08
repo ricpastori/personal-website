@@ -6,7 +6,6 @@
 .page__content {
   position: relative;
   z-index: 3;
-  background-color: #fafaf9;
   background-color: var(--color-background);
 }
 
@@ -15,7 +14,6 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
-  margin: -5rem 0 -12rem;
   margin: calc(var(--size-20) * -1) 0 calc(var(--size-48) * -1);
   width: 100vw;
   width: 100dvw;
@@ -42,20 +40,15 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 0.25rem 0.25rem 0 0;
   border-radius: var(--size-1) var(--size-1) var(--size-0) var(--size-0);
-  background-color: #fafaf9;
   background-color: var(--color-background);
-  width: 48rem;
   width: var(--breakpoint-xl);
-  height: 10rem;
   height: var(--size-40);
   content: '';
 }
 
 @media (max-width: 768px) {
   .page__cover {
-    margin-bottom: 0;
     margin-bottom: var(--size-0);
   }
 
@@ -64,30 +57,22 @@
   }
 
   .page__header > h1 {
-    margin-top: 3.5rem;
     margin-top: var(--size-14);
   }
 }
 
 .post_img {
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   box-shadow: var(--size-0) var(--size-1) var(--size-2) rgba(0, 0, 0, 0.1);
 }
 
 .figure {
-  margin: 1.5em 0;
   margin: var(--size-6) var(--size-0);
 }
 
 .figure__caption {
-  margin-top: 0.5em;
   margin-top: var(--size-2);
-  padding: 0 1rem;
   padding: var(--size-0) var(--size-4);
-  padding-inline: var(--size-4);
-  color: #666;
   color: var(--color-foreground-alt);
-  font-size: 0.875em;
   font-size: var(--text-sm);
   text-align: center;
 }

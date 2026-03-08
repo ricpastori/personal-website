@@ -1,34 +1,25 @@
-/* Mermaid diagram container tweaks (optional) */
+/* Mermaid diagram container tweaks */
 .diagram--mermaid {
-  margin: 1.25rem 0;
   margin: var(--size-5) var(--size-0);
-  margin-inline: var(--size-0);
-  margin-block: var(--size-5);
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-@media (max-width: 672px) {
-  .diagram--mermaid { overflow-x: auto; }
-}
-
-/* Hide Mermaid source code (requested) */
+/* Hide Mermaid source code */
 .diagram--source {
   display: none;
   visibility: hidden;
 }
 
-/* Mermaid outputs an SVG inside the pre */
 .diagram--mermaid pre {
   margin: 0;
   overflow-x: auto;
 }
 
-/* Mermaid renders an SVG inside the <pre>. This avoids weird inline gaps. */
 .diagram--mermaid svg {
   display: block;
   width: auto;
-  max-width: 100%; 
+  max-width: 100%;
   height: auto;
 }
 
@@ -39,14 +30,9 @@
 }
 
 .diagram figcaption {
-  margin-top: 0.5em;
   margin-top: var(--size-2);
-  padding: 0 1rem;
   padding: var(--size-0) var(--size-4);
-  padding-inline: var(--size-4);
-  color: #666;
   color: var(--color-foreground-alt);
-  font-size: 0.875em;
   font-size: var(--text-sm);
   text-align: center;
 }
