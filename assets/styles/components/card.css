@@ -5,6 +5,10 @@
   list-style: none;
 }
 
+.projects-list li+li {
+  margin-top: var(--size-4);
+}
+
 .project-card {
   margin: var(--size-0);
   margin-bottom: var(--size-8);
@@ -32,7 +36,6 @@
 .project-card__media {
   position: relative;
   flex: 2 2 0;
-  height: 100%;
   overflow: hidden;
 }
 
