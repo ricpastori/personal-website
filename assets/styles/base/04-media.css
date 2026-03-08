@@ -17,7 +17,6 @@ picture {
   display: block;
   margin: var(--size-2) var(--size-0);
   width: 100%;
-  max-width: var(--measure);
 }
 
 picture > img {
