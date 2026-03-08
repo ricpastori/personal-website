@@ -1,7 +1,7 @@
 ---
 title: "Command as infrastructure: Designing stability under volatility"
 date: 2026-01-21T10:00:00Z
-draft: true
+draft: false
 eyebrow: "BePeople"
 description: "Command-based interaction infrastructure to absorb product volatility without expanding UI complexity."
 image: "thumb.png"
