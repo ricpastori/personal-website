@@ -12,12 +12,9 @@
 :root {
   /* Body type scale */
   --font-body: var(--step--1);
-  --lh-body: 1.75;
-  --lh-heading: 1.25;
-  --lh-display: 0.92;
-
-  /* Base scale ratio */
-  --scale: 1.2;
+  --lh-body: 1.52;
+  --lh-heading: 1.125;
+  --lh-display: 0.88;
 
   /* Type scale */
   --step--3: clamp(0.6944rem, 0.6803rem + 0.0707vw, 0.7353rem);
@@ -43,9 +40,9 @@
   /* Font weights */
   --font-thin: 100;
   --font-extralight: 200;
-  --font-light: 300;
-  --font-regular: 400;
-  --font-medium: 500;
+  --font-light: 275;
+  --font-regular: 350;
+  --font-medium: 475;
   --font-semibold: 600;
   --font-bold: 700;
   --font-extrabold: 800;
@@ -132,7 +129,7 @@ table,
 figure,
 dl {
   margin-bottom: var(--size-3);
-  font-weight: var(--font-light);
+  font-weight: var(--font-regular);
   line-height: var(--lh-body);
 }
 
@@ -210,7 +207,7 @@ h2 {
 
 h3 {
   margin-top: var(--size-12);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-semibold);
   font-size: var(--step-2);
   line-height: 1.2;
   font-family: var(--font-sans);
