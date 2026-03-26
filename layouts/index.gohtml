@@ -32,7 +32,7 @@
     {{/* CTA */}}
     <a
       class="btn btn--solid reveal reveal--cta"
-      href="mailto:riccardo@example.com"
+      href="mailto:{{ .Site.Params.contact.email | default `hello@example.com` }}"
     >
       Email me
       {{ partial "icon.html" (dict "src" "icons/envelope-duotone.svg" "size" 16 "class" "icon" "Page" .) }}
