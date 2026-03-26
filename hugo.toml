@@ -1,27 +1,27 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://ricpastori.com/'
 languageCode = 'en-us'
 title = 'Riccardo Pastori blog'
 
 [markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
 
 [mediaTypes."text/html"]
-  suffixes = ["html", "gohtml"]
+suffixes = ["html", "gohtml"]
 
 [markup.tableOfContents]
-  startLevel = 2
+startLevel = 2
 
 [params.author]
-  name = "Riccardo Pastori"
+name = "Riccardo Pastori"
 
 [params.icons]
-  default = "icons/placeholder-duotone.svg"
+default = "icons/placeholder-duotone.svg"
 
 [params.contact]
-  email = "ricpastori@icloud.com"
+email = "hello@ricpastori.com"
 
 [params.social]
-  github   = "https://github.com/ricpastori"
-  linkedin = "https://www.linkedin.com/in/riccardo-pastori/"
+github = "https://github.com/ricpastori"
+linkedin = "https://www.linkedin.com/in/riccardo-pastori/"
