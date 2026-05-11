@@ -1,6 +1,6 @@
 # Personal Website
 
-Source code for ricpastori.com￼, my personal portfolio and blog.
+Source code for [ricpastori.com](https://ricpastori.com)￼, my personal portfolio and blog.
 
 The website is built with Hugo and uses a custom front-end structure based on Go templates, plain CSS, JavaScript, and Markdown content. It does not use Tailwind, Bootstrap, React, or any framework.
 
@@ -78,7 +78,12 @@ The website is deployed on Cloudflare Pages.
 
 [ricpastori.com](https://ricpastori.com)
 
-##License
+## License
 
-This repository contains the source code and content for a personal portfolio website.
-Reuse of the structure or implementation ideas is fine, but the written
+The source code of this project is available for reference and learning purposes.
+
+You are free to explore, study, and adapt parts of the implementation for personal or educational use.
+
+All written content, case studies, branding, and visual assets remain © Riccardo Pastori unless otherwise stated.
+
+Please do not copy or redistribute the website content, design, or projects as your own.
