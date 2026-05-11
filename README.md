@@ -1,54 +1,74 @@
 # Personal Website
 
-A personal portfolio website focused on product design and UX systems.
+Source code for ricpastori.com￼, my personal portfolio and blog.
+
+The website is built with Hugo and uses a custom front-end structure based on Go templates, plain CSS, JavaScript, and Markdown content. It does not use Tailwind, Bootstrap, React, or any framework.
 
 ## Overview
 
-This repository contains the source code for my personal website and portfolio.
-
-The project is designed to present:
+The site is designed to present:
 
 * Selected projects and case studies
 * UX and product design work
-* Front-end development experiments
-* Technical and visual explorations
+* Front-end experiments
+* Notes, writing, and visual explorations
 
-The website follows a lightweight and minimal approach, with a strong focus on:
+The project follows a lightweight static-site approach, with attention to:
 
 * Performance
 * Accessibility
-* Responsive design
+* Responsive layouts
 * Content structure
-* Smooth interactions
+* SEO
+* Small, focused interactions
 
 ## Tech Stack
 
 * Hugo
+* Go Templates
+* HTML
+* CSS
 * JavaScript
-* HTML5
-* CSS3
 * Markdown
 
-No CSS frameworks or utility libraries are used.
+A small Node script is used to generate draft project data, but the website is not managed through an npm-based build pipeline.
 
-## Features
+## Project Structure
 
-* Static site generation with Hugo
-* Markdown-based content management
-* Responsive layouts
-* SEO-friendly structure
-* Optimized asset handling
-* Lightweight animations and interactions
+.
+├── archetypes/   # Hugo content archetypes
+├── assets/       # CSS, JavaScript, images, icons, and generated assets
+├── content/      # Markdown content and project pages
+├── layouts/      # Hugo templates and partials
+├── scripts/      # Utility scripts
+├── static/       # Static files served as-is
+├── hugo.toml     # Hugo configuration
+└── Makefile      # Development and build commands
 
 ## Development
 
-Start the local development server:
+Start the local development server without draft pages:
 
-`hugo server`
+`make dev`
 
-Build the project:
+Start the local development server including drafts:
 
-`hugo`
+`make dev-drafts`
+
+Build the production site:
+
+`make build`
+
+Clean generated files:
+
+`make clean`
+
+You can also run Hugo directly:
+
+`
+hugo server
+hugo
+`
 
 ## Deployment
 
@@ -57,3 +77,8 @@ The website is deployed on Cloudflare Pages.
 ## Live Website
 
 [ricpastori.com](https://ricpastori.com)
+
+##License
+
+This repository contains the source code and content for a personal portfolio website.
+Reuse of the structure or implementation ideas is fine, but the written
